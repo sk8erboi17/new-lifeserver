@@ -2,8 +2,8 @@ package net.giuse.teleportmodule.gui;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
-import inventorylib.ButtonBuilder;
-import inventorylib.InventoryBuilder;
+import net.giuse.api.inventorylib.ButtonBuilder;
+import net.giuse.api.inventorylib.InventoryBuilder;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.builder.ItemstackBuilder;
 import net.giuse.mainmodule.gui.ItemInitializer;

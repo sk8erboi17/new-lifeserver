@@ -5,11 +5,10 @@ import net.giuse.api.ezmessage.type.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public class MessageTitle implements Message {
-    @Getter
     private final String title, subTitle;
-    @Getter
     private final int fadeIn, stay, fadeOut;
 
     @Override

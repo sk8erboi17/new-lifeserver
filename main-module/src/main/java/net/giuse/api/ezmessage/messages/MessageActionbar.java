@@ -6,9 +6,9 @@ import net.giuse.api.ezmessage.type.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public class MessageActionbar implements Message {
-    @Getter
     private final String messageBar;
 
     @Override

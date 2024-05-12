@@ -1,7 +1,7 @@
 package net.giuse.simplycommandmodule.commands;
 
 
-import ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.command.CommandSender;
@@ -27,8 +27,8 @@ public class MoreCommand extends AbstractCommand {
             return;
         }
         Player player = (Player) commandSender;
-        ItemStack newItem = player.getInventory().getItemInMainHand();
+        ItemStack newItem = player.getInventory().getItemInHand();
         newItem.setAmount(64);
-        player.getInventory().setItemInMainHand(newItem);
+        player.getInventory().setItemInHand(newItem);
     }
 }

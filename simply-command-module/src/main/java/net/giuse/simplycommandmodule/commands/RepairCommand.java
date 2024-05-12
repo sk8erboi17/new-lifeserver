@@ -1,7 +1,7 @@
 package net.giuse.simplycommandmodule.commands;
 
 
-import ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.Material;
@@ -41,11 +41,11 @@ public class RepairCommand extends AbstractCommand {
                 commandSender.sendMessage("No Perms");
                 return;
             }
-            if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
+            if (player.getInventory().getItemInHand().getType() == Material.AIR) {
                 messageBuilder.setCommandSender(commandSender).setIDMessage("repair-nothing").sendMessage();
                 return;
             }
-            player.getInventory().getItemInMainHand().setDurability((short) 0);
+            player.getInventory().getItemInHand().setDurability((short) 0);
             messageBuilder.setCommandSender(commandSender).setIDMessage("repair-hand").sendMessage();
         }
 

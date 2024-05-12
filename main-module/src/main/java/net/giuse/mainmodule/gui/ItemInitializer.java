@@ -1,7 +1,7 @@
 package net.giuse.mainmodule.gui;
 
 
-import inventorylib.InventoryBuilder;
+import net.giuse.api.inventorylib.InventoryBuilder;
 
 public interface ItemInitializer {
     void initItems(InventoryBuilder inventoryBuilder);

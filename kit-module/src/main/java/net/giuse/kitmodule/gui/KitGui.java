@@ -1,7 +1,7 @@
 package net.giuse.kitmodule.gui;
 
 
-import inventorylib.InventoryBuilder;
+import net.giuse.api.inventorylib.InventoryBuilder;
 import lombok.Getter;
 import net.giuse.kitmodule.KitModule;
 import net.giuse.mainmodule.MainModule;

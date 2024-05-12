@@ -1,7 +1,7 @@
 package net.giuse.simplycommandmodule.commands;
 
-import ezmessage.MessageBuilder;
-import ezmessage.TextReplacer;
+import net.giuse.api.ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.apache.commons.lang.math.NumberUtils;
@@ -52,8 +52,8 @@ public class EnchantCommand extends AbstractCommand {
             return;
         }
 
-        ItemStack hand = player.getInventory().getItemInMainHand();
-        ItemMeta itemMeta = player.getInventory().getItemInMainHand().getItemMeta();
+        ItemStack hand = player.getInventory().getItemInHand();
+        ItemMeta itemMeta = player.getInventory().getItemInHand().getItemMeta();
         hand.addUnsafeEnchantment(Enchantment.getByName(args[0]), Integer.parseInt(args[1]));
         itemMeta.addEnchant(Enchantment.getByName(args[0]), Integer.parseInt(args[1]), true);
         hand.setItemMeta(itemMeta);

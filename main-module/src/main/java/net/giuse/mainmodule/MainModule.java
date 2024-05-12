@@ -129,7 +129,9 @@ public class MainModule extends JavaPlugin {
     private void setupListeners() {
         reflections.getSubTypesOf(Listener.class).stream()
                 .filter(listenerClass -> !listenerClass.getSimpleName().equalsIgnoreCase("FoodEvent")
-                        && !listenerClass.getSimpleName().equalsIgnoreCase("EntityBackOnDeath"))
+                        && !listenerClass.getSimpleName().equalsIgnoreCase("EntityBackOnDeath")
+                        && !listenerClass.getSimpleName().equalsIgnoreCase("ButtonBuilder")
+                        && !listenerClass.getSimpleName().equalsIgnoreCase("InventoryBuilder"))
                 .forEach(listener -> Bukkit.getPluginManager().registerEvents(injector.getSingleton(listener), this));
     }
 

@@ -1,7 +1,7 @@
 package net.giuse.teleportmodule.commands.warp;
 
-import ezmessage.MessageBuilder;
-import ezmessage.TextReplacer;
+import net.giuse.api.ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.TextReplacer;
 import io.papermc.lib.PaperLib;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;

@@ -1,7 +1,7 @@
 package net.giuse.simplycommandmodule.commands;
 
 
-import ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.command.CommandSender;
@@ -31,9 +31,9 @@ public class HatCommand extends AbstractCommand {
         }
 
         Player player = (Player) commandSender;
-        if (player.getInventory().getItemInMainHand() != null) {
-            player.getInventory().setHelmet(player.getInventory().getItemInMainHand());
-            player.getInventory().setItemInMainHand(null);
+        if (player.getInventory().getItemInHand() != null) {
+            player.getInventory().setHelmet(player.getInventory().getItemInHand());
+            player.getInventory().setItemInHand(null);
         }
     }
 }

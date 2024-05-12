@@ -1,7 +1,7 @@
 package net.giuse.teleportmodule.gui;
 
 
-import inventorylib.InventoryBuilder;
+import net.giuse.api.inventorylib.InventoryBuilder;
 import lombok.Getter;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.gui.GuiInitializer;

@@ -1,7 +1,7 @@
 package net.giuse.teleportmodule.commands.teleport;
 
-import ezmessage.MessageBuilder;
-import ezmessage.TextReplacer;
+import net.giuse.api.ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.subservice.TeleportRequestService;

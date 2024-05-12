@@ -1,7 +1,7 @@
 package net.giuse.kitmodule.commands;
 
-import ezmessage.MessageBuilder;
-import ezmessage.TextReplacer;
+import net.giuse.api.ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.kitmodule.KitModule;
 import net.giuse.kitmodule.builder.KitBuilder;
 import net.giuse.kitmodule.cooldownsystem.PlayerKitCooldown;

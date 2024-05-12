@@ -1,8 +1,9 @@
 package net.giuse.mainmodule.message;
 
-import ezmessage.messages.MessageActionbar;
-import ezmessage.messages.MessageChat;
-import ezmessage.messages.MessageTitle;
+
+import net.giuse.api.ezmessage.messages.MessageActionbar;
+import net.giuse.api.ezmessage.messages.MessageChat;
+import net.giuse.api.ezmessage.messages.MessageTitle;
 import net.giuse.mainmodule.MainModule;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;

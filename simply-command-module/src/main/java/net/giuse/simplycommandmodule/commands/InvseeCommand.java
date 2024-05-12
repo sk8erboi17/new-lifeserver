@@ -1,7 +1,7 @@
 package net.giuse.simplycommandmodule.commands;
 
 
-import ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.Bukkit;
