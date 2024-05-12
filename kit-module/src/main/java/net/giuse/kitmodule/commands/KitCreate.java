@@ -96,12 +96,14 @@ public class KitCreate extends AbstractCommand {
      *  Create Kit
      */
     private void createKit(Player player, String kitName, int coolDownKit) {
+        kitName = kitName.toLowerCase();
         List<ItemStack> inventoryItem = new ArrayList<>();
         Arrays.stream(player.getInventory().getContents()).filter(addItem -> addItem != null && !addItem.getType().equals(Material.AIR)).forEach(inventoryItem::add);
         KitBuilder kitBuilder = new KitBuilder(coolDownKit).setBase(Utils.listItemStackToBase64(inventoryItem));
         kitBuilder.build();
         kitModule.getKitElements().put(kitName, kitBuilder);
-        kitModule.getCachePlayerKit().forEach((uuid, playerTimerSystem) -> playerTimerSystem.addKit(kitName, coolDownKit));
+        String finalKitName = kitName;
+        kitModule.getCachePlayerKit().forEach((uuid, playerTimerSystem) -> playerTimerSystem.addKit(finalKitName, coolDownKit));
         messageBuilder.setIDMessage("kit-created").sendMessage(new TextReplacer().match("%kit%").replaceWith(kitName));
     }
 

@@ -82,6 +82,7 @@ public class KitModule extends Services {
      * Search Kit  from Name in a Set
      */
     public KitBuilder getKit(@NotNull String searchKitBuilder) {
+        searchKitBuilder = searchKitBuilder.toLowerCase();
         if (kitElements.containsKey(searchKitBuilder)) {
             return kitElements.get(searchKitBuilder.toLowerCase());
         }

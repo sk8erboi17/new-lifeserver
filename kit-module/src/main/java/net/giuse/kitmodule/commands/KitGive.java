@@ -61,7 +61,7 @@ public class KitGive extends AbstractCommand {
             }
 
             //Check if there are kits
-            if (kitModule.getKitElements().size() == 0) {
+            if (kitModule.getKitElements().isEmpty()) {
                 messageBuilder.setIDMessage("kit-list-empty").sendMessage();
                 return;
             }
@@ -70,9 +70,9 @@ public class KitGive extends AbstractCommand {
             messageBuilder.setIDMessage("kit-list").sendMessage(new TextReplacer().match("%listkit%").replaceWith(sb.deleteCharAt(sb.length() - 1).toString()));
             return;
         }
-        String kitName = args[0];
+        String kitName = args[0].toLowerCase();
         //Check if player has permission
-        if (!player.hasPermission("lifeserver.kit." + kitName)) {
+        if (!player.hasPermission("lifeserver.kit.  " + kitName)) {
             messageBuilder.setIDMessage("no-perms").sendMessage();
             return;
         }
@@ -89,9 +89,8 @@ public class KitGive extends AbstractCommand {
     }
 
     private void giveKit(Player player, String kitName) {
-
         KitBuilder kitBuilder = kitModule.getKit(kitName);
-        if (kitBuilder == null) {
+        if (kitBuilder != null) {
             //Give kit to Player
             PlayerKitCooldown playerKitCooldown = kitModule.getPlayerCooldown(player.getUniqueId());
             playerKitCooldown.addKit(kitName.toLowerCase(), kitBuilder.getCoolDown());
