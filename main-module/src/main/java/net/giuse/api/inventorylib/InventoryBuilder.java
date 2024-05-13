@@ -90,14 +90,18 @@ public class InventoryBuilder implements Listener {
     public void onOpen(InventoryOpenEvent e) {
         if (e.getView().getTitle().contains(name.replace("%page%", ""))) {
             if (!pageCounter.containsKey(e.getPlayer().getUniqueId())) pageCounter.put(e.getPlayer().getUniqueId(), 1);
-            openInventoryEvent.open(e);
+            if(openInventoryEvent != null){
+                openInventoryEvent.open(e);
+            }
         }
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
         if (e.getView().getTitle().contains(name.replace("%page%", ""))) {
-            closeInventoryEvent.close(e);
+            if(closeInventoryEvent != null){
+                closeInventoryEvent.close(e);
+            }
         }
     }
 }

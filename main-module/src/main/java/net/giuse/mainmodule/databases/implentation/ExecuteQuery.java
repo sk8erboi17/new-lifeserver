@@ -1,4 +1,4 @@
-package net.giuse.mainmodule.databases.implentation.h2;
+package net.giuse.mainmodule.databases.implentation;
 
 
 import lombok.SneakyThrows;

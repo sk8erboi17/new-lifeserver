@@ -7,7 +7,9 @@ import lombok.SneakyThrows;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.MessageLoader;
 import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.mainmodule.databases.ConnectorSQLite;
+import net.giuse.mainmodule.databases.Connector;
+import net.giuse.mainmodule.databases.implentation.h2.ConnectorSQLite;
+import net.giuse.mainmodule.databases.implentation.postgres.ConnectorPostgres;
 import net.giuse.mainmodule.files.FilesList;
 import net.giuse.mainmodule.files.SQLFile;
 import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
@@ -27,7 +29,7 @@ public class MainModule extends JavaPlugin {
     @Getter
     private final Injector injector = new InjectorBuilder().addDefaultHandlers("net.giuse").create();
     @Getter
-    private final ConnectorSQLite connectorSQLite = new ConnectorSQLite();
+    private Connector connector;
     private final Reflections reflections = new Reflections("net.giuse");
     @Getter
     private MessageBuilder messageBuilder;
@@ -52,7 +54,7 @@ public class MainModule extends JavaPlugin {
         setupSQL();
 
         //open connection
-        connectorSQLite.openConnect();
+        connector.openConnect();
 
         //another setup
         setupService();
@@ -61,7 +63,7 @@ public class MainModule extends JavaPlugin {
         setupListeners();
 
         //close connection
-        connectorSQLite.closeConnection();
+        connector.closeConnection();
 
         getLogger().info("§aLifeserver started in " + (System.currentTimeMillis() - millis) + "ms...");
     }
@@ -72,9 +74,9 @@ public class MainModule extends JavaPlugin {
     @Override
     public void onDisable() {
         //Unload services
-        connectorSQLite.openConnect();
+        connector.openConnect();
         servicesByPriority.keySet().forEach(Services::unload);
-        connectorSQLite.closeConnection();
+        connector.closeConnection();
     }
 
     /*
@@ -120,7 +122,13 @@ public class MainModule extends JavaPlugin {
      */
     @SneakyThrows
     private void setupSQL() {
-        ReflectionsFiles.loadFiles(new SQLFile());
+        if(getConfig().getString("storage-type").equalsIgnoreCase("postgres")){
+            connector = injector.newInstance(ConnectorPostgres.class);
+        }else if(getConfig().getString("storage-type").equalsIgnoreCase("h2")){
+            ReflectionsFiles.loadFiles(new SQLFile());
+            System.out.println("asdas");
+            connector = new ConnectorSQLite();
+        }
     }
 
     /*

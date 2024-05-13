@@ -1,8 +1,9 @@
-package net.giuse.mainmodule.databases;
+package net.giuse.mainmodule.databases.implentation.h2;
 
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.giuse.mainmodule.databases.Connector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,9 +11,9 @@ import java.sql.DriverManager;
 /**
  * Connector for SQLite
  */
+@Getter
 public class ConnectorSQLite implements Connector {
 
-    @Getter
     private Connection connection;
 
     @Override
