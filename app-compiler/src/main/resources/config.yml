@@ -11,8 +11,9 @@ money-first-time-join: 1000
 #Postgres or H2
 storage-type: h2
 #credentials for Database , ignore if you use h2
-username: "root"
-password: ''
+username: user
+password: 'passwd'
+
 
 #General-Message
 messages:
