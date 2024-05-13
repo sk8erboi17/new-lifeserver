@@ -9,7 +9,7 @@ always-day: true
 allow-back-on-death: true
 money-first-time-join: 1000
 #Postgres or H2
-storage-type: postgres
+storage-type: h2
 #credentials for Database , ignore if you use h2
 username: "root"
 password: ''
