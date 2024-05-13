@@ -1,7 +1,7 @@
-package net.giuse.kitmodule.messages.serializer;
+package net.giuse.kitmodule.serializer;
 
 import net.giuse.kitmodule.cooldownsystem.PlayerKitCooldown;
-import net.giuse.kitmodule.messages.serializer.serializedobject.PlayerKitCooldownSerialized;
+import net.giuse.kitmodule.serializer.serializedobject.PlayerKitCooldownSerialized;
 import net.giuse.mainmodule.serializer.Serializer;
 
 import java.util.UUID;
@@ -53,6 +53,7 @@ public class PlayerKitCooldownSerializer implements Serializer<PlayerKitCooldown
      */
     @Override
     public PlayerKitCooldownSerialized decoder(String str) {
+        if(str == null) return null;
         String[] playerKitDecoded = str.split(";");
         PlayerKitCooldown playerKitCooldown = new PlayerKitCooldown();
 

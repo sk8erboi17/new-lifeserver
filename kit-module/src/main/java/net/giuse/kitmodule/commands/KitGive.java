@@ -3,7 +3,7 @@ package net.giuse.kitmodule.commands;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.kitmodule.KitModule;
-import net.giuse.kitmodule.builder.KitBuilder;
+import net.giuse.kitmodule.builder.KitElement;
 import net.giuse.kitmodule.cooldownsystem.PlayerKitCooldown;
 import net.giuse.kitmodule.gui.KitGui;
 import net.giuse.mainmodule.MainModule;
@@ -89,12 +89,12 @@ public class KitGive extends AbstractCommand {
     }
 
     private void giveKit(Player player, String kitName) {
-        KitBuilder kitBuilder = kitModule.getKit(kitName);
-        if (kitBuilder != null) {
+        KitElement kitElement = kitModule.getKit(kitName);
+        if (kitElement != null) {
             //Give kit to Player
             PlayerKitCooldown playerKitCooldown = kitModule.getPlayerCooldown(player.getUniqueId());
-            playerKitCooldown.addKit(kitName.toLowerCase(), kitBuilder.getCoolDown());
-            kitBuilder.giveItems(player);
+            playerKitCooldown.addKit(kitName.toLowerCase(), kitElement.getCoolDown());
+            kitElement.giveItems(player);
             messageBuilder.setIDMessage("kit-receive").sendMessage(new TextReplacer().match("%kit%").replaceWith(kitName));
             return;
         }

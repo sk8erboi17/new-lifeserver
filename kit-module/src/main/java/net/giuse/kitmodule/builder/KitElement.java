@@ -14,13 +14,13 @@ import org.bukkit.inventory.ItemStack;
 
 @RequiredArgsConstructor
 @Getter
-public class KitBuilder {
+public class KitElement {
 
     private final int coolDown;
     private String elementsKitBase64;
     private ItemStack[] itemStackList;
 
-    public KitBuilder setBase(String elementsKitBase64) {
+    public KitElement setBase(String elementsKitBase64) {
         this.elementsKitBase64 = elementsKitBase64;
         return this;
     }

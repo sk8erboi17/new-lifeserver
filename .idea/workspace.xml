@@ -6,13 +6,49 @@
   <component name="ChangeListManager">
     <list default="true" id="7605992e-8dd8-4957-ad29-f386a07a66a4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-compiler/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app-compiler/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simply-command-module/src/main/java/net/giuse/simplycommandmodule/events/FoodEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/simply-command-module/src/main/java/net/giuse/simplycommandmodule/events/FoodEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/economy-module/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/economy-module/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/economy-module/src/main/java/net/giuse/economymodule/databases/EconQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/economy-module/src/main/java/net/giuse/economymodule/databases/EconQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/economy-module/src/main/java/net/giuse/economymodule/databases/SaveQueryEcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/economy-module/src/main/java/net/giuse/economymodule/databases/SaveQueryEcon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/KitModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/KitModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/builder/KitElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/builder/KitElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/commands/KitCreate.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/commands/KitCreate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/commands/KitGive.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/commands/KitGive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/commands/KitList.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/commands/KitList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/querykit/LoadQueryKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/querykit/LoadQueryKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/querykit/SaveKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/querykit/SaveKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/queryplayerkit/LoadPlayerKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/queryplayerkit/LoadPlayerKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/queryplayerkit/SavePlayerKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/databases/kit/queryplayerkit/SavePlayerKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/serializer/PlayerKitCooldownSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/serializer/PlayerKitCooldownSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/serializer/serializedobject/PlayerKitCooldownSerialized.java" beforeDir="false" afterPath="$PROJECT_DIR$/kit-module/src/main/java/net/giuse/kitmodule/serializer/serializedobject/PlayerKitCooldownSerialized.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-module/src/main/java/net/giuse/api/ezmessage/MessageBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-module/src/main/java/net/giuse/api/ezmessage/MessageBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-module/src/main/java/net/giuse/mainmodule/MainModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-module/src/main/java/net/giuse/mainmodule/MainModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main-module/src/main/java/net/giuse/mainmodule/message/SetupMessageLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/main-module/src/main/java/net/giuse/mainmodule/message/SetupMessageLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/secret-message-module/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/secret-message-module/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simply-command-module/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/simply-command-module/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simply-command-module/src/main/java/net/giuse/simplycommandmodule/commands/HatCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/simply-command-module/src/main/java/net/giuse/simplycommandmodule/commands/HatCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/homequery/HomeQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/homequery/HomeQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/homequery/SaveQueryHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/homequery/SaveQueryHome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/spawnquery/SaveQuerySpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/spawnquery/SaveQuerySpawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/spawnquery/SpawnQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/spawnquery/SpawnQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/warpquery/SaveQueryWarp.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/warpquery/SaveQueryWarp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/warpquery/WarpQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/database/warpquery/WarpQuery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/serializer/HomeBuilderSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/serializer/HomeBuilderSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/serializer/SpawnBuilderSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/serializer/SpawnBuilderSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/serializer/WarpBuilderSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/teleport-module/src/main/java/net/giuse/teleportmodule/serializer/WarpBuilderSerializer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -31,54 +67,62 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.EconomyModule [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean,compile,package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean,package,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean,package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean,validate,compile,test...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean,validate,compile...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean,validate,package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.LifeServer [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,compile,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,compile,package...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,install,-X].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,install,-e,-X].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,install...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,package,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,validate,compile...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,validate,package].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean,validate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [mvn,clean,install,-X].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [mvn,clean,package,-X].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.NewLifeServer [mvn,dependency:tree].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.app [clean,validate,compile,package...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.app [clean,validate,compile,test,package...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.app-compiler [clean,validate,compile...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.untitled [clean,validate,compile,package...].executor&quot;: &quot;Run&quot;,
-    &quot;OpenRewrite.Faces2xMigrationToJakarta4x (1).executor&quot;: &quot;Run&quot;,
-    &quot;OpenRewrite.Faces2xMigrationToJakarta4x.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/perro/Desktop/dev/new-lifeserver/TeleportModule&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.EconomyModule [clean].executor": "Run",
+    "Maven.KitModule [clean,compile].executor": "Run",
+    "Maven.KitModule [clean].executor": "Run",
+    "Maven.LifeServer [clean,compile,package].executor": "Run",
+    "Maven.LifeServer [clean,compile].executor": "Run",
+    "Maven.LifeServer [clean,install].executor": "Run",
+    "Maven.LifeServer [clean,package,install].executor": "Run",
+    "Maven.LifeServer [clean,package].executor": "Run",
+    "Maven.LifeServer [clean,validate,compile,test...].executor": "Run",
+    "Maven.LifeServer [clean,validate,compile...].executor": "Run",
+    "Maven.LifeServer [clean,validate,package].executor": "Run",
+    "Maven.LifeServer [clean].executor": "Run",
+    "Maven.LifeServer [package].executor": "Run",
+    "Maven.MainModule [clean,compile].executor": "Run",
+    "Maven.MainModule [clean,validate,compile,test...].executor": "Run",
+    "Maven.NewLifeServer [clean,compile,install].executor": "Run",
+    "Maven.NewLifeServer [clean,compile,package...].executor": "Run",
+    "Maven.NewLifeServer [clean,install,-X].executor": "Run",
+    "Maven.NewLifeServer [clean,install,-e,-X].executor": "Run",
+    "Maven.NewLifeServer [clean,install...].executor": "Run",
+    "Maven.NewLifeServer [clean,install].executor": "Run",
+    "Maven.NewLifeServer [clean,package,install].executor": "Run",
+    "Maven.NewLifeServer [clean,package].executor": "Run",
+    "Maven.NewLifeServer [clean,validate,compile...].executor": "Run",
+    "Maven.NewLifeServer [clean,validate,package].executor": "Run",
+    "Maven.NewLifeServer [clean,validate].executor": "Run",
+    "Maven.NewLifeServer [clean].executor": "Run",
+    "Maven.NewLifeServer [mvn,clean,install,-X].executor": "Run",
+    "Maven.NewLifeServer [mvn,clean,package,-X].executor": "Run",
+    "Maven.NewLifeServer [mvn,dependency:tree].executor": "Run",
+    "Maven.app [clean,validate,compile,package...].executor": "Run",
+    "Maven.app [clean,validate,compile,test,package...].executor": "Run",
+    "Maven.app-compiler [clean,validate,compile...].executor": "Run",
+    "Maven.untitled [clean,validate,compile,package...].executor": "Run",
+    "OpenRewrite.Faces2xMigrationToJakarta4x (1).executor": "Run",
+    "OpenRewrite.Faces2xMigrationToJakarta4x.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/gochi/Desktop/develop/DeathMessage",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\perro\Desktop\dev\new-lifeserver\TeleportModule\src" />
@@ -88,11 +132,11 @@
       <recent name="C:\Users\perro\Desktop\dev\new-lifeserver\KitModule\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\gochi\Desktop\develop\new-lifeserver\economy-module\src\main\java" />
       <recent name="C:\Users\perro\Desktop\dev\new-lifeserver\app-compiler\src\main\resources" />
       <recent name="C:\Users\perro\Desktop\dev\new-lifeserver\app\src" />
       <recent name="C:\Users\perro\Desktop\dev\new-lifeserver\src\main\java\api" />
       <recent name="C:\Users\perro\Desktop\dev\new-lifeserver\src\main\java" />
-      <recent name="C:\Users\perro\Desktop\dev\new-lifeserver\src\main\resources" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -133,8 +177,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="OpenRewrite.Faces2xMigrationToJakarta4x (1)" />
         <item itemvalue="OpenRewrite.Faces2xMigrationToJakarta4x" />
+        <item itemvalue="OpenRewrite.Faces2xMigrationToJakarta4x (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -159,6 +203,23 @@
       <workItem from="1714808005049" duration="1120000" />
       <workItem from="1714809911593" duration="3709000" />
       <workItem from="1714813749795" duration="7944000" />
+      <workItem from="1715521160423" duration="150000" />
+      <workItem from="1715521319518" duration="3688000" />
+      <workItem from="1715535191739" duration="72000" />
+      <workItem from="1715535273233" duration="110000" />
+      <workItem from="1715535395792" duration="168000" />
+      <workItem from="1715535575092" duration="16000" />
+      <workItem from="1715535600348" duration="205000" />
+      <workItem from="1715535880537" duration="2906000" />
+      <workItem from="1715538807580" duration="1197000" />
+      <workItem from="1715540027159" duration="49000" />
+      <workItem from="1715540090472" duration="2487000" />
+      <workItem from="1715542601866" duration="920000" />
+      <workItem from="1715543726250" duration="1875000" />
+      <workItem from="1715545649558" duration="2632000" />
+      <workItem from="1715548367053" duration="4997000" />
+      <workItem from="1715582082863" duration="7907000" />
+      <workItem from="1715606236111" duration="7248000" />
     </task>
     <servers />
   </component>

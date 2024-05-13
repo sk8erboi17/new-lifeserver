@@ -3,7 +3,7 @@ package net.giuse.kitmodule.commands;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.kitmodule.KitModule;
-import net.giuse.kitmodule.builder.KitBuilder;
+import net.giuse.kitmodule.builder.KitElement;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.mainmodule.utils.Utils;
@@ -96,14 +96,12 @@ public class KitCreate extends AbstractCommand {
      *  Create Kit
      */
     private void createKit(Player player, String kitName, int coolDownKit) {
-        kitName = kitName.toLowerCase();
         List<ItemStack> inventoryItem = new ArrayList<>();
         Arrays.stream(player.getInventory().getContents()).filter(addItem -> addItem != null && !addItem.getType().equals(Material.AIR)).forEach(inventoryItem::add);
-        KitBuilder kitBuilder = new KitBuilder(coolDownKit).setBase(Utils.listItemStackToBase64(inventoryItem));
-        kitBuilder.build();
-        kitModule.getKitElements().put(kitName, kitBuilder);
-        String finalKitName = kitName;
-        kitModule.getCachePlayerKit().forEach((uuid, playerTimerSystem) -> playerTimerSystem.addKit(finalKitName, coolDownKit));
+        KitElement kitElement = new KitElement(coolDownKit).setBase(Utils.listItemStackToBase64(inventoryItem));
+        kitElement.build();
+        kitModule.getKitElements().put(kitName, kitElement);
+        kitModule.getCachePlayerKit().forEach((uuid, playerTimerSystem) -> playerTimerSystem.addKit(kitName, coolDownKit));
         messageBuilder.setIDMessage("kit-created").sendMessage(new TextReplacer().match("%kit%").replaceWith(kitName));
     }
 

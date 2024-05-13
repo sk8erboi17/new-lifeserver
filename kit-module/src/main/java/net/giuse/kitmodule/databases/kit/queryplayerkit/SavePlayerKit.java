@@ -1,9 +1,9 @@
 package net.giuse.kitmodule.databases.kit.queryplayerkit;
 
 import net.giuse.kitmodule.KitModule;
-import net.giuse.kitmodule.messages.serializer.serializedobject.PlayerKitCooldownSerialized;
+import net.giuse.kitmodule.serializer.serializedobject.PlayerKitCooldownSerialized;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.execute.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
 import org.bukkit.Bukkit;
 

@@ -44,6 +44,7 @@ public class HomeBuilderSerializer implements Serializer<HomeSerialized> {
      */
     @Override
     public HomeSerialized decoder(String str) {
+        if(str == null) return null;
         //Split String
         String[] homes = str.split(":");
 

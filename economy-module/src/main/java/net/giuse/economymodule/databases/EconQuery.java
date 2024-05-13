@@ -3,7 +3,7 @@ package net.giuse.economymodule.databases;
 import net.giuse.economymodule.EconPlayerSerialized;
 import net.giuse.economymodule.EconomyService;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.execute.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
 import org.bukkit.Bukkit;
 

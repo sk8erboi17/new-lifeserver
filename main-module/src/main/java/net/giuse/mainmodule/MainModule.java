@@ -126,7 +126,6 @@ public class MainModule extends JavaPlugin {
             connector = injector.newInstance(ConnectorPostgres.class);
         }else if(getConfig().getString("storage-type").equalsIgnoreCase("h2")){
             ReflectionsFiles.loadFiles(new SQLFile());
-            System.out.println("asdas");
             connector = new ConnectorSQLite();
         }
     }

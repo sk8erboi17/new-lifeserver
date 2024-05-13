@@ -18,8 +18,6 @@ public class HatCommand extends AbstractCommand {
     public HatCommand(MainModule mainModule) {
         super("hat", "lifeserver.hat");
         messageBuilder = mainModule.getMessageBuilder();
-
-
     }
 
 

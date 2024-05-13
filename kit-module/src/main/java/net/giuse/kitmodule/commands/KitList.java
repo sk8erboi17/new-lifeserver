@@ -44,7 +44,7 @@ public class KitList extends AbstractCommand {
         }
 
         //Check if there are kits
-        if (kitModule.getKitElements().size() == 0) {
+        if (kitModule.getKitElements().isEmpty()) {
             messageBuilder.setCommandSender(p).setIDMessage("kit-list-empty").sendMessage();
             return;
         }

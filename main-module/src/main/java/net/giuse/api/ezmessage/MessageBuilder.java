@@ -43,6 +43,7 @@ public class MessageBuilder {
     public void sendMessage(TextReplacer... textReplacers) {
         for (String string : new String[]{"_chat", "_bossbar", "_title"}) {
             Message message = messageLoader.getCache().get(idMessage + string);
+            if (message == null) continue;
             switch (message.getMessageType()) {
                 //SEND CHAT
                 case CHAT:

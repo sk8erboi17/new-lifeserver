@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="EconomyModule" />
+        <module name="SimplyCommandModule" />
+        <module name="KitModule" />
+        <module name="SecretMessageModule" />
+        <module name="MainModule" />
+        <module name="LifeServer" />
+        <module name="TeleportModule" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="NewLifeServer" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

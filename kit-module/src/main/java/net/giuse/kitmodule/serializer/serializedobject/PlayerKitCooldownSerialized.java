@@ -1,4 +1,4 @@
-package net.giuse.kitmodule.messages.serializer.serializedobject;
+package net.giuse.kitmodule.serializer.serializedobject;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

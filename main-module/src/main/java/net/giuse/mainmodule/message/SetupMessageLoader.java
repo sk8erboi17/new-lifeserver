@@ -50,5 +50,6 @@ public abstract class SetupMessageLoader {
 
     private boolean checkIfOptionIsActive(String typeMessage, ConfigurationSection section) {
         return section.getBoolean(typeMessage);
+
     }
 }

@@ -20,6 +20,7 @@ public class SpawnBuilderSerializer implements Serializer<SpawnBuilder> {
      */
     @Override
     public SpawnBuilder decoder(String str) {
+        if(str == null) return null;
         //Split String
         String[] spawn = str.split(",");
 

@@ -1,9 +1,9 @@
 package net.giuse.kitmodule.databases.kit.querykit;
 
 import net.giuse.kitmodule.KitModule;
-import net.giuse.kitmodule.builder.KitBuilder;
+import net.giuse.kitmodule.builder.KitElement;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.execute.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
 import org.bukkit.Bukkit;
 
@@ -32,10 +32,10 @@ public class LoadQueryKit implements Query {
                     int kitCooldown = rs.getInt(3);
                     String elementsKitBase64 = rs.getString(2);
 
-                    KitBuilder kitBuilderDecoded = new KitBuilder(kitCooldown);
-                    kitBuilderDecoded.setBase(elementsKitBase64);
-                    kitBuilderDecoded.build();
-                    kitModule.getKitElements().put(kitName, kitBuilderDecoded);
+                    KitElement kitElementDecoded = new KitElement(kitCooldown);
+                    kitElementDecoded.setBase(elementsKitBase64);
+                    kitElementDecoded.build();
+                    kitModule.getKitElements().put(kitName, kitElementDecoded);
                 }
             } catch (SQLException e) {
                 Bukkit.getLogger().info("Empty Database");
