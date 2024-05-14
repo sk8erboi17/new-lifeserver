@@ -2,7 +2,6 @@ package net.giuse.secretmessagemodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.secretmessagemodule.SecretMessageModule;
 import org.bukkit.command.CommandSender;
@@ -16,10 +15,10 @@ public class SocialSpyCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public SocialSpyCommand(MainModule mainModule) {
+    public SocialSpyCommand(SecretMessageModule secretMessageModule, MessageBuilder messageBuilder) {
         super("socialspy", "lifeserver.socialspy");
-        secretMessageModule = (SecretMessageModule) mainModule.getService(SecretMessageModule.class);
-        messageBuilder = mainModule.getMessageBuilder();
+        this.secretMessageModule = secretMessageModule;
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

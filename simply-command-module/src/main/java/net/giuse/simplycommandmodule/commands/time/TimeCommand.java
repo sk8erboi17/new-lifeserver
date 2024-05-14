@@ -1,7 +1,6 @@
 package net.giuse.simplycommandmodule.commands.time;
 
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.command.CommandSender;
@@ -14,12 +13,9 @@ public class TimeCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public TimeCommand(MainModule mainModule) {
+    public TimeCommand(MessageBuilder messageBuilder) {
         super("time", "lifeserver.time");
-
-
-        messageBuilder = mainModule.getMessageBuilder();
-
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

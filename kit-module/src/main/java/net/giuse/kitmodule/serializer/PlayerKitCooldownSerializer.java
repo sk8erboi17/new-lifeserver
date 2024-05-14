@@ -53,7 +53,7 @@ public class PlayerKitCooldownSerializer implements Serializer<PlayerKitCooldown
      */
     @Override
     public PlayerKitCooldownSerialized decoder(String str) {
-        if(str == null) return null;
+        if (str == null) return null;
         String[] playerKitDecoded = str.split(";");
         PlayerKitCooldown playerKitCooldown = new PlayerKitCooldown();
 

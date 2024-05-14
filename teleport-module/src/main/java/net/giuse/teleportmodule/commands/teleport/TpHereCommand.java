@@ -1,9 +1,8 @@
 package net.giuse.teleportmodule.commands.teleport;
 
+import io.papermc.lib.PaperLib;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import io.papermc.lib.PaperLib;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.TeleportModule;
 import org.bukkit.Bukkit;
@@ -20,10 +19,10 @@ public class TpHereCommand extends AbstractCommand {
     private final TeleportModule teleportModule;
 
     @Inject
-    public TpHereCommand(MainModule mainModule) {
+    public TpHereCommand(MessageBuilder messageBuilder, TeleportModule teleportModule) {
         super("tphere", "lifeserver.tphere");
-        messageBuilder = mainModule.getMessageBuilder();
-        teleportModule = (TeleportModule) mainModule.getService(TeleportModule.class);
+        this.messageBuilder = messageBuilder;
+        this.teleportModule = teleportModule;
     }
 
     @Override

@@ -3,8 +3,9 @@ package net.giuse.kitmodule.databases.kit.queryplayerkit;
 import net.giuse.kitmodule.KitModule;
 import net.giuse.kitmodule.serializer.serializedobject.PlayerKitCooldownSerialized;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.QueryCallback;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
@@ -18,15 +19,15 @@ public class LoadPlayerKit implements Query {
     private final KitModule kitModule;
 
     @Inject
-    public LoadPlayerKit(MainModule mainModule) {
+    public LoadPlayerKit(MainModule mainModule, KitModule kitModule, ExecuteQuery executeQuery) {
         this.mainModule = mainModule;
-        executeQuery = mainModule.getInjector().getSingleton(ExecuteQuery.class);
-        kitModule = (KitModule) mainModule.getService(KitModule.class);
+        this.kitModule = kitModule;
+        this.executeQuery = executeQuery;
     }
 
     @Override
     public void query() {
-        executeQuery.execute(preparedStatement -> {
+        executeQuery.execute(new QueryCallback("SELECT * FROM PlayerKit", preparedStatement -> {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     String playerCooldownSerialized = rs.getString(1) + ";" + rs.getString(2);
@@ -38,6 +39,6 @@ public class LoadPlayerKit implements Query {
                 Bukkit.getLogger().info("Empty Database");
             }
 
-        }, "SELECT * FROM PlayerKit");
+        }));
     }
 }

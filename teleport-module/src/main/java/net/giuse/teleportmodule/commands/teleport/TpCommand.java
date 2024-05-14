@@ -1,9 +1,8 @@
 package net.giuse.teleportmodule.commands.teleport;
 
+import io.papermc.lib.PaperLib;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import io.papermc.lib.PaperLib;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.TeleportModule;
 import org.apache.commons.lang.math.NumberUtils;
@@ -21,10 +20,10 @@ public class TpCommand extends AbstractCommand {
     private final TeleportModule teleportModule;
 
     @Inject
-    public TpCommand(MainModule mainModule) {
+    public TpCommand(MessageBuilder messageBuilder, TeleportModule teleportModule) {
         super("tp", "lifeserver.tp");
-        messageBuilder = mainModule.getMessageBuilder();
-        teleportModule = (TeleportModule) mainModule.getService(TeleportModule.class);
+        this.messageBuilder = messageBuilder;
+        this.teleportModule = teleportModule;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package net.giuse.economymodule;
 
 
+import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.economymodule.databases.EconQuery;
@@ -22,13 +23,15 @@ import java.util.HashMap;
 import java.util.UUID;
 
 
-public class EconomyService extends Services {
+public class EconomyModule extends Services {
+    @Inject
+    private Injector injector;
+    @Inject
+    private MainModule mainModule;
     @Getter
     private final Serializer<EconPlayerSerialized> econPlayerSerializer = new EconPlayerSerializer();
     @Getter
     private final HashMap<UUID, Double> econPlayersCache = new HashMap<>();
-    @Inject
-    private MainModule mainModule;
     @Getter
     private EconomyManager customEcoManager;
     @Getter
@@ -38,18 +41,18 @@ public class EconomyService extends Services {
     @SneakyThrows
     public void load() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eEconomy §9] §7Loading economy...");
-        customEcoManager = mainModule.getInjector().getSingleton(EconomyManager.class);
+        customEcoManager = injector.getSingleton(EconomyManager.class);
+        injector.register(EconomyModule.class, this);
         mainModule.getServer().getServicesManager().register(Economy.class, customEcoManager, mainModule, ServicePriority.Normal);
-        mainModule.getInjector().getSingleton(EconQuery.class).query();
+        injector.getSingleton(EconQuery.class).query();
         ReflectionsFiles.loadFiles(configManager = new FileManager());
-        MessageLoaderEconomy messageLoaderEconomy = mainModule.getInjector().getSingleton(MessageLoaderEconomy.class);
-        messageLoaderEconomy.load();
+        injector.getSingleton(MessageLoaderEconomy.class).load();
     }
 
     @Override
     public void unload() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eEconomy §9] §7Unloading economy...");
-        mainModule.getInjector().getSingleton(SaveQueryEcon.class).query();
+        injector.getSingleton(SaveQueryEcon.class).query();
     }
 
     @Override

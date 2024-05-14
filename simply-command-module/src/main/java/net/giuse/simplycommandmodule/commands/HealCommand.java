@@ -2,7 +2,6 @@ package net.giuse.simplycommandmodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -15,9 +14,9 @@ public class HealCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public HealCommand(MainModule mainModule) {
+    public HealCommand(MessageBuilder messageBuilder) {
         super("heal", "lifeserver.heal");
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

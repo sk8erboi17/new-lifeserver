@@ -1,23 +1,22 @@
 package net.giuse.teleportmodule.commands.spawn;
 
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.subservice.SpawnLoaderService;
+import net.giuse.teleportmodule.submodule.SpawnLoaderModule;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 import javax.inject.Inject;
 
 public class DelSpawnCommand extends AbstractCommand {
-    private final SpawnLoaderService spawnLoaderService;
+    private final SpawnLoaderModule spawnLoaderModule;
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public DelSpawnCommand(MainModule mainModule) {
+    public DelSpawnCommand(SpawnLoaderModule spawnLoaderModule, MessageBuilder messageBuilder) {
         super("delspawn", "lifeserver.delspawn");
-        spawnLoaderService = (SpawnLoaderService) mainModule.getService(SpawnLoaderService.class);
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
+        this.spawnLoaderModule = spawnLoaderModule;
     }
 
     @Override
@@ -29,7 +28,7 @@ public class DelSpawnCommand extends AbstractCommand {
         }
 
         //Delete Spawn
-        spawnLoaderService.setSpawnBuilder(null);
+        spawnLoaderModule.setSpawnBuilder(null);
         messageBuilder.setCommandSender(commandSender).setIDMessage("removespawn").sendMessage();
     }
 }

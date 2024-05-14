@@ -1,10 +1,10 @@
-package net.giuse.teleportmodule.subservice;
+package net.giuse.teleportmodule.submodule;
 
 
+import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.builder.SpawnBuilder;
@@ -13,13 +13,16 @@ import net.giuse.teleportmodule.database.spawnquery.SpawnQuery;
 import net.giuse.teleportmodule.serializer.SpawnBuilderSerializer;
 
 import javax.inject.Inject;
+import java.util.logging.Logger;
 
-public class SpawnLoaderService extends Services {
+public class SpawnLoaderModule extends Services {
 
     @Getter
     private final Serializer<SpawnBuilder> spawnBuilderSerializer = new SpawnBuilderSerializer();
     @Inject
-    private MainModule mainModule;
+    private Injector injector;
+    @Inject
+    private Logger logger;
     @Getter
     @Setter
     private SpawnBuilder spawnBuilder;
@@ -30,10 +33,11 @@ public class SpawnLoaderService extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Spawn...");
+        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Spawn...");
+        injector.register(SpawnLoaderModule.class, this);
 
         //Load from database
-        mainModule.getInjector().getSingleton(SpawnQuery.class).query();
+        injector.getSingleton(SpawnQuery.class).query();
     }
 
     /*
@@ -41,8 +45,8 @@ public class SpawnLoaderService extends Services {
      */
     @Override
     public void unload() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Spawn...");
-        mainModule.getInjector().getSingleton(SaveQuerySpawn.class).query();
+        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Spawn...");
+        injector.getSingleton(SaveQuerySpawn.class).query();
     }
 
     /*

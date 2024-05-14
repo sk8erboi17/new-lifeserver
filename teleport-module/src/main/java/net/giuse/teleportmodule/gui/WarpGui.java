@@ -1,8 +1,9 @@
 package net.giuse.teleportmodule.gui;
 
 
-import net.giuse.api.inventorylib.InventoryBuilder;
+import ch.jalu.injector.Injector;
 import lombok.Getter;
+import net.giuse.api.inventorylib.InventoryBuilder;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.gui.GuiInitializer;
 import net.giuse.teleportmodule.TeleportModule;
@@ -16,6 +17,8 @@ import javax.inject.Inject;
 public class WarpGui implements GuiInitializer {
     @Inject
     private MainModule mainModule;
+    @Inject
+    private Injector injector;
     @Getter
     private InventoryBuilder inventoryBuilder;
 
@@ -35,9 +38,9 @@ public class WarpGui implements GuiInitializer {
                 teleportModule.getFileManager().getWarpYaml().getInt("inventory.page")).createInvs();
 
         //Initialize items
-        mainModule.getInjector().getSingleton(NextItemGuiWarpInit.class).initItems(inventoryBuilder);
-        mainModule.getInjector().getSingleton(PreviousInitWarpGuiInit.class).initItems(inventoryBuilder);
-        mainModule.getInjector().getSingleton(ItemsGuiWarpInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(NextItemGuiWarpInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(PreviousInitWarpGuiInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(ItemsGuiWarpInit.class).initItems(inventoryBuilder);
 
         //Build InventoryBuilder
         inventoryBuilder.build();

@@ -1,8 +1,9 @@
 package net.giuse.kitmodule.gui;
 
 
-import net.giuse.api.inventorylib.InventoryBuilder;
+import ch.jalu.injector.Injector;
 import lombok.Getter;
+import net.giuse.api.inventorylib.InventoryBuilder;
 import net.giuse.kitmodule.KitModule;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.gui.GuiInitializer;
@@ -19,6 +20,8 @@ public class KitGui implements GuiInitializer {
     private InventoryBuilder inventoryBuilder;
     @Inject
     private MainModule mainModule;
+    @Inject
+    private Injector injector;
 
     /*
      * Initialize Inventory
@@ -35,9 +38,9 @@ public class KitGui implements GuiInitializer {
                 kitModule.getFileKits().getKitYaml().getInt("inventory.page")).createInvs();
 
         //Initialize items
-        mainModule.getInjector().getSingleton(NextItemGuiInit.class).initItems(inventoryBuilder);
-        mainModule.getInjector().getSingleton(PreviousItemGuiInit.class).initItems(inventoryBuilder);
-        mainModule.getInjector().getSingleton(ItemsGuiInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(NextItemGuiInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(PreviousItemGuiInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(ItemsGuiInit.class).initItems(inventoryBuilder);
 
         //Build InventoryBuilder
         inventoryBuilder.build();

@@ -1,18 +1,16 @@
 package net.giuse.api.ezmessage;
 
 
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import net.giuse.api.ezmessage.interfaces.Message;
 import net.giuse.api.ezmessage.messages.MessageActionbar;
 import net.giuse.api.ezmessage.messages.MessageChat;
 import net.giuse.api.ezmessage.messages.MessageTitle;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 public class MessageBuilder {

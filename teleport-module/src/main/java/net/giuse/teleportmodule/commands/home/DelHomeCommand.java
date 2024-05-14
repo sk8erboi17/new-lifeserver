@@ -1,9 +1,8 @@
 package net.giuse.teleportmodule.commands.home;
 
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.subservice.HomeLoaderService;
+import net.giuse.teleportmodule.submodule.HomeLoaderModule;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -11,14 +10,14 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class DelHomeCommand extends AbstractCommand {
-    private final HomeLoaderService homeLoaderService;
+    private final HomeLoaderModule homeLoaderModule;
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public DelHomeCommand(MainModule mainModule) {
+    public DelHomeCommand(HomeLoaderModule homeLoaderModule, MessageBuilder messageBuilder) {
         super("delhome", "lifeserver.delhome");
-        homeLoaderService = (HomeLoaderService) mainModule.getService(HomeLoaderService.class);
-        messageBuilder = mainModule.getMessageBuilder();
+        this.homeLoaderModule = homeLoaderModule;
+        this.messageBuilder = messageBuilder;
     }
 
     @Override
@@ -31,7 +30,7 @@ public class DelHomeCommand extends AbstractCommand {
         Player sender = (Player) commandSender;
 
         //Check if player has home
-        if (homeLoaderService.getCacheHome().size() == 0) {
+        if (homeLoaderModule.getCacheHome().isEmpty()) {
             messageBuilder.setCommandSender(sender).setIDMessage("no_home_found").sendMessage();
             return;
         }
@@ -41,8 +40,8 @@ public class DelHomeCommand extends AbstractCommand {
             if (args.length == 0) {
 
                 //Check if player has one home
-                if (homeLoaderService.getHome(sender.getUniqueId()).size() == 1) {
-                    homeLoaderService.getHome(sender.getUniqueId()).keySet().forEach(home -> homeLoaderService.getHome(sender.getUniqueId()).remove(home));
+                if (homeLoaderModule.getHome(sender.getUniqueId()).size() == 1) {
+                    homeLoaderModule.getHome(sender.getUniqueId()).keySet().forEach(home -> homeLoaderModule.getHome(sender.getUniqueId()).remove(home));
                     messageBuilder.setCommandSender(sender).setIDMessage("deleted_home").sendMessage();
                     return;
                 }
@@ -50,19 +49,19 @@ public class DelHomeCommand extends AbstractCommand {
             }
 
             //Check if home exists
-            if (homeLoaderService.getHome(sender.getUniqueId()).get(args[0]) == null) {
+            if (homeLoaderModule.getHome(sender.getUniqueId()).get(args[0]) == null) {
                 messageBuilder.setCommandSender(sender).setIDMessage("no_home_found").sendMessage();
                 return;
             }
 
             //Delete home
-            homeLoaderService.getHome(sender.getUniqueId()).remove(args[0].toLowerCase());
+            homeLoaderModule.getHome(sender.getUniqueId()).remove(args[0].toLowerCase());
             messageBuilder.setCommandSender(sender).setIDMessage("deleted_home").sendMessage();
             return;
         }
 
         //Delete Home
-        homeLoaderService.getHome(sender.getUniqueId()).keySet().forEach(home -> homeLoaderService.getHome(sender.getUniqueId()).remove(home));
+        homeLoaderModule.getHome(sender.getUniqueId()).keySet().forEach(home -> homeLoaderModule.getHome(sender.getUniqueId()).remove(home));
         messageBuilder.setCommandSender(sender).setIDMessage("deleted_home").sendMessage();
     }
 }

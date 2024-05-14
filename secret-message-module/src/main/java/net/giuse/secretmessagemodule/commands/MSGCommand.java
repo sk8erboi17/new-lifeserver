@@ -2,9 +2,7 @@ package net.giuse.secretmessagemodule.commands;
 
 
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.secretmessagemodule.SecretMessageModule;
 import net.giuse.secretmessagemodule.process.SecretChatProcess;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -15,16 +13,14 @@ import javax.inject.Inject;
 
 
 public class MSGCommand extends AbstractCommand {
-    private final SecretMessageModule secretMessageModule;
     private final SecretChatProcess secretChatProcess;
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public MSGCommand(MainModule mainModule) {
+    public MSGCommand(MessageBuilder messageBuilder, SecretChatProcess secretChatProcess) {
         super("msg", "lifeserver.msg");
-        secretMessageModule = (SecretMessageModule) mainModule.getService(SecretMessageModule.class);
-        secretChatProcess = mainModule.getInjector().getSingleton(SecretChatProcess.class);
-        messageBuilder = mainModule.getMessageBuilder();
+        this.secretChatProcess = secretChatProcess;
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

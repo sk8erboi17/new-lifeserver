@@ -1,27 +1,32 @@
-package net.giuse.teleportmodule.subservice;
+package net.giuse.teleportmodule.submodule;
 
+import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.database.warpquery.SaveQueryWarp;
 import net.giuse.teleportmodule.database.warpquery.WarpQuery;
+import net.giuse.teleportmodule.gui.WarpGui;
 import net.giuse.teleportmodule.serializer.WarpBuilderSerializer;
 import net.giuse.teleportmodule.serializer.serializedobject.WarpSerialized;
 import org.bukkit.Location;
 
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
-public class WarpLoaderService extends Services {
+
+public class WarpLoaderModule extends Services {
 
     @Getter
     private final Serializer<WarpSerialized> warpBuilderSerializer = new WarpBuilderSerializer();
     @Getter
     private HashMap<String, Location> warps;
     @Inject
-    private MainModule mainModule;
+    private Injector injector;
+    @Inject
+    private Logger log;
 
     /*
      * Load Service
@@ -29,13 +34,15 @@ public class WarpLoaderService extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Warps...");
+        log.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Warps...");
+        injector.register(WarpLoaderModule.class, this);
+        injector.getSingleton(WarpGui.class);
 
         //Load Cache
         warps = new HashMap<>();
 
         //Load Warps
-        mainModule.getInjector().getSingleton(WarpQuery.class).query();
+        injector.getSingleton(WarpQuery.class).query();
 
     }
 
@@ -45,8 +52,8 @@ public class WarpLoaderService extends Services {
      */
     @Override
     public void unload() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Warps...");
-        mainModule.getInjector().getSingleton(SaveQueryWarp.class).query();
+        log.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Warps...");
+        injector.getSingleton(SaveQueryWarp.class).query();
     }
 
 

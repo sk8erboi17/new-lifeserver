@@ -2,12 +2,12 @@ package net.giuse.mainmodule;
 
 import ch.jalu.injector.Injector;
 import ch.jalu.injector.InjectorBuilder;
-import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.MessageLoader;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.mainmodule.databases.Connector;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.implentation.h2.ConnectorSQLite;
 import net.giuse.mainmodule.databases.implentation.postgres.ConnectorPostgres;
 import net.giuse.mainmodule.files.FilesList;
@@ -18,23 +18,22 @@ import net.giuse.mainmodule.message.MessageLoaderMain;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.mainmodule.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class MainModule extends JavaPlugin {
 
-    @Getter
-    private final Injector injector = new InjectorBuilder().addDefaultHandlers("net.giuse").create();
-    @Getter
+    private Injector injector;
+
     private Connector connector;
+
     private final Reflections reflections = new Reflections("net.giuse");
-    @Getter
-    private MessageBuilder messageBuilder;
-    @Getter
-    private MessageLoader messageLoader;
+
     private HashMap<Services, Integer> servicesByPriority = new HashMap<>();
 
 
@@ -93,15 +92,18 @@ public class MainModule extends JavaPlugin {
      * Setup Injector
      */
     private void setupInjector() {
+        injector = new InjectorBuilder().addDefaultHandlers("net.giuse").create();
         injector.register(MainModule.class, this);
+        injector.register(Logger.class, getLogger());
+        injector.register(FileConfiguration.class, getConfig());
     }
 
     /*
      * Setup Messages
      */
     private void setupMessage() {
-        messageLoader = new MessageLoader(this);
-        messageBuilder = new MessageBuilder(messageLoader);
+        injector.register(MessageLoader.class, new MessageLoader(this));
+        injector.register(MessageBuilder.class, new MessageBuilder(injector.getIfAvailable(MessageLoader.class)));
         injector.getSingleton(MessageLoaderMain.class).load();
     }
 
@@ -114,7 +116,7 @@ public class MainModule extends JavaPlugin {
             servicesByPriority.put(services, services.priority());
         });
         servicesByPriority = (HashMap<Services, Integer>) Utils.sortByValue(servicesByPriority);
-        servicesByPriority.keySet().forEach(Services::load);
+        servicesByPriority.keySet().forEach(services -> new Thread(services::load).start());
     }
 
     /*
@@ -122,12 +124,13 @@ public class MainModule extends JavaPlugin {
      */
     @SneakyThrows
     private void setupSQL() {
-        if(getConfig().getString("storage-type").equalsIgnoreCase("postgres")){
-            connector = injector.newInstance(ConnectorPostgres.class);
-        }else if(getConfig().getString("storage-type").equalsIgnoreCase("h2")){
+        if (getConfig().getString("storage-type").equalsIgnoreCase("postgres")) {
+            connector = injector.getSingleton(ConnectorPostgres.class);
+        } else if (getConfig().getString("storage-type").equalsIgnoreCase("h2")) {
             ReflectionsFiles.loadFiles(new SQLFile());
-            connector = new ConnectorSQLite();
+            connector = injector.getSingleton(ConnectorSQLite.class);
         }
+        injector.register(ExecuteQuery.class, new ExecuteQuery(connector));
     }
 
     /*

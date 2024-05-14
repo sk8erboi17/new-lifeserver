@@ -1,8 +1,8 @@
-package net.giuse.teleportmodule.subservice;
+package net.giuse.teleportmodule.submodule;
 
+import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.teleporrequest.PendingRequest;
 
@@ -10,12 +10,15 @@ import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 
-public class TeleportRequestService extends Services {
+public class TeleportRequestModule extends Services {
     @Getter
     private final Set<PendingRequest> pendingRequests = new HashSet<>();
     @Inject
-    private MainModule mainModule;
+    private Injector injector;
+    @Inject
+    private Logger logger;
 
     /*
      * Load Service
@@ -23,7 +26,8 @@ public class TeleportRequestService extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Teleport Requests...");
+        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Teleport Requests...");
+        injector.register(TeleportRequestModule.class, this);
 
     }
 
@@ -32,7 +36,7 @@ public class TeleportRequestService extends Services {
      */
     @Override
     public void unload() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Teleport Requests...");
+        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Teleport Requests...");
     }
 
     /*

@@ -1,9 +1,9 @@
 package net.giuse.api.inventorylib;
 
-import net.giuse.api.inventorylib.inventoryevents.ClickEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.giuse.api.inventorylib.inventoryevents.ClickEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

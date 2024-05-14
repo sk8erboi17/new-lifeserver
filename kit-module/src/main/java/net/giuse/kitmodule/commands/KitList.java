@@ -3,7 +3,6 @@ package net.giuse.kitmodule.commands;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.kitmodule.KitModule;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -22,10 +21,10 @@ public class KitList extends AbstractCommand {
     private final KitModule kitModule;
 
     @Inject
-    public KitList(MainModule mainModule) {
+    public KitList(MessageBuilder messageBuilder, KitModule kitModule) {
         super("kitlist", "lifeserver.kitcreate");
-        kitModule = (KitModule) mainModule.getService(KitModule.class);
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
+        this.kitModule = kitModule;
     }
 
     @Override

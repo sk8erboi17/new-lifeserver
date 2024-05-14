@@ -1,10 +1,10 @@
 package net.giuse.mainmodule.message;
 
 
+import net.giuse.api.ezmessage.MessageLoader;
 import net.giuse.api.ezmessage.messages.MessageActionbar;
 import net.giuse.api.ezmessage.messages.MessageChat;
 import net.giuse.api.ezmessage.messages.MessageTitle;
-import net.giuse.mainmodule.MainModule;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -13,7 +13,7 @@ import javax.inject.Inject;
 public abstract class SetupMessageLoader {
 
     @Inject
-    private MainModule mainModule;
+    private MessageLoader messageLoader;
 
 
     public abstract void load();
@@ -22,7 +22,7 @@ public abstract class SetupMessageLoader {
         if (checkIfOptionIsActive("actionbar.send-actionbar", section)) {
             String messageComponent = ChatColor.translateAlternateColorCodes('&', section.getString("actionbar.actionbar-message"));
             MessageActionbar message = new MessageActionbar(messageComponent);
-            mainModule.getMessageLoader().addMessageCache(idMessage + "_bossbar", message);
+            messageLoader.addMessageCache(idMessage + "_bossbar", message);
         }
     }
 
@@ -30,7 +30,7 @@ public abstract class SetupMessageLoader {
         if (checkIfOptionIsActive("message-chat.send-chat", section)) {
             String messageComponent = ChatColor.translateAlternateColorCodes('&', section.getString("message-chat.string-message"));
             MessageChat message = new MessageChat(messageComponent);
-            mainModule.getMessageLoader().addMessageCache(idMessage + "_chat", message);
+            messageLoader.addMessageCache(idMessage + "_chat", message);
         }
     }
 
@@ -43,7 +43,7 @@ public abstract class SetupMessageLoader {
                     section.getInt("title.fade-in"),
                     section.getInt("title.fade-stay"),
                     section.getInt("title.fade-out"));
-            mainModule.getMessageLoader().addMessageCache(idMessage + "_title", message);
+            messageLoader.addMessageCache(idMessage + "_title", message);
         }
     }
 

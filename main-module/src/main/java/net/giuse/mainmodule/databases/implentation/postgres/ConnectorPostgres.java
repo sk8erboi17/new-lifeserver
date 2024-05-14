@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.databases.Connector;
 
-
 import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,7 +29,7 @@ public class ConnectorPostgres implements Connector {
         String url = "jdbc:postgresql://localhost:5432/minecraft";
         Properties props = new Properties();
         props.setProperty("user", mainModule.getConfig().getString("username"));
-        props.setProperty("password",  mainModule.getConfig().getString("password"));
+        props.setProperty("password", mainModule.getConfig().getString("password"));
 
         // Establish a connection to the PostgreSQL database
         this.connection = DriverManager.getConnection(url, props);

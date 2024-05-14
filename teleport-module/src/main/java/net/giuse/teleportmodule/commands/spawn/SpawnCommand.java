@@ -1,12 +1,11 @@
 package net.giuse.teleportmodule.commands.spawn;
 
 
-import net.giuse.api.ezmessage.MessageBuilder;
 import io.papermc.lib.PaperLib;
-import net.giuse.mainmodule.MainModule;
+import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.TeleportModule;
-import net.giuse.teleportmodule.subservice.SpawnLoaderService;
+import net.giuse.teleportmodule.submodule.SpawnLoaderModule;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -14,19 +13,17 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class SpawnCommand extends AbstractCommand {
-    private final SpawnLoaderService spawnLoaderService;
+    private final SpawnLoaderModule spawnLoaderModule;
     private final MessageBuilder messageBuilder;
 
     private final TeleportModule teleportModule;
 
     @Inject
-    public SpawnCommand(MainModule mainModule) {
+    public SpawnCommand(SpawnLoaderModule spawnLoaderModule, MessageBuilder messageBuilder, TeleportModule teleportModule) {
         super("spawn", "lifeserver.spawn");
-        spawnLoaderService = (SpawnLoaderService) mainModule.getService(SpawnLoaderService.class);
-        teleportModule = (TeleportModule) mainModule.getService(TeleportModule.class);
-        messageBuilder = mainModule.getMessageBuilder();
-
-
+        this.spawnLoaderModule = spawnLoaderModule;
+        this.messageBuilder = messageBuilder;
+        this.teleportModule = teleportModule;
     }
 
     @Override
@@ -39,14 +36,14 @@ public class SpawnCommand extends AbstractCommand {
         Player player = (Player) commandSender;
 
         //Check if there is a spawn
-        if (spawnLoaderService.getSpawnBuilder() == null) {
+        if (spawnLoaderModule.getSpawnBuilder() == null) {
             messageBuilder.setCommandSender(commandSender).setIDMessage("no-spawn").sendMessage();
             return;
         }
 
         //Teleport to spawn
         teleportModule.getBackLocations().put(player, player.getLocation());
-        PaperLib.teleportAsync(player, spawnLoaderService.getSpawnBuilder().getLocation());
+        PaperLib.teleportAsync(player, spawnLoaderModule.getSpawnBuilder().getLocation());
         messageBuilder.setCommandSender(commandSender).setIDMessage("teleported-spawn").sendMessage();
 
     }

@@ -1,7 +1,6 @@
 package net.giuse.simplycommandmodule.commands.time;
 
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -13,11 +12,9 @@ public class NightCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public NightCommand(MainModule mainModule) {
+    public NightCommand(MessageBuilder messageBuilder) {
         super("night", "lifeserver.night");
-
-
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

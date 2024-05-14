@@ -2,10 +2,9 @@ package net.giuse.teleportmodule.commands.teleport;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.enums.TpType;
-import net.giuse.teleportmodule.subservice.TeleportRequestService;
+import net.giuse.teleportmodule.submodule.TeleportRequestModule;
 import net.giuse.teleportmodule.teleporrequest.PendingRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -16,13 +15,13 @@ import javax.inject.Inject;
 
 public class TpaHereCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
-    private final TeleportRequestService teleportRequestService;
+    private final TeleportRequestModule teleportRequestModule;
 
     @Inject
-    public TpaHereCommand(MainModule mainModule) {
+    public TpaHereCommand(MessageBuilder messageBuilder, TeleportRequestModule teleportRequestModule) {
         super("tpahere", "lifeserver.tpahere");
-        messageBuilder = mainModule.getMessageBuilder();
-        teleportRequestService = (TeleportRequestService) mainModule.getService(TeleportRequestService.class);
+        this.messageBuilder = messageBuilder;
+        this.teleportRequestModule = teleportRequestModule;
     }
 
     @Override
@@ -53,6 +52,6 @@ public class TpaHereCommand extends AbstractCommand {
         //Send request to the target
         messageBuilder.setCommandSender(sender).setIDMessage("tpahere-request-sender").sendMessage(new TextReplacer().match("%playername%").replaceWith(target.getName()));
         messageBuilder.setCommandSender(target).setIDMessage("tpahere-request-receiver").sendMessage(new TextReplacer().match("%playername%").replaceWith(sender.getName()));
-        teleportRequestService.getPendingRequests().add(new PendingRequest(sender, target, TpType.TPA_HERE));
+        teleportRequestModule.getPendingRequests().add(new PendingRequest(sender, target, TpType.TPA_HERE));
     }
 }

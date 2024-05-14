@@ -6,12 +6,12 @@ import net.giuse.kitmodule.KitModule;
 import net.giuse.kitmodule.builder.KitElement;
 import net.giuse.kitmodule.cooldownsystem.PlayerKitCooldown;
 import net.giuse.kitmodule.gui.KitGui;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.mainmodule.utils.Utils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
@@ -21,16 +21,18 @@ import javax.inject.Inject;
  * Command /kit for view a list of kit and give a kit
  */
 public class KitGive extends AbstractCommand {
-    private final MainModule mainModule;
     private final MessageBuilder messageBuilder;
     private final KitModule kitModule;
+    private final FileConfiguration mainConfig;
+    private final KitGui kitGui;
 
     @Inject
-    public KitGive(MainModule mainModule) {
+    public KitGive(KitModule kitModule, KitGui kitGui, FileConfiguration mainConfig, MessageBuilder messageBuilder) {
         super("kit", "lifeserver.kitcreate");
-        this.mainModule = mainModule;
-        kitModule = (KitModule) mainModule.getService(KitModule.class);
-        messageBuilder = mainModule.getMessageBuilder();
+        this.kitModule = kitModule;
+        this.mainConfig = mainConfig;
+        this.messageBuilder = messageBuilder;
+        this.kitGui = kitGui;
     }
 
     @Override
@@ -54,9 +56,8 @@ public class KitGive extends AbstractCommand {
             }
 
             //check if show gui or list
-            if (mainModule.getConfig().getBoolean("use-kit-gui")) {
-                KitGui kitInventory = mainModule.getInjector().getSingleton(KitGui.class);
-                kitInventory.openInv(player);
+            if (mainConfig.getBoolean("use-kit-gui")) {
+                kitGui.openInv(player);
                 return;
             }
 

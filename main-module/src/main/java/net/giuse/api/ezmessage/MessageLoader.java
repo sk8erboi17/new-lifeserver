@@ -1,8 +1,8 @@
 package net.giuse.api.ezmessage;
 
 
-import net.giuse.api.ezmessage.interfaces.Message;
 import lombok.Getter;
+import net.giuse.api.ezmessage.interfaces.Message;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -16,7 +16,6 @@ import java.util.HashMap;
 
 public class MessageLoader {
     public final JavaPlugin javaPlugin;
-
 
     private final BukkitAudiences audience;
     @Getter

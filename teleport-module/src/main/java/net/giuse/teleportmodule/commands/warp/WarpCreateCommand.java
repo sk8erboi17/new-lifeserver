@@ -2,9 +2,8 @@ package net.giuse.teleportmodule.commands.warp;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.subservice.WarpLoaderService;
+import net.giuse.teleportmodule.submodule.WarpLoaderModule;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -12,14 +11,14 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class WarpCreateCommand extends AbstractCommand {
-    private final WarpLoaderService warpLoaderService;
+    private final WarpLoaderModule warpLoaderModule;
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public WarpCreateCommand(MainModule mainModule) {
+    public WarpCreateCommand(WarpLoaderModule warpLoaderModule, MessageBuilder messageBuilder) {
         super("warpcreate", "lifeserver.warpcreate");
-        messageBuilder = mainModule.getMessageBuilder();
-        warpLoaderService = (WarpLoaderService) mainModule.getService(WarpLoaderService.class);
+        this.warpLoaderModule = warpLoaderModule;
+        this.messageBuilder = messageBuilder;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class WarpCreateCommand extends AbstractCommand {
         }
 
         //Check warp exists
-        if (warpLoaderService.getWarp(args[0]) != null) {
+        if (warpLoaderModule.getWarp(args[0]) != null) {
             messageBuilder.setCommandSender(p).setIDMessage("warp-already-exists").sendMessage();
             return;
         }
@@ -49,7 +48,7 @@ public class WarpCreateCommand extends AbstractCommand {
             return;
         }
         //Create warp
-        warpLoaderService.getWarps().put(args[0].toLowerCase(), p.getLocation());
+        warpLoaderModule.getWarps().put(args[0].toLowerCase(), p.getLocation());
         messageBuilder.setCommandSender(p).setIDMessage("warp-created").sendMessage(new TextReplacer().match("%name%").replaceWith(args[0]));
     }
 }

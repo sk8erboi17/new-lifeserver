@@ -2,39 +2,38 @@ package net.giuse.kitmodule.databases.kit.queryplayerkit;
 
 import net.giuse.kitmodule.KitModule;
 import net.giuse.kitmodule.serializer.serializedobject.PlayerKitCooldownSerialized;
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.QueryCallback;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SavePlayerKit implements Query {
 
     private final ExecuteQuery executeQuery;
-
     private final KitModule kitModule;
 
     @Inject
-    public SavePlayerKit(MainModule mainModule) {
-        executeQuery = mainModule.getInjector().getSingleton(ExecuteQuery.class);
-        kitModule = (KitModule) mainModule.getService(KitModule.class);
+    public SavePlayerKit(KitModule kitModule, ExecuteQuery executeQuery) {
+        this.executeQuery = executeQuery;
+        this.kitModule = kitModule;
     }
 
 
     @Override
     public void query() {
         if (kitModule.getCachePlayerKit().isEmpty()) return;
-
-        executeQuery.execute("DROP TABLE PlayerKit;");
-
-        executeQuery.execute("CREATE TABLE IF NOT EXISTS PlayerKit(PlayerUUID TEXT,KitCooldown TEXT);");
-
-        executeQuery.execute(preparedStatement -> kitModule.getCachePlayerKit().forEach(((uuid, playerTimerSystem) -> {
+        List<QueryCallback> queryCallbacks = new ArrayList<>();
+        queryCallbacks.add(new QueryCallback("DROP TABLE PlayerKit;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS PlayerKit(PlayerUUID TEXT,KitCooldown TEXT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO PlayerKit VALUES(?,?)", preparedStatement -> kitModule.getCachePlayerKit().forEach(((uuid, playerTimerSystem) -> {
             String[] playerCooldownEncoded = kitModule.getPlayerCooldownSerializer().encode(new PlayerKitCooldownSerialized(uuid, playerTimerSystem)).split(";");
             boolean notEnoughArgument = playerCooldownEncoded.length == 1;
-
             if (notEnoughArgument) return;
             try {
                 preparedStatement.setString(1, playerCooldownEncoded[0]);
@@ -43,7 +42,8 @@ public class SavePlayerKit implements Query {
             } catch (SQLException e) {
                 Bukkit.getLogger().info("Empty Database");
             }
-        })), "INSERT INTO PlayerKit VALUES(?,?)");
+        }))));
+        executeQuery.executeBatch(queryCallbacks);
 
 
     }

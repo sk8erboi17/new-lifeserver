@@ -4,7 +4,6 @@ import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.kitmodule.KitModule;
 import net.giuse.kitmodule.builder.KitElement;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.mainmodule.utils.Utils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -28,10 +27,10 @@ public class KitCreate extends AbstractCommand {
     private final KitModule kitModule;
 
     @Inject
-    public KitCreate(MainModule mainModule) {
+    public KitCreate(KitModule kitModule, MessageBuilder messageBuilder) {
         super("kitcreate", "lifeserver.kitcreate");
-        kitModule = (KitModule) mainModule.getService(KitModule.class);
-        messageBuilder = mainModule.getMessageBuilder();
+        this.kitModule = kitModule;
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

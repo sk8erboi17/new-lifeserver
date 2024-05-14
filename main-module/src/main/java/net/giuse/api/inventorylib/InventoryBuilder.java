@@ -1,10 +1,10 @@
 package net.giuse.api.inventorylib;
 
-import net.giuse.api.inventorylib.inventoryevents.CloseInventoryEvent;
-import net.giuse.api.inventorylib.inventoryevents.OpenInventoryEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.giuse.api.inventorylib.inventoryevents.CloseInventoryEvent;
+import net.giuse.api.inventorylib.inventoryevents.OpenInventoryEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -90,7 +90,7 @@ public class InventoryBuilder implements Listener {
     public void onOpen(InventoryOpenEvent e) {
         if (e.getView().getTitle().contains(name.replace("%page%", ""))) {
             if (!pageCounter.containsKey(e.getPlayer().getUniqueId())) pageCounter.put(e.getPlayer().getUniqueId(), 1);
-            if(openInventoryEvent != null){
+            if (openInventoryEvent != null) {
                 openInventoryEvent.open(e);
             }
         }
@@ -99,7 +99,7 @@ public class InventoryBuilder implements Listener {
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
         if (e.getView().getTitle().contains(name.replace("%page%", ""))) {
-            if(closeInventoryEvent != null){
+            if (closeInventoryEvent != null) {
                 closeInventoryEvent.close(e);
             }
         }

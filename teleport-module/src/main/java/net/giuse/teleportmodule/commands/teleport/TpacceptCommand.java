@@ -1,13 +1,12 @@
 package net.giuse.teleportmodule.commands.teleport;
 
+import io.papermc.lib.PaperLib;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import io.papermc.lib.PaperLib;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.TeleportModule;
 import net.giuse.teleportmodule.enums.TpType;
-import net.giuse.teleportmodule.subservice.TeleportRequestService;
+import net.giuse.teleportmodule.submodule.TeleportRequestModule;
 import net.giuse.teleportmodule.teleporrequest.PendingRequest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -17,15 +16,15 @@ import javax.inject.Inject;
 
 public class TpacceptCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
-    private final TeleportRequestService teleportRequestService;
+    private final TeleportRequestModule teleportRequestModule;
     private final TeleportModule teleportModule;
 
     @Inject
-    public TpacceptCommand(MainModule mainModule) {
+    public TpacceptCommand(MessageBuilder messageBuilder, TeleportModule teleportModule, TeleportRequestModule teleportRequestModule) {
         super("tpaccept", "lifeserver.tpaccept");
-        messageBuilder = mainModule.getMessageBuilder();
-        teleportModule = (TeleportModule) mainModule.getService(TeleportModule.class);
-        teleportRequestService = (TeleportRequestService) mainModule.getService(TeleportRequestService.class);
+        this.messageBuilder = messageBuilder;
+        this.teleportModule = teleportModule;
+        this.teleportRequestModule = teleportRequestModule;
     }
 
     @Override
@@ -39,13 +38,13 @@ public class TpacceptCommand extends AbstractCommand {
 
 
         //Check if there is any Pending Request
-        if (teleportRequestService.getPending(player.getUniqueId()) == null) {
+        if (teleportRequestModule.getPending(player.getUniqueId()) == null) {
             messageBuilder.setCommandSender(player).setIDMessage("no-pending-request").sendMessage();
             return;
         }
 
         //Check the type of PendingRequest
-        PendingRequest pendingRequest = teleportRequestService.getPending(player.getUniqueId());
+        PendingRequest pendingRequest = teleportRequestModule.getPending(player.getUniqueId());
         if (pendingRequest.getTpType().equals(TpType.TPA)) {
             teleportModule.getBackLocations().put(pendingRequest.getSender(), pendingRequest.getSender().getLocation());
             PaperLib.teleportAsync(pendingRequest.getSender(), pendingRequest.getReceiver().getLocation());
@@ -57,7 +56,7 @@ public class TpacceptCommand extends AbstractCommand {
         messageBuilder.setCommandSender(pendingRequest.getSender()).setIDMessage("teleport-player").sendMessage(new TextReplacer().match("%playername%").replaceWith(pendingRequest.getReceiver().getName()));
         messageBuilder.setCommandSender(player).setIDMessage("request-accept-receiver").sendMessage(new TextReplacer().match("%playername%").replaceWith(player.getName()));
 
-        teleportRequestService.getPendingRequests().remove(pendingRequest);
+        teleportRequestModule.getPendingRequests().remove(pendingRequest);
 
     }
 }

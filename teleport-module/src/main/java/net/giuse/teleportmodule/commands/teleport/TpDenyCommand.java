@@ -2,9 +2,8 @@ package net.giuse.teleportmodule.commands.teleport;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.subservice.TeleportRequestService;
+import net.giuse.teleportmodule.submodule.TeleportRequestModule;
 import net.giuse.teleportmodule.teleporrequest.PendingRequest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -14,13 +13,13 @@ import javax.inject.Inject;
 
 public class TpDenyCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
-    private final TeleportRequestService teleportRequestService;
+    private final TeleportRequestModule teleportRequestModule;
 
     @Inject
-    public TpDenyCommand(MainModule mainModule) {
+    public TpDenyCommand(MessageBuilder messageBuilder, TeleportRequestModule teleportRequestModule) {
         super("tpdeny", "lifeserver.tpdeny");
-        messageBuilder = mainModule.getMessageBuilder();
-        teleportRequestService = (TeleportRequestService) mainModule.getService(TeleportRequestService.class);
+        this.messageBuilder = messageBuilder;
+        this.teleportRequestModule = teleportRequestModule;
     }
 
     @Override
@@ -33,15 +32,15 @@ public class TpDenyCommand extends AbstractCommand {
         Player sender = (Player) commandSender;
 
         //Check if are Pending Requests
-        if (teleportRequestService.getPending(sender.getUniqueId()) == null) {
+        if (teleportRequestModule.getPending(sender.getUniqueId()) == null) {
             messageBuilder.setCommandSender(sender).setIDMessage("no-pending-request").sendMessage();
             return;
         }
 
         //Deny Pending Requests
-        PendingRequest pendingRequest = teleportRequestService.getPending(sender.getUniqueId());
+        PendingRequest pendingRequest = teleportRequestModule.getPending(sender.getUniqueId());
         messageBuilder.setCommandSender(pendingRequest.getSender()).setIDMessage("request-refused").sendMessage(new TextReplacer().match("%playername%").replaceWith(pendingRequest.getReceiver().getName()));
-        teleportRequestService.getPendingRequests().remove(pendingRequest);
+        teleportRequestModule.getPendingRequests().remove(pendingRequest);
 
     }
 }

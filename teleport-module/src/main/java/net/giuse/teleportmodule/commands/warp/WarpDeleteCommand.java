@@ -2,9 +2,8 @@ package net.giuse.teleportmodule.commands.warp;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.subservice.WarpLoaderService;
+import net.giuse.teleportmodule.submodule.WarpLoaderModule;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -12,15 +11,15 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class WarpDeleteCommand extends AbstractCommand {
-    private final WarpLoaderService warpLoaderService;
+    private final WarpLoaderModule warpLoaderModule;
 
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public WarpDeleteCommand(MainModule mainModule) {
+    public WarpDeleteCommand(WarpLoaderModule warpLoaderModule, MessageBuilder messageBuilder) {
         super("warpdelete", "lifeserver.warpdelete");
-        messageBuilder = mainModule.getMessageBuilder();
-        warpLoaderService = (WarpLoaderService) mainModule.getService(WarpLoaderService.class);
+        this.messageBuilder = messageBuilder;
+        this.warpLoaderModule = warpLoaderModule;
     }
 
     @Override
@@ -39,13 +38,13 @@ public class WarpDeleteCommand extends AbstractCommand {
         }
 
         //Check if warp exists
-        if (warpLoaderService.getWarp(args[0]) == null) {
+        if (warpLoaderModule.getWarp(args[0]) == null) {
             messageBuilder.setCommandSender(p).setIDMessage("warp-no-exists").sendMessage();
             return;
         }
 
         //Delete Warp
-        warpLoaderService.getWarps().remove(args[0]);
+        warpLoaderModule.getWarps().remove(args[0]);
         messageBuilder.setCommandSender(p).setIDMessage("warp-removed").sendMessage(new TextReplacer().match("%name%").replaceWith(args[0]));
     }
 

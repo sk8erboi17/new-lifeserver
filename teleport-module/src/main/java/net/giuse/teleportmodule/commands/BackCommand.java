@@ -1,8 +1,7 @@
 package net.giuse.teleportmodule.commands;
 
-import net.giuse.api.ezmessage.MessageBuilder;
 import io.papermc.lib.PaperLib;
-import net.giuse.mainmodule.MainModule;
+import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.TeleportModule;
 import org.bukkit.Location;
@@ -17,10 +16,10 @@ public class BackCommand extends AbstractCommand {
     private final TeleportModule teleportModule;
 
     @Inject
-    public BackCommand(MainModule mainModule) {
+    public BackCommand(TeleportModule teleportModule, MessageBuilder messageBuilder) {
         super("back", "lifeserver.back");
-        messageBuilder = mainModule.getMessageBuilder();
-        teleportModule = (TeleportModule) mainModule.getService(TeleportModule.class);
+        this.teleportModule = teleportModule;
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

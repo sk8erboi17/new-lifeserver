@@ -1,6 +1,7 @@
 package net.giuse.simplycommandmodule;
 
 
+import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.mainmodule.MainModule;
@@ -11,13 +12,15 @@ import net.giuse.simplycommandmodule.files.FileManager;
 import net.giuse.simplycommandmodule.messages.MessageLoaderSimplyCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
-public class SimplyCommandService extends Services {
+public class SimplyCommandModule extends Services {
 
     @Getter
     private final HashMap<String, String> message = new HashMap<>();
@@ -26,8 +29,13 @@ public class SimplyCommandService extends Services {
     private final ArrayList<String> stringsNameGods = new ArrayList<>();
 
     @Inject
+    private Injector injector;
+    @Inject
+    private Logger logger;
+    @Inject
+    private FileConfiguration mainConfig;
+    @Inject
     private MainModule mainModule;
-
     @Getter
     private FileManager fileManager;
 
@@ -41,15 +49,16 @@ public class SimplyCommandService extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Loading General Commands...");
-        messageLoaderSimplyCommand = mainModule.getInjector().getSingleton(MessageLoaderSimplyCommand.class);
+        logger.info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Loading General Commands...");
+        injector.register(SimplyCommandModule.class, this);
+        messageLoaderSimplyCommand = injector.getSingleton(MessageLoaderSimplyCommand.class);
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
         messageLoaderSimplyCommand.load();
 
-        message.put("no-perms", mainModule.getConfig().getString("no-perms"));
+        message.put("no-perms", mainConfig.getString("no-perms"));
 
-        if (mainModule.getConfig().getBoolean("no-hunger")) {
-            mainModule.getServer().getPluginManager().registerEvents(new FoodEvent(), mainModule);
+        if (mainConfig.getBoolean("no-hunger")) {
+            Bukkit.getServer().getPluginManager().registerEvents(new FoodEvent(), mainModule);
         }
         if (mainModule.getConfig().getBoolean("always-day")) {
             new BukkitRunnable() {

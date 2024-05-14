@@ -2,7 +2,6 @@ package net.giuse.simplycommandmodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -14,9 +13,9 @@ public class SudoCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public SudoCommand(MainModule mainModule) {
+    public SudoCommand(MessageBuilder messageBuilder) {
         super("sudo", "lifeserver.sudo");
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

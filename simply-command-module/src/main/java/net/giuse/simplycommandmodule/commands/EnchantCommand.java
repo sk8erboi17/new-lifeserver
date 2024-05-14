@@ -2,7 +2,6 @@ package net.giuse.simplycommandmodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.command.CommandSender;
@@ -18,9 +17,9 @@ public class EnchantCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public EnchantCommand(MainModule mainModule) {
+    public EnchantCommand(MessageBuilder messageBuilder) {
         super("enchant", "lifeserver.enchant");
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

@@ -2,10 +2,9 @@ package net.giuse.teleportmodule.commands.teleport;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.enums.TpType;
-import net.giuse.teleportmodule.subservice.TeleportRequestService;
+import net.giuse.teleportmodule.submodule.TeleportRequestModule;
 import net.giuse.teleportmodule.teleporrequest.PendingRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -16,13 +15,13 @@ import javax.inject.Inject;
 
 public class TpaCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
-    private final TeleportRequestService teleportRequestService;
+    private final TeleportRequestModule teleportRequestModule;
 
     @Inject
-    public TpaCommand(MainModule mainModule) {
+    public TpaCommand(MessageBuilder messageBuilder, TeleportRequestModule teleportRequestModule) {
         super("tpa", "lifeserver.tpa");
-        messageBuilder = mainModule.getMessageBuilder();
-        teleportRequestService = (TeleportRequestService) mainModule.getService(TeleportRequestService.class);
+        this.messageBuilder = messageBuilder;
+        this.teleportRequestModule = teleportRequestModule;
     }
 
     @Override
@@ -52,6 +51,6 @@ public class TpaCommand extends AbstractCommand {
 
         messageBuilder.setCommandSender(sender).setIDMessage("tpa-request-sender").sendMessage(new TextReplacer().match("%playername%").replaceWith(target.getName()));
         messageBuilder.setCommandSender(target).setIDMessage("tpa-request-receiver").sendMessage(new TextReplacer().match("%playername%").replaceWith(sender.getName()));
-        teleportRequestService.getPendingRequests().add(new PendingRequest(sender, target, TpType.TPA));
+        teleportRequestModule.getPendingRequests().add(new PendingRequest(sender, target, TpType.TPA));
     }
 }

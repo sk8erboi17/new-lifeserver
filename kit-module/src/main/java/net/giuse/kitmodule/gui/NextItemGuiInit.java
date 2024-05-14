@@ -20,6 +20,7 @@ public class NextItemGuiInit implements ItemInitializer {
 
     @Inject
     private MainModule mainModule;
+
     @Override
     public void initItems(InventoryBuilder inventoryBuilder) {
         KitModule kitModule = (KitModule) mainModule.getService(KitModule.class);

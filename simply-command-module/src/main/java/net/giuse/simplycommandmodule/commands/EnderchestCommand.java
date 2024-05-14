@@ -1,7 +1,6 @@
 package net.giuse.simplycommandmodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -14,9 +13,9 @@ public class EnderchestCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public EnderchestCommand(MainModule mainModule) {
+    public EnderchestCommand(MessageBuilder messageBuilder) {
         super("enderchest", "lifeserver.enderchest");
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

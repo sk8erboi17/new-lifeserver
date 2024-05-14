@@ -3,7 +3,6 @@ package net.giuse.simplycommandmodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -18,9 +17,9 @@ public class NearCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public NearCommand(MainModule mainModule) {
+    public NearCommand(MessageBuilder messageBuilder) {
         super("near", "lifeserver.near");
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

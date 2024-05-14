@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class PlayerKitCooldown extends BukkitRunnable {
     private final HashMap<String, Integer> coolDownKits = new HashMap<>();
 
-
     /*
      * Run the timer Task
      */
@@ -34,7 +33,6 @@ public class PlayerKitCooldown extends BukkitRunnable {
      */
     public void addKit(String name, int kitCooldown) {
         coolDownKits.put(name, kitCooldown);
-
     }
 
     /*

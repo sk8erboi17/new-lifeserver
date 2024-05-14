@@ -1,10 +1,9 @@
 package net.giuse.secretmessagemodule.process;
 
-import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.api.ezmessage.TextReplacer;
 import lombok.Getter;
 import lombok.Setter;
-import net.giuse.mainmodule.MainModule;
+import net.giuse.api.ezmessage.MessageBuilder;
+import net.giuse.api.ezmessage.TextReplacer;
 import net.giuse.secretmessagemodule.SecretChatBuilder;
 import net.giuse.secretmessagemodule.SecretMessageModule;
 import org.bukkit.entity.Player;
@@ -24,9 +23,9 @@ public class SecretChatProcess {
     private String text;
 
     @Inject
-    public SecretChatProcess(MainModule mainModule) {
-        this.secretMessageModule = (SecretMessageModule) mainModule.getService(SecretMessageModule.class);
-        messageBuilder = mainModule.getMessageBuilder();
+    public SecretChatProcess(SecretMessageModule secretMessageModule, MessageBuilder messageBuilder) {
+        this.messageBuilder = messageBuilder;
+        this.secretMessageModule = secretMessageModule;
     }
 
     /*

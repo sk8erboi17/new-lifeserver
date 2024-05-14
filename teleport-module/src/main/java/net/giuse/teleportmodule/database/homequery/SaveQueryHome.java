@@ -1,37 +1,39 @@
 package net.giuse.teleportmodule.database.homequery;
 
 
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.QueryCallback;
 import net.giuse.teleportmodule.serializer.serializedobject.HomeSerialized;
-import net.giuse.teleportmodule.subservice.HomeLoaderService;
+import net.giuse.teleportmodule.submodule.HomeLoaderModule;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaveQueryHome implements Query {
+
     private final ExecuteQuery executeQuery;
-    private final HomeLoaderService homeModule;
+
+    private final HomeLoaderModule homeModule;
 
     @Inject
-    public SaveQueryHome(MainModule mainModule) {
-        executeQuery = mainModule.getInjector().getSingleton(ExecuteQuery.class);
-        homeModule = (HomeLoaderService) mainModule.getService(HomeLoaderService.class);
+    public SaveQueryHome(HomeLoaderModule homeModule, ExecuteQuery executeQuery) {
+        this.executeQuery = executeQuery;
+        this.homeModule = homeModule;
     }
 
 
     @Override
     public void query() {
         if (homeModule.getCacheHome().isEmpty()) return;
-
-
-        executeQuery.execute("DROP TABLE Home;");
-
-        executeQuery.execute("CREATE TABLE IF NOT EXISTS Home (UUID TEXT,Location TEXT);");
-
-        executeQuery.execute(preparedStatement -> homeModule.getCacheHome().forEach((uuid, hashMap) -> {
+        List<QueryCallback> queryCallbacks = new ArrayList<>();
+        queryCallbacks.add(new QueryCallback("DROP TABLE Home;", PreparedStatement::executeQuery));
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS Home (UUID TEXT,Location TEXT);", PreparedStatement::executeQuery));
+        queryCallbacks.add(new QueryCallback("INSERT INTO Home VALUES(?,?)", preparedStatement -> homeModule.getCacheHome().forEach((uuid, hashMap) -> {
             String[] args = homeModule.getHomeBuilderSerializer().encode(new HomeSerialized(uuid, hashMap)).split(":");
             if (args.length == 1) return;
             try {
@@ -41,9 +43,8 @@ public class SaveQueryHome implements Query {
             } catch (SQLException e) {
                 Bukkit.getLogger().info("Empty Database");
             }
-
-        }), "INSERT INTO Home VALUES(?,?)");
-
+        })));
+        executeQuery.executeBatch(queryCallbacks);
 
     }
 }

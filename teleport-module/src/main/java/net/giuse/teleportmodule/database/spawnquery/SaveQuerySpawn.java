@@ -1,24 +1,27 @@
 package net.giuse.teleportmodule.database.spawnquery;
 
 
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
-import net.giuse.teleportmodule.subservice.SpawnLoaderService;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.QueryCallback;
+import net.giuse.teleportmodule.submodule.SpawnLoaderModule;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaveQuerySpawn implements Query {
     private final ExecuteQuery executeQuery;
 
-    private final SpawnLoaderService spawnModule;
+    private final SpawnLoaderModule spawnModule;
 
     @Inject
-    public SaveQuerySpawn(MainModule mainModule) {
-        executeQuery = mainModule.getInjector().getSingleton(ExecuteQuery.class);
-        spawnModule = (SpawnLoaderService) mainModule.getService(SpawnLoaderService.class);
+    public SaveQuerySpawn(ExecuteQuery executeQuery, SpawnLoaderModule spawnModule) {
+        this.executeQuery = executeQuery;
+        this.spawnModule = spawnModule;
     }
 
 
@@ -26,12 +29,10 @@ public class SaveQuerySpawn implements Query {
     public void query() {
         if (spawnModule.getSpawnBuilderSerializer() == null) return;
 
-
-        executeQuery.execute("DROP TABLE Spawn;");
-
-        executeQuery.execute("CREATE TABLE IF NOT EXISTS Spawn (Location TEXT);");
-
-        executeQuery.execute(preparedStatement -> {
+        List<QueryCallback> queryCallbacks = new ArrayList<>();
+        queryCallbacks.add(new QueryCallback("DROP TABLE Spawn;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS Spawn (Location TEXT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO Spawn VALUES(?)", (preparedStatement -> {
             try {
                 if (spawnModule.getSpawnBuilder() != null) {
                     preparedStatement.setString(1, spawnModule.getSpawnBuilderSerializer().encode(spawnModule.getSpawnBuilder()));
@@ -40,8 +41,7 @@ public class SaveQuerySpawn implements Query {
             } catch (SQLException e) {
                 Bukkit.getLogger().info("Empty Database");
             }
-
-
-        }, "INSERT INTO Spawn VALUES(?)");
+        })));
+        executeQuery.executeBatch(queryCallbacks);
     }
 }

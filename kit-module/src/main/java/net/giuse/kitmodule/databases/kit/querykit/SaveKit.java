@@ -1,33 +1,36 @@
 package net.giuse.kitmodule.databases.kit.querykit;
 
 import net.giuse.kitmodule.KitModule;
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.QueryCallback;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SaveKit implements Query {
     private final ExecuteQuery executeQuery;
     private final KitModule kitModule;
 
     @Inject
-    public SaveKit(MainModule mainModule) {
-        executeQuery = mainModule.getInjector().getSingleton(ExecuteQuery.class);
-        kitModule = (KitModule) mainModule.getService(KitModule.class);
+    public SaveKit(KitModule kitModule, ExecuteQuery executeQuery) {
+        this.kitModule = kitModule;
+        this.executeQuery = executeQuery;
     }
 
 
     @Override
     public void query() {
         if (kitModule.getKitElements().isEmpty()) return;
-        executeQuery.execute("DROP TABLE Kit;");
+        List<QueryCallback> queryCallbacks = new ArrayList<>();
 
-        executeQuery.execute("CREATE TABLE IF NOT EXISTS Kit (KitName TEXT, KitItems TEXT, coolDown INT);");
-
-        executeQuery.execute(preparedStatement -> kitModule.getKitElements().forEach((name, kitBuilder) -> {
+        queryCallbacks.add(new QueryCallback("DROP TABLE Kit;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS Kit (KitName TEXT, KitItems TEXT, coolDown INT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO Kit VALUES(?,?,?)", preparedStatement -> kitModule.getKitElements().forEach((name, kitBuilder) -> {
             try {
                 preparedStatement.setString(1, name);
                 preparedStatement.setString(2, kitBuilder.getElementsKitBase64());
@@ -36,9 +39,8 @@ public class SaveKit implements Query {
             } catch (SQLException e) {
                 Bukkit.getLogger().info("Empty Database");
             }
+        })));
 
-        }), "INSERT INTO Kit VALUES(?,?,?)");
-
-
+        executeQuery.executeBatch(queryCallbacks);
     }
 }

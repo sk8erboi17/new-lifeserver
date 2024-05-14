@@ -3,7 +3,6 @@ package net.giuse.simplycommandmodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -17,9 +16,9 @@ public class SpeedCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public SpeedCommand(MainModule mainModule) {
+    public SpeedCommand(MessageBuilder messageBuilder) {
         super("speed", "lifeserver.speed");
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override

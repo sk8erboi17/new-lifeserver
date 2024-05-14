@@ -1,10 +1,10 @@
 package net.giuse.teleportmodule.database.warpquery;
 
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
 import net.giuse.mainmodule.databases.execute.Query;
+import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
+import net.giuse.mainmodule.databases.implentation.QueryCallback;
 import net.giuse.teleportmodule.serializer.serializedobject.WarpSerialized;
-import net.giuse.teleportmodule.subservice.WarpLoaderService;
+import net.giuse.teleportmodule.submodule.WarpLoaderModule;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
@@ -15,17 +15,17 @@ public class WarpQuery implements Query {
 
     private final ExecuteQuery executeQuery;
 
-    private final WarpLoaderService warpModule;
+    private final WarpLoaderModule warpModule;
 
     @Inject
-    public WarpQuery(MainModule mainModule) {
-        executeQuery = mainModule.getInjector().getSingleton(ExecuteQuery.class);
-        warpModule = (WarpLoaderService) mainModule.getService(WarpLoaderService.class);
+    public WarpQuery(ExecuteQuery executeQuery, WarpLoaderModule warpModule) {
+        this.executeQuery = executeQuery;
+        this.warpModule = warpModule;
     }
 
     @Override
     public void query() {
-        executeQuery.execute(preparedStatement -> {
+        executeQuery.execute(new QueryCallback("SELECT * FROM Warp", preparedStatement -> {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     WarpSerialized warpSerialized = warpModule.getWarpBuilderSerializer().decoder(rs.getString(1) + ":" + rs.getString(2));
@@ -34,7 +34,6 @@ public class WarpQuery implements Query {
             } catch (SQLException e) {
                 Bukkit.getLogger().info("Empty Database");
             }
-
-        }, "SELECT * FROM Warp");
+        }));
     }
 }

@@ -27,7 +27,7 @@ public class WarpBuilderSerializer implements Serializer<WarpSerialized> {
      */
     @Override
     public WarpSerialized decoder(String str) {
-        if(str == null) return null;
+        if (str == null) return null;
         //Split string
         String[] splitWarp = str.split(":");
         String[] splitLocation = splitWarp[1].split(",");

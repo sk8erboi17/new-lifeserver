@@ -2,7 +2,6 @@ package net.giuse.simplycommandmodule.commands;
 
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -12,12 +11,11 @@ import javax.inject.Inject;
 public class BroadcastCommand extends AbstractCommand {
 
     private final MessageBuilder messageBuilder;
-    private final MainModule mainModule;
+
     @Inject
-    public BroadcastCommand(MainModule mainModule) {
+    public BroadcastCommand(MessageBuilder messageBuilder) {
         super("broadcast", "lifeserver.broadcast");
-        this.mainModule = mainModule;
-        messageBuilder = mainModule.getMessageBuilder();
+        this.messageBuilder = messageBuilder;
     }
 
     @Override
@@ -33,9 +31,9 @@ public class BroadcastCommand extends AbstractCommand {
         }
         Bukkit.getOnlinePlayers().forEach(onlinePlayers ->
                 messageBuilder.
-                setCommandSender(onlinePlayers)
-                .setIDMessage("broadcast")
-                .sendMessage(new TextReplacer().match("%message%").replaceWith(sb.toString())));
+                        setCommandSender(onlinePlayers)
+                        .setIDMessage("broadcast")
+                        .sendMessage(new TextReplacer().match("%message%").replaceWith(sb.toString())));
 
     }
 }

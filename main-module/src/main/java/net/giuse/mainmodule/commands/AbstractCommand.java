@@ -1,6 +1,6 @@
 package net.giuse.mainmodule.commands;
 
-import net.giuse.mainmodule.MainModule;
+import net.giuse.api.ezmessage.MessageBuilder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -14,7 +14,7 @@ import javax.inject.Inject;
 public abstract class AbstractCommand extends Command {
     private final String permission;
     @Inject
-    private MainModule mainModule;
+    private MessageBuilder messageBuilder;
 
     public AbstractCommand(String name, String permission) {
         super(name);
@@ -23,9 +23,8 @@ public abstract class AbstractCommand extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-
         if (!sender.hasPermission(this.permission)) {
-            mainModule.getMessageBuilder().setCommandSender(sender).setIDMessage("no-perms").sendMessage();
+            messageBuilder.setCommandSender(sender).setIDMessage("no-perms").sendMessage();
             return true;
         }
         execute(sender, args);

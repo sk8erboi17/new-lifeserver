@@ -1,12 +1,13 @@
 package net.giuse.secretmessagemodule;
 
+import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.secretmessagemodule.files.FileManager;
 import net.giuse.secretmessagemodule.messageloader.MessageLoaderSecret;
+import net.giuse.secretmessagemodule.process.SecretChatProcess;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public final class SecretMessageModule extends Services {
     @Getter
@@ -23,7 +25,9 @@ public final class SecretMessageModule extends Services {
     @Getter
     private final Set<Player> playerSocialSpy = new HashSet<>();
     @Inject
-    private MainModule mainModule;
+    private Injector injector;
+    @Inject
+    private Logger logger;
     @Getter
     private FileManager fileManager;
 
@@ -33,10 +37,12 @@ public final class SecretMessageModule extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Loading SecretChats...");
+        logger.info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Loading SecretChats...");
+        injector.register(SecretMessageModule.class, this);
+        injector.register(SecretChatProcess.class, injector.newInstance(SecretChatProcess.class));
         //Load Files
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
-        MessageLoaderSecret messageLoaderSecret = mainModule.getInjector().getSingleton(MessageLoaderSecret.class);
+        MessageLoaderSecret messageLoaderSecret = injector.getSingleton(MessageLoaderSecret.class);
         messageLoaderSecret.load();
     }
 
@@ -45,7 +51,7 @@ public final class SecretMessageModule extends Services {
      */
     @Override
     public void unload() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Unloading SecretChats...");
+        logger.info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Unloading SecretChats...");
     }
 
     /*

@@ -1,8 +1,8 @@
-package net.giuse.teleportmodule.subservice;
+package net.giuse.teleportmodule.submodule;
 
+import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.database.homequery.HomeQuery;
@@ -14,15 +14,18 @@ import org.bukkit.Location;
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Logger;
 
-public class HomeLoaderService extends Services {
+public class HomeLoaderModule extends Services {
     @Getter
     private HashMap<UUID, HashMap<String, Location>> cacheHome;
 
     @Getter
     private Serializer<HomeSerialized> homeBuilderSerializer;
     @Inject
-    private MainModule mainModule;
+    private Injector injector;
+    @Inject
+    private Logger logger;
 
     /*
      * Load Service
@@ -30,12 +33,14 @@ public class HomeLoaderService extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Home...");
-        homeBuilderSerializer = mainModule.getInjector().getSingleton(HomeBuilderSerializer.class);
+        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Home...");
+        injector.register(HomeLoaderModule.class, this);
+
+        homeBuilderSerializer = injector.getSingleton(HomeBuilderSerializer.class);
         cacheHome = new HashMap<>();
 
         //Load Home
-        mainModule.getInjector().getSingleton(HomeQuery.class).query();
+        injector.getSingleton(HomeQuery.class).query();
     }
 
     /*
@@ -43,8 +48,8 @@ public class HomeLoaderService extends Services {
      */
     @Override
     public void unload() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Home...");
-        mainModule.getInjector().getSingleton(SaveQueryHome.class).query();
+        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Home...");
+        injector.getSingleton(SaveQueryHome.class).query();
 
     }
 
