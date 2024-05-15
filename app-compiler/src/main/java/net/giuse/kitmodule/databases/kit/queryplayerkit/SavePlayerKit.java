@@ -29,9 +29,9 @@ public class SavePlayerKit implements Query {
     public void query() {
         if (kitModule.getCachePlayerKit().isEmpty()) return;
         List<QueryCallback> queryCallbacks = new ArrayList<>();
-        queryCallbacks.add(new QueryCallback("DROP TABLE PlayerKit;", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS PlayerKit(PlayerUUID TEXT,KitCooldown TEXT);", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("INSERT INTO PlayerKit VALUES(?,?)", preparedStatement -> kitModule.getCachePlayerKit().forEach(((uuid, playerTimerSystem) -> {
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_playerkit(PlayerUUID TEXT,KitCooldown TEXT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("DELETE FROM lifeserver_playerkit;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO lifeserver_playerkit VALUES(?,?)", preparedStatement -> kitModule.getCachePlayerKit().forEach(((uuid, playerTimerSystem) -> {
             String[] playerCooldownEncoded = kitModule.getPlayerCooldownSerializer().encode(new PlayerKitCooldownSerialized(uuid, playerTimerSystem)).split(";");
             boolean notEnoughArgument = playerCooldownEncoded.length == 1;
             if (notEnoughArgument) return;
@@ -40,7 +40,7 @@ public class SavePlayerKit implements Query {
                 preparedStatement.setString(2, playerCooldownEncoded[1]);
                 preparedStatement.execute();
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[PLAYER-KIT] Database error, transaction rolled back: " + e.getMessage());
             }
         }))));
         executeQuery.executeBatch(queryCallbacks);

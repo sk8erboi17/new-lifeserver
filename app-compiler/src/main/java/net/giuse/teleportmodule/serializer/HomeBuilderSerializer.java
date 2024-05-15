@@ -6,6 +6,7 @@ import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.teleportmodule.serializer.serializedobject.HomeSerialized;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -45,23 +46,40 @@ public class HomeBuilderSerializer implements Serializer<HomeSerialized> {
     @Override
     public HomeSerialized decoder(String str) {
         if (str == null) return null;
-        //Split String
-        String[] homes = str.split(":");
 
-        //Insert args for builder a HomeSerialized and check if player has home
+        String[] homes = str.split(":");
         HomeSerialized homeSerialized = new HomeSerialized(UUID.fromString(homes[0]), new HashMap<>());
+
         if (homes.length == 1) return homeSerialized;
 
-        //Deserialize home and insert it in HomeBuilder
         if (homes[1].contains(";")) {
             for (String s : homes[1].split(";")) {
                 String[] variousHome = s.split(",");
-                homeSerialized.getLocations().put(variousHome[0], new Location(Bukkit.getWorld(variousHome[1]), Double.parseDouble(variousHome[2]), Double.parseDouble(variousHome[3]), Double.parseDouble(variousHome[4])));
+                World world = Bukkit.getWorld(variousHome[1]);
+                if (world != null) {
+                    homeSerialized.getLocations().put(variousHome[0], new Location(
+                            world,
+                            Double.parseDouble(variousHome[2]),
+                            Double.parseDouble(variousHome[3]),
+                            Double.parseDouble(variousHome[4])
+                    ));
+                } else {
+                    Bukkit.getLogger().severe("World " + variousHome[1] + " is not loaded or does not exist.");
+                }
             }
         } else {
             String[] defaultHome = homes[1].split(",");
-            homeSerialized.getLocations().put(defaultHome[0], new Location(Bukkit.getWorld(defaultHome[1]), Double.parseDouble(defaultHome[2]), Double.parseDouble(defaultHome[3]), Double.parseDouble(defaultHome[4])));
-
+            World world = Bukkit.getWorld(defaultHome[1]);
+            if (world != null) {
+                homeSerialized.getLocations().put(defaultHome[0], new Location(
+                        world,
+                        Double.parseDouble(defaultHome[2]),
+                        Double.parseDouble(defaultHome[3]),
+                        Double.parseDouble(defaultHome[4])
+                ));
+            } else {
+                Bukkit.getLogger().severe("World " + defaultHome[1] + " is not loaded or does not exist.");
+            }
         }
         return homeSerialized;
     }

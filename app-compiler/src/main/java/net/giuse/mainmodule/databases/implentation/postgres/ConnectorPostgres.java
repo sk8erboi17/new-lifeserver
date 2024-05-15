@@ -15,7 +15,6 @@ public class ConnectorPostgres implements Connector {
     /**
      * Connector for Postgres
      */
-    @Getter
     private Connection connection;
 
     @Inject
@@ -37,9 +36,18 @@ public class ConnectorPostgres implements Connector {
 
     @SneakyThrows
     public void closeConnection() {
-        if (connection != null) {
+        if (connection != null ) {
             this.connection.close();
         }
+    }
+
+    @Override
+    @SneakyThrows
+    public Connection getConnection() {
+        if(connection == null|| connection.isClosed()){
+            openConnect();
+        }
+        return connection;
     }
 
 }

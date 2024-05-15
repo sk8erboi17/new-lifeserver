@@ -7,13 +7,13 @@ import net.giuse.teleportmodule.submodule.SpawnLoaderModule;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SpawnQuery implements Query {
 
     private final ExecuteQuery executeQuery;
-
     private final SpawnLoaderModule spawnModule;
 
     @Inject
@@ -24,11 +24,18 @@ public class SpawnQuery implements Query {
 
     @Override
     public void query() {
-        executeQuery.execute(new QueryCallback("SELECT * FROM Spawn;", preparedStatement -> {
+        executeQuery.execute(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_spawn (Location TEXT);", PreparedStatement::execute));
+
+        executeQuery.execute(new QueryCallback("SELECT * FROM lifeserver_spawn;", preparedStatement -> {
             try (ResultSet rs = preparedStatement.executeQuery()) {
-                spawnModule.setSpawnBuilder(spawnModule.getSpawnBuilderSerializer().decoder(rs.getString(1)));
+                if (rs.next()) {
+                    String location = rs.getString("Location");
+                    spawnModule.setSpawnBuilder(spawnModule.getSpawnBuilderSerializer().decoder(location));
+                } else {
+                    Bukkit.getLogger().info("[SPAWN] No spawn data found.");
+                }
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[SPAWN] Database error: " + e.getMessage());
             }
         }));
     }

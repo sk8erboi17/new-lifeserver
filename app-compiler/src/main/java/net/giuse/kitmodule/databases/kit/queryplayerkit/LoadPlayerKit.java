@@ -9,6 +9,7 @@ import net.giuse.mainmodule.databases.implentation.QueryCallback;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -27,7 +28,8 @@ public class LoadPlayerKit implements Query {
 
     @Override
     public void query() {
-        executeQuery.execute(new QueryCallback("SELECT * FROM PlayerKit", preparedStatement -> {
+        executeQuery.execute(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_playerkit(PlayerUUID TEXT,KitCooldown TEXT);", PreparedStatement::execute));
+        executeQuery.execute(new QueryCallback("SELECT * FROM lifeserver_playerkit", preparedStatement -> {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     String playerCooldownSerialized = rs.getString(1) + ";" + rs.getString(2);
@@ -36,7 +38,7 @@ public class LoadPlayerKit implements Query {
                     kitModule.getCachePlayerKit().put(PlayerCooldownDecoded.getUuidPlayer(), PlayerCooldownDecoded.getPlayerKitCooldown());
                 }
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[PLAYER-KIT] Database error, transaction rolled back: " + e.getMessage());
             }
 
         }));

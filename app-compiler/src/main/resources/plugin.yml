@@ -1,3 +1,4 @@
 name: LifeServer
 version: '${project.version}'
 main: net.giuse.mainmodule.MainModule
+depend: [Vault]

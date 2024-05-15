@@ -1,16 +1,23 @@
 package net.giuse.teleportmodule.submodule;
 
 import ch.jalu.injector.Injector;
+import com.avaje.ebean.config.GlobalProperties;
+import jdk.jfr.internal.tool.Main;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.mainmodule.services.Services;
+import net.giuse.teleportmodule.database.spawnquery.SaveQuerySpawn;
 import net.giuse.teleportmodule.database.warpquery.SaveQueryWarp;
 import net.giuse.teleportmodule.database.warpquery.WarpQuery;
 import net.giuse.teleportmodule.gui.WarpGui;
 import net.giuse.teleportmodule.serializer.WarpBuilderSerializer;
 import net.giuse.teleportmodule.serializer.serializedobject.WarpSerialized;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -27,6 +34,10 @@ public class WarpLoaderModule extends Services {
     private Injector injector;
     @Inject
     private Logger log;
+    @Inject
+    private MainModule mainModule;
+    @Inject
+    private FileConfiguration mainConfig;
 
     /*
      * Load Service
@@ -43,10 +54,14 @@ public class WarpLoaderModule extends Services {
 
         //Load Warps
         injector.getSingleton(WarpQuery.class).query();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(mainModule, this::saveCache,mainConfig.getInt("auto-save") * 20L,mainConfig.getInt("auto-save") * 20L);
 
     }
 
-
+    private void saveCache(){
+        log.info("[LifeServer] Saving warp cache...");
+        injector.getSingleton(SaveQueryWarp.class).query();
+    }
     /*
      * Unload Service
      */

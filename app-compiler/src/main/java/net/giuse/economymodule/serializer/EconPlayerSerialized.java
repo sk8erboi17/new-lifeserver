@@ -1,4 +1,4 @@
-package net.giuse.economymodule;
+package net.giuse.economymodule.serializer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

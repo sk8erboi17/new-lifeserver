@@ -17,21 +17,28 @@ public class ExecuteQuery {
 
     @SneakyThrows
     public void execute(QueryCallback queryCallback) {
+        String query = queryCallback.getQuery();
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(queryCallback.getQuery())) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            connection.setAutoCommit(false);  // Disabilita l'auto commit
+            connection.setAutoCommit(false);
 
             try {
                 queryCallback.getCallback().setPreparedStatement(preparedStatement);
-                connection.commit();  // Conferma la transazione
+                connection.commit();
             } catch (SQLException e) {
-                connection.rollback();  // Annulla la transazione in caso di errore
-                Bukkit.getLogger().info("Database error, transaction rolled back: " + e.getMessage());
+                connection.rollback();
+                Bukkit.getLogger().severe(String.format(
+                        "Database error, transaction rolled back: %s (SQLState: %s, ErrorCode: %d) Query: %s",
+                        e.getMessage(), e.getSQLState(), e.getErrorCode(), query
+                ));
             }
 
         } catch (SQLException e) {
-            Bukkit.getLogger().info("Database connection error: " + e.getMessage());
+            Bukkit.getLogger().severe(String.format(
+                    "Database connection error: %s (SQLState: %s, ErrorCode: %d) Query: %s",
+                    e.getMessage(), e.getSQLState(), e.getErrorCode(), query
+            ));
         }
     }
 
@@ -40,18 +47,24 @@ public class ExecuteQuery {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            connection.setAutoCommit(false);  // Disabilita l'auto commit
+            connection.setAutoCommit(false);
 
             try {
-                preparedStatement.execute();
-                connection.commit();  // Conferma la transazione
+                preparedStatement.executeUpdate();
+                connection.commit();
             } catch (SQLException e) {
-                connection.rollback();  // Annulla la transazione in caso di errore
-                Bukkit.getLogger().info("Database error, transaction rolled back: " + e.getMessage());
+                connection.rollback();
+                Bukkit.getLogger().severe(String.format(
+                        "Database error, transaction rolled back: %s (SQLState: %s, ErrorCode: %d) Query: %s",
+                        e.getMessage(), e.getSQLState(), e.getErrorCode(), query
+                ));
             }
 
         } catch (SQLException e) {
-            Bukkit.getLogger().info("Database connection error: " + e.getMessage());
+            Bukkit.getLogger().severe(String.format(
+                    "Database connection error: %s (SQLState: %s, ErrorCode: %d) Query: %s",
+                    e.getMessage(), e.getSQLState(), e.getErrorCode(), query
+            ));
         }
     }
 
@@ -61,21 +74,26 @@ public class ExecuteQuery {
 
             connection.setAutoCommit(false);
 
-            try {
-                for (QueryCallback queryCallback : queries) {
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(queryCallback.getQuery())) {
-                        queryCallback.getCallback().setPreparedStatement(preparedStatement);
-                    }
+            for (QueryCallback queryCallback : queries) {
+                String query = queryCallback.getQuery();
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    queryCallback.getCallback().setPreparedStatement(preparedStatement);
+                } catch (SQLException e) {
+                    connection.rollback();
+                    Bukkit.getLogger().severe(String.format(
+                            "Database error, transaction rolled back: %s (SQLState: %s, ErrorCode: %d) Query: %s",
+                            e.getMessage(), e.getSQLState(), e.getErrorCode(), query
+                    ));
+                    return; // Exit on first failure
                 }
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                Bukkit.getLogger().info("Database error, transaction rolled back: " + e.getMessage());
             }
+            connection.commit();
 
         } catch (SQLException e) {
-            Bukkit.getLogger().info("Database connection error: " + e.getMessage());
+            Bukkit.getLogger().severe(String.format(
+                    "Database connection error: %s (SQLState: %s, ErrorCode: %d)",
+                    e.getMessage(), e.getSQLState(), e.getErrorCode()
+            ));
         }
     }
-
 }

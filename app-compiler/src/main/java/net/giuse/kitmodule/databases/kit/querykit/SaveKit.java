@@ -28,16 +28,16 @@ public class SaveKit implements Query {
         if (kitModule.getKitElements().isEmpty()) return;
         List<QueryCallback> queryCallbacks = new ArrayList<>();
 
-        queryCallbacks.add(new QueryCallback("DROP TABLE Kit;", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS Kit (KitName TEXT, KitItems TEXT, coolDown INT);", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("INSERT INTO Kit VALUES(?,?,?)", preparedStatement -> kitModule.getKitElements().forEach((name, kitBuilder) -> {
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_kit (KitName TEXT, KitItems TEXT, coolDown INT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("DELETE FROM lifeserver_kit;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO lifeserver_kit VALUES(?,?,?)", preparedStatement -> kitModule.getKitElements().forEach((name, kitBuilder) -> {
             try {
                 preparedStatement.setString(1, name);
                 preparedStatement.setString(2, kitBuilder.getElementsKitBase64());
                 preparedStatement.setInt(3, kitBuilder.getCoolDown());
                 preparedStatement.execute();
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[KIT] Database error, transaction rolled back: " + e.getMessage());
             }
         })));
 

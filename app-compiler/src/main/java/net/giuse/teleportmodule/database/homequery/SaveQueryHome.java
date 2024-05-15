@@ -31,9 +31,9 @@ public class SaveQueryHome implements Query {
     public void query() {
         if (homeModule.getCacheHome().isEmpty()) return;
         List<QueryCallback> queryCallbacks = new ArrayList<>();
-        queryCallbacks.add(new QueryCallback("DROP TABLE Home;", PreparedStatement::executeQuery));
-        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS Home (UUID TEXT,Location TEXT);", PreparedStatement::executeQuery));
-        queryCallbacks.add(new QueryCallback("INSERT INTO Home VALUES(?,?)", preparedStatement -> homeModule.getCacheHome().forEach((uuid, hashMap) -> {
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_home (UUID TEXT,Location TEXT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("DELETE FROM lifeserver_home;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO lifeserver_home VALUES(?,?)", preparedStatement -> homeModule.getCacheHome().forEach((uuid, hashMap) -> {
             String[] args = homeModule.getHomeBuilderSerializer().encode(new HomeSerialized(uuid, hashMap)).split(":");
             if (args.length == 1) return;
             try {
@@ -41,7 +41,7 @@ public class SaveQueryHome implements Query {
                 preparedStatement.setString(2, args[1]);
                 preparedStatement.execute();
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[HOME] Database error, transaction rolled back: " + e.getMessage());
             }
         })));
         executeQuery.executeBatch(queryCallbacks);

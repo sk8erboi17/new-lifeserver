@@ -3,13 +3,16 @@ package net.giuse.teleportmodule.submodule;
 import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.database.homequery.HomeQuery;
 import net.giuse.teleportmodule.database.homequery.SaveQueryHome;
 import net.giuse.teleportmodule.serializer.HomeBuilderSerializer;
 import net.giuse.teleportmodule.serializer.serializedobject.HomeSerialized;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -26,7 +29,10 @@ public class HomeLoaderModule extends Services {
     private Injector injector;
     @Inject
     private Logger logger;
-
+    @Inject
+    private MainModule mainModule;
+    @Inject
+    private FileConfiguration mainConfig;
     /*
      * Load Service
      */
@@ -41,7 +47,10 @@ public class HomeLoaderModule extends Services {
 
         //Load Home
         injector.getSingleton(HomeQuery.class).query();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(mainModule, this::saveCache,mainConfig.getInt("auto-save") * 20L,mainConfig.getInt("auto-save") * 20L);
     }
+
+
 
     /*
      * Unload Service
@@ -49,8 +58,11 @@ public class HomeLoaderModule extends Services {
     @Override
     public void unload() {
         logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Home...");
+        saveCache();
+    }
+    private void saveCache(){
+        logger.info("[LifeServer] Saving home cache...");
         injector.getSingleton(SaveQueryHome.class).query();
-
     }
 
     /*

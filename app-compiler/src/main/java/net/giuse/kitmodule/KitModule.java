@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.kitmodule.builder.KitElement;
 import net.giuse.kitmodule.cooldownsystem.PlayerKitCooldown;
-import net.giuse.kitmodule.databases.kit.querykit.LoadQueryKit;
+import net.giuse.kitmodule.databases.kit.querykit.LoadKit;
 import net.giuse.kitmodule.databases.kit.querykit.SaveKit;
 import net.giuse.kitmodule.databases.kit.queryplayerkit.LoadPlayerKit;
 import net.giuse.kitmodule.databases.kit.queryplayerkit.SavePlayerKit;
@@ -15,9 +15,12 @@ import net.giuse.kitmodule.gui.KitGui;
 import net.giuse.kitmodule.messages.MessageLoaderKit;
 import net.giuse.kitmodule.serializer.PlayerKitCooldownSerializer;
 import net.giuse.kitmodule.serializer.serializedobject.PlayerKitCooldownSerialized;
+import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.mainmodule.services.Services;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
@@ -42,6 +45,10 @@ public class KitModule extends Services {
     private Injector injector;
     @Inject
     private Logger logger;
+    @Inject
+    private MainModule mainModule;
+    @Inject
+    private FileConfiguration mainConfig;
 
     /**
      * Load Module Kit
@@ -55,7 +62,10 @@ public class KitModule extends Services {
         ReflectionsFiles.loadFiles(fileKits = new ConfigKits());
         injector.getSingleton(MessageLoaderKit.class).load();
         loadCache();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(mainModule, this::saveCache,mainConfig.getInt("auto-save") * 20L,mainConfig.getInt("auto-save") * 20L);
     }
+
+
 
     /**
      * Unload Module Kit
@@ -95,12 +105,13 @@ public class KitModule extends Services {
 
 
     private void saveCache() {
+        Bukkit.getLogger().info("[LifeServer] Saving kits...");
         injector.getSingleton(SaveKit.class).query();
         injector.getSingleton(SavePlayerKit.class).query();
     }
 
     private void loadCache() {
-        injector.getSingleton(LoadQueryKit.class).query();
+        injector.getSingleton(LoadKit.class).query();
         injector.getSingleton(LoadPlayerKit.class).query();
     }
 

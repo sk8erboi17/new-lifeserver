@@ -116,7 +116,7 @@ public class MainModule extends JavaPlugin {
             servicesByPriority.put(services, services.priority());
         });
         servicesByPriority = (HashMap<Services, Integer>) Utils.sortByValue(servicesByPriority);
-        servicesByPriority.keySet().forEach(services -> new Thread(services::load).start());
+        servicesByPriority.keySet().forEach(Services::load);
     }
 
     /*

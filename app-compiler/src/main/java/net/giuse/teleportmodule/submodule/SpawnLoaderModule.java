@@ -5,12 +5,15 @@ import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.serializer.Serializer;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.builder.SpawnBuilder;
 import net.giuse.teleportmodule.database.spawnquery.SaveQuerySpawn;
 import net.giuse.teleportmodule.database.spawnquery.SpawnQuery;
 import net.giuse.teleportmodule.serializer.SpawnBuilderSerializer;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.inject.Inject;
 import java.util.logging.Logger;
@@ -26,7 +29,10 @@ public class SpawnLoaderModule extends Services {
     @Getter
     @Setter
     private SpawnBuilder spawnBuilder;
-
+    @Inject
+    private MainModule mainModule;
+    @Inject
+    private FileConfiguration mainConfig;
     /*
      * Load Service
      */
@@ -38,6 +44,8 @@ public class SpawnLoaderModule extends Services {
 
         //Load from database
         injector.getSingleton(SpawnQuery.class).query();
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(mainModule, this::saveCache,mainConfig.getInt("auto-save") * 20L,mainConfig.getInt("auto-save") * 20L);
+
     }
 
     /*
@@ -46,9 +54,13 @@ public class SpawnLoaderModule extends Services {
     @Override
     public void unload() {
         logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Spawn...");
-        injector.getSingleton(SaveQuerySpawn.class).query();
+        saveCache();
     }
 
+    private void saveCache(){
+        logger.info("[LifeServer] Saving spawn cache...");
+        injector.getSingleton(SaveQuerySpawn.class).query();
+    }
     /*
      * Get Service Priority
      */

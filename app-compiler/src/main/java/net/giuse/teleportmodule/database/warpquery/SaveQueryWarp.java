@@ -30,16 +30,16 @@ public class SaveQueryWarp implements Query {
         if (warpModule.getWarps().isEmpty()) return;
         List<QueryCallback> queryCallbacks = new ArrayList<>();
 
-        queryCallbacks.add(new QueryCallback("DROP TABLE Warp;", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS Warp (Name TEXT,Location TEXT);", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("INSERT INTO Warp VALUES(?,?);", preparedStatement -> warpModule.getWarps().forEach((uuid, hashMap) -> {
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_warp (Name TEXT,Location TEXT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("DELETE FROM lifeserver_warp;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO lifeserver_warp VALUES(?,?);", preparedStatement -> warpModule.getWarps().forEach((uuid, hashMap) -> {
             try {
                 String[] args = warpModule.getWarpBuilderSerializer().encode(new WarpSerialized(uuid, hashMap)).split(":");
                 preparedStatement.setString(1, args[0]);
                 preparedStatement.setString(2, args[1]);
                 preparedStatement.execute();
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[WARP] Database error, transaction rolled back: " + e.getMessage());
             }
 
         })));

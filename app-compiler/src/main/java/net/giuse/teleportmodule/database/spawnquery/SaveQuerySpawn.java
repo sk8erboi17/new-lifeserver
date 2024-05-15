@@ -30,16 +30,16 @@ public class SaveQuerySpawn implements Query {
         if (spawnModule.getSpawnBuilderSerializer() == null) return;
 
         List<QueryCallback> queryCallbacks = new ArrayList<>();
-        queryCallbacks.add(new QueryCallback("DROP TABLE Spawn;", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS Spawn (Location TEXT);", PreparedStatement::execute));
-        queryCallbacks.add(new QueryCallback("INSERT INTO Spawn VALUES(?)", (preparedStatement -> {
+        queryCallbacks.add(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_spawn (Location TEXT);", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("DELETE FROM lifeserver_spawn;", PreparedStatement::execute));
+        queryCallbacks.add(new QueryCallback("INSERT INTO lifeserver_spawn VALUES(?)", (preparedStatement -> {
             try {
                 if (spawnModule.getSpawnBuilder() != null) {
                     preparedStatement.setString(1, spawnModule.getSpawnBuilderSerializer().encode(spawnModule.getSpawnBuilder()));
                     preparedStatement.execute();
                 }
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[SPAWN] Database error, transaction rolled back: " + e.getMessage());
             }
         })));
         executeQuery.executeBatch(queryCallbacks);

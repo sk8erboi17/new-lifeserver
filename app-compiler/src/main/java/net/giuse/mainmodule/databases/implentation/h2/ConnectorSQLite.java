@@ -11,7 +11,6 @@ import java.sql.DriverManager;
 /**
  * Connector for SQLite
  */
-@Getter
 public class ConnectorSQLite implements Connector {
 
     private Connection connection;
@@ -29,6 +28,14 @@ public class ConnectorSQLite implements Connector {
             return;
         }
         this.connection.close();
+    }
+    @Override
+    @SneakyThrows
+    public Connection getConnection() {
+        if(connection == null|| connection.isClosed()){
+            openConnect();
+        }
+        return connection;
     }
 
 }

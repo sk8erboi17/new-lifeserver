@@ -8,23 +8,25 @@ import net.giuse.mainmodule.databases.implentation.QueryCallback;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoadQueryKit implements Query {
+public class LoadKit implements Query {
 
     private final ExecuteQuery executeQuery;
     private final KitModule kitModule;
 
     @Inject
-    public LoadQueryKit(KitModule kitModule, ExecuteQuery executeQuery) {
+    public LoadKit(KitModule kitModule, ExecuteQuery executeQuery) {
         this.kitModule = kitModule;
         this.executeQuery = executeQuery;
     }
 
     @Override
     public void query() {
-        executeQuery.execute(new QueryCallback("SELECT * FROM Kit", preparedStatement -> {
+        executeQuery.execute(new QueryCallback("CREATE TABLE IF NOT EXISTS lifeserver_kit (KitName TEXT, KitItems TEXT, coolDown INT);", PreparedStatement::execute));
+        executeQuery.execute(new QueryCallback("SELECT * FROM lifeserver_kit", preparedStatement -> {
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     String kitName = rs.getString(1);
@@ -37,7 +39,7 @@ public class LoadQueryKit implements Query {
                     kitModule.getKitElements().put(kitName, kitElementDecoded);
                 }
             } catch (SQLException e) {
-                Bukkit.getLogger().info("Empty Database");
+                Bukkit.getLogger().info("[KIT] Database error, transaction rolled back: " + e.getMessage());
             }
 
         }));
