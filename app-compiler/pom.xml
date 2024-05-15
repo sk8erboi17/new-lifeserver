@@ -80,45 +80,24 @@
         </dependency>
 
         <dependency>
-            <groupId>net.giuse</groupId>
-            <artifactId>MainModule</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>net.giuse</groupId>
-            <artifactId>SecretMessageModule</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
 
-        </dependency>
         <dependency>
-            <groupId>net.giuse</groupId>
-            <artifactId>EconomyModule</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
 
-        </dependency>
         <dependency>
-            <groupId>net.giuse</groupId>
-            <artifactId>KitModule</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-
-        </dependency>
-        <dependency>
-            <groupId>net.giuse</groupId>
-            <artifactId>SimplyCommandModule</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-
-        </dependency>
-        <dependency>
-            <groupId>net.giuse</groupId>
-            <artifactId>TeleportModule</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
