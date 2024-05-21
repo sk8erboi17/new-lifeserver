@@ -23,6 +23,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
+import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -44,7 +45,7 @@ public class MainModule extends JavaPlugin {
     public void onEnable() {
         //Get current millis for check startup time
         long millis = System.currentTimeMillis();
-        getLogger().info("§aLifeserver starting...");
+        Bukkit.getLogger().info("§aLifeserver starting...");
 
         //setup
         setupInjector();
@@ -63,8 +64,7 @@ public class MainModule extends JavaPlugin {
 
         //close connection
         connector.closeConnection();
-
-        getLogger().info("§aLifeserver started in " + (System.currentTimeMillis() - millis) + "ms...");
+        Bukkit.getLogger().info("§aLifeserver started in §2" + (System.currentTimeMillis() - millis) + "§ams...");
     }
 
     /*
@@ -84,7 +84,9 @@ public class MainModule extends JavaPlugin {
     private void setupFiles() {
         //Setup in default dir
         for (FilesList pathFile : FilesList.values()) {
-            saveResource(pathFile.toString(), false);
+            if(!new File(getDataFolder(),pathFile.toString()).exists()){
+                saveResource(pathFile.toString(), false);
+            }
         }
     }
 

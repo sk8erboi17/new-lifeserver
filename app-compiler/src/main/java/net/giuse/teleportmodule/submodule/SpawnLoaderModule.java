@@ -18,8 +18,6 @@ public class SpawnLoaderModule extends Services {
 
     @Inject
     private ExecuteQuery executeQuery;
-    @Inject
-    private Injector injector;
     @Getter
     @Setter
     private SpawnBuilder spawnBuilder;

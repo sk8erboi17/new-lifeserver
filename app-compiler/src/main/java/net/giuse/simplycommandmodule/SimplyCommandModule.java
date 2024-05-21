@@ -31,16 +31,11 @@ public class SimplyCommandModule extends Services {
     @Inject
     private Injector injector;
     @Inject
-    private Logger logger;
-    @Inject
     private FileConfiguration mainConfig;
     @Inject
     private MainModule mainModule;
     @Getter
     private FileManager fileManager;
-
-    @Getter
-    private MessageLoaderSimplyCommand messageLoaderSimplyCommand;
 
     /**
      * This is Module of Simply Command
@@ -49,11 +44,10 @@ public class SimplyCommandModule extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        logger.info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Loading General Commands...");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Loading General Commands...");
 
-        messageLoaderSimplyCommand = injector.getSingleton(MessageLoaderSimplyCommand.class);
+        injector.getSingleton(MessageLoaderSimplyCommand.class).load();
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
-        messageLoaderSimplyCommand.load();
 
         message.put("no-perms", mainConfig.getString("no-perms"));
 
@@ -77,7 +71,7 @@ public class SimplyCommandModule extends Services {
 
     @Override
     public void unload() {
-        mainModule.getLogger().info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Unloading General Commands...");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Unloading General Commands...");
     }
 
 }

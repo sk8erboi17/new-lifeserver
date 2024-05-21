@@ -37,7 +37,7 @@ public class TeleportModule extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9 Loading");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§f Loading teleports...");
         //Load Files
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
 
@@ -54,7 +54,7 @@ public class TeleportModule extends Services {
      */
     @Override
     public void unload() {
-        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9 Unloaded");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§f Unloaded teleports");
     }
 
 }

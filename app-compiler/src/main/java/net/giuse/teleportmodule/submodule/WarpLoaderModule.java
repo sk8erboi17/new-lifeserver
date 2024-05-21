@@ -15,8 +15,6 @@ import java.sql.PreparedStatement;
 public class WarpLoaderModule extends Services {
 
     @Inject
-    private Injector injector;
-    @Inject
     private ExecuteQuery executeQuery;
 
     /*
@@ -26,9 +24,7 @@ public class WarpLoaderModule extends Services {
     @SneakyThrows
     public void load() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Warps...");
-        injector.getSingleton(WarpGui.class);
         createTable();
-
     }
 
     /*

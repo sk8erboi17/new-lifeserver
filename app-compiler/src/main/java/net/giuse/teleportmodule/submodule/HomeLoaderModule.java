@@ -13,9 +13,6 @@ import java.sql.PreparedStatement;
 public class HomeLoaderModule extends Services {
 
     @Inject
-    private Injector injector;
-
-    @Inject
     private ExecuteQuery executeQuery;
 
     /*
@@ -34,11 +31,6 @@ public class HomeLoaderModule extends Services {
     @Override
     public void unload() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Home...");
-        saveCache();
-    }
-
-    private void saveCache() {
-        Bukkit.getLogger().info("[LifeServer] Saving home cache...");
     }
 
     private void createTable() {

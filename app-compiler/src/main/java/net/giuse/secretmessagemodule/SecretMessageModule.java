@@ -8,6 +8,7 @@ import net.giuse.mainmodule.services.Services;
 import net.giuse.secretmessagemodule.files.FileManager;
 import net.giuse.secretmessagemodule.messageloader.MessageLoaderSecret;
 import net.giuse.secretmessagemodule.process.SecretChatProcess;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
@@ -26,8 +27,6 @@ public final class SecretMessageModule extends Services {
     private final Set<Player> playerSocialSpy = new HashSet<>();
     @Inject
     private Injector injector;
-    @Inject
-    private Logger logger;
     @Getter
     private FileManager fileManager;
 
@@ -37,7 +36,7 @@ public final class SecretMessageModule extends Services {
     @Override
     @SneakyThrows
     public void load() {
-        logger.info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Loading SecretChats...");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Loading SecretChats...");
         injector.register(SecretChatProcess.class, injector.newInstance(SecretChatProcess.class));
         //Load Files
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
@@ -50,7 +49,7 @@ public final class SecretMessageModule extends Services {
      */
     @Override
     public void unload() {
-        logger.info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Unloading SecretChats...");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Unloading SecretChats...");
     }
 
     /*

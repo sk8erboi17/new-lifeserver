@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.teleporrequest.PendingRequest;
+import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
 import java.util.HashSet;
@@ -12,21 +13,17 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+@Getter
 public class TeleportRequestModule extends Services {
-    @Getter
     private final Set<PendingRequest> pendingRequests = new HashSet<>();
-    @Inject
-    private Injector injector;
-    @Inject
-    private Logger logger;
-
+    
     /*
      * Load Service
      */
     @Override
     @SneakyThrows
     public void load() {
-        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Teleport Requests...");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Teleport Requests...");
     }
 
     /*
@@ -34,7 +31,7 @@ public class TeleportRequestModule extends Services {
      */
     @Override
     public void unload() {
-        logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Teleport Requests...");
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Teleport Requests...");
     }
 
 
