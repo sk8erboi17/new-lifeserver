@@ -49,7 +49,6 @@ public class MessageBuilder {
                     String messageToReplace = messageChat.getMessageChat();
                     if (textReplacers.length == 0) {
                         messageLoader.sendChat(commandSender, Component.text(messageToReplace));
-                        System.out.println(messageToReplace);
                         break;
                     }
                     for (TextReplacer textReplacer : textReplacers) {
@@ -57,7 +56,6 @@ public class MessageBuilder {
                     }
                     Component newComponentReplacedText = Component.text(messageToReplace);
                     messageLoader.sendChat(commandSender, newComponentReplacedText);
-                    System.out.println(messageToReplace);
                     break;
 
                 //Send Action Bar

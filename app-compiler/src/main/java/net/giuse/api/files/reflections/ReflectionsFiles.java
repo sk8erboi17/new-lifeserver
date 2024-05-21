@@ -44,7 +44,6 @@ public class ReflectionsFiles {
     @SneakyThrows
     private static void loadYaml(Field field, File file, AbstractConfig instance) {
         field.setAccessible(true);
-        System.out.println("Loaded " + file.getAbsoluteFile());
         YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(file);
         field.set(instance, yamlConfiguration);
     }

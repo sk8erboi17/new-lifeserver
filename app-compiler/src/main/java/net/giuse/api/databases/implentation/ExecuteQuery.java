@@ -51,7 +51,6 @@ public class ExecuteQuery {
     public void execute(String sql) {
         try (Connection connection = connector.getConnection();
              Statement statement = connection.createStatement()) {
-            System.out.println(statement.executeQuery(sql));
             connection.setAutoCommit(false);
 
             try {
