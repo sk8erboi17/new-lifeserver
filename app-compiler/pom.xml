@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <groupId>net.giuse</groupId>
-    <name>app-compiler</name>
+    <name>new-lifeserver</name>
 
 
     <repositories>
@@ -33,6 +33,7 @@
             <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
@@ -75,14 +76,14 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>8.8.0</version>
+            <version>10.0.0</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
+            <version>LATEST</version>
             <scope>provided</scope>
         </dependency>
 
@@ -99,28 +100,19 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.4.5</version>
+            <scope>compile</scope>
+        </dependency>
+
+
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>                <executions>
-
-                    <execution>
-                        <id>jar-with-classifier</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>secondary</classifier>
-                        </configuration>
-                    </execution>
-
-                </executions>
-            </plugin>
 
 
             <plugin>

@@ -13,7 +13,7 @@ public class CreateAccountOnJoin implements Listener {
     private final MainModule mainModule;
 
     @Inject
-    public CreateAccountOnJoin(EconomyModule economyModule,MainModule mainModule) {
+    public CreateAccountOnJoin(EconomyModule economyModule, MainModule mainModule) {
         this.economyModule = economyModule;
         this.mainModule = mainModule;
     }

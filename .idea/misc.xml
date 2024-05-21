@@ -5,15 +5,15 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/kit-module/pom.xml" />
-        <option value="$PROJECT_DIR$/teleport-module/pom.xml" />
         <option value="$PROJECT_DIR$/app-compiler/pom.xml" />
+        <option value="$PROJECT_DIR$/kit-module/pom.xml" />
         <option value="$PROJECT_DIR$/economy-module/pom.xml" />
+        <option value="$PROJECT_DIR$/main-module/pom.xml" />
         <option value="$PROJECT_DIR$/secret-message-module/pom.xml" />
         <option value="$PROJECT_DIR$/simply-command-module/pom.xml" />
-        <option value="$PROJECT_DIR$/main-module/pom.xml" />
+        <option value="$PROJECT_DIR$/teleport-module/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="temurin-1.8" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="corretto-1.8" project-jdk-type="JavaSDK" />
 </project>

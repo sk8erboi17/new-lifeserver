@@ -1,9 +1,10 @@
 package net.giuse.kitmodule.commands;
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.kitmodule.KitModule;
-import net.giuse.mainmodule.commands.AbstractCommand;
+import net.giuse.kitmodule.service.KitService;
+import net.giuse.kitmodule.service.PlayerKitService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -16,14 +17,17 @@ import javax.inject.Inject;
 
 
 public class KitDelete extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
-    private final KitModule kitModule;
+    private final KitService kitService;
+    private final PlayerKitService playerKitService;
 
     @Inject
-    public KitDelete(KitModule kitModule, MessageBuilder messageBuilder) {
-        super("kitdelete", "lifeserver.kitcreate");
-        this.kitModule = kitModule;
+    public KitDelete(KitService kitService, MessageBuilder messageBuilder, PlayerKitService playerKitService) {
+        super("kitdelete", "lifeserver.kitdelete");
+        this.kitService = kitService;
         this.messageBuilder = messageBuilder;
+        this.playerKitService = playerKitService;
     }
 
     @Override
@@ -48,15 +52,13 @@ public class KitDelete extends AbstractCommand {
     }
 
     private void deleteKit(String kitName) {
-        kitModule.getCachePlayerKit().forEach((uuid, playerTimerSystem) -> {
-            playerTimerSystem.removeKit(kitName);
-            kitModule.getKitElements().remove(kitName);
-            messageBuilder.setIDMessage("kit-removed").sendMessage(new TextReplacer().match("%kit").replaceWith(kitName));
-        });
+        kitService.removeKit(kitName);
+        messageBuilder.setIDMessage("kit-removed").sendMessage(new TextReplacer().match("%kit%").replaceWith(kitName));
+        playerKitService.removePlayerKit(kitName);
     }
 
     private boolean checkIfKitExists(String kitname) {
-        if (kitModule.getKit(kitname) == null) {
+        if (kitService.getKit(kitname) == null) {
             messageBuilder.setIDMessage("kit-doesnt-exists").sendMessage();
             return false;
         }

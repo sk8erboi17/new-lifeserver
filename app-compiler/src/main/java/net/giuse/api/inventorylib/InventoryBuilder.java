@@ -1,72 +1,62 @@
 package net.giuse.api.inventorylib;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import net.giuse.api.inventorylib.inventoryevents.CloseInventoryEvent;
-import net.giuse.api.inventorylib.inventoryevents.OpenInventoryEvent;
+import lombok.NoArgsConstructor;
+import net.giuse.mainmodule.MainModule;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import javax.inject.Inject;
+import java.util.*;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
 public class InventoryBuilder implements Listener {
-    public final JavaPlugin javaPlugin;
-    private final int rows;
-    @Getter
-    private final String name;
-    @Getter
-    private final HashMap<Integer, Inventory> inventoryHash = new HashMap<>();
-    @Getter
-    private final ArrayList<ButtonBuilder> buttonBuilders = new ArrayList<>();
-    @Getter
-    private final int nPage;
-    private final HashMap<UUID, Integer> pageCounter = new HashMap<>();
-    @Setter
-    private OpenInventoryEvent openInventoryEvent;
-    @Setter
-    private CloseInventoryEvent closeInventoryEvent;
+    @Inject
+    private MainModule javaPlugin;
 
-    public InventoryBuilder createInvs() {
-        for (int i = 1; i < nPage + 1; i++) {
-            inventoryHash.put(i, Bukkit.createInventory(null, 9 * rows, name.replace("%page%", String.valueOf(i))));
+    @Getter
+    private int rows, totalPages;
+
+    @Getter
+    private String name;
+
+    @Getter
+    private final Map<Integer, Inventory> inventoryMap = new HashMap<>();
+
+    @Getter
+    private final List<ButtonBuilder> buttonBuilders = new ArrayList<>();
+
+    private final Map<UUID, Integer> pageCounter = new HashMap<>();
+
+    public void createInventories() {
+        for (int i = 1; i <= totalPages; i++) {
+            inventoryMap.put(i, Bukkit.createInventory(null, 9 * rows, getFormattedPageName(i)));
         }
-        return this;
     }
 
     public void nextPage(Player player) {
-        if (pageCounter.get(player.getUniqueId()) == nPage) {
-            pageCounter.replace(player.getUniqueId(), 1);
-            player.closeInventory();
-            player.openInventory(inventoryHash.get(pageCounter.get(player.getUniqueId())));
-            return;
-        }
-        pageCounter.replace(player.getUniqueId(), pageCounter.get(player.getUniqueId()) + 1);
-        player.closeInventory();
-        player.openInventory(inventoryHash.get(pageCounter.get(player.getUniqueId())));
+        int currentPage = pageCounter.getOrDefault(player.getUniqueId(), 1);
+        int nextPage = (currentPage % totalPages) + 1;
+        switchPage(player, nextPage);
     }
 
     public void previousPage(Player player) {
-        if (pageCounter.get(player.getUniqueId()) == 1) {
-            pageCounter.replace(player.getUniqueId(), nPage);
-            player.closeInventory();
-            player.openInventory(inventoryHash.get(pageCounter.get(player.getUniqueId())));
-            return;
-        }
-        pageCounter.replace(player.getUniqueId(), pageCounter.get(player.getUniqueId()) - 1);
-        player.closeInventory();
-        player.openInventory(inventoryHash.get(pageCounter.get(player.getUniqueId())));
+        int currentPage = pageCounter.getOrDefault(player.getUniqueId(), 1);
+        int previousPage = (currentPage == 1) ? totalPages : currentPage - 1;
+        switchPage(player, previousPage);
     }
 
+    private void switchPage(Player player, int page) {
+        pageCounter.put(player.getUniqueId(), page);
+        player.closeInventory();
+        player.openInventory(inventoryMap.get(page));
+    }
 
     public InventoryBuilder addButton(ButtonBuilder buttonBuilder) {
         buttonBuilders.add(buttonBuilder);
@@ -74,34 +64,19 @@ public class InventoryBuilder implements Listener {
     }
 
     public void build() {
-        for (ButtonBuilder buttonBuilder : buttonBuilders) {
-            for (Integer value : inventoryHash.keySet()) {
-                if (buttonBuilder.getPage() == value) {
-                    inventoryHash.get(value).setItem(buttonBuilder.getPosition(), buttonBuilder.getItemStack());
-                }
-            }
-            Bukkit.getPluginManager().registerEvents(buttonBuilder, javaPlugin);
-        }
+        buttonBuilders.forEach(buttonBuilder ->
+                inventoryMap.forEach((page, inventory) -> {
+                    if (buttonBuilder.getPage() == page) {
+                        inventory.setItem(buttonBuilder.getPosition(), buttonBuilder.getItemStack());
+                    }
+                })
+        );
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
-
+        buttonBuilders.forEach(buttonBuilder -> Bukkit.getPluginManager().registerEvents(buttonBuilder, javaPlugin));
     }
 
-    @EventHandler
-    public void onOpen(InventoryOpenEvent e) {
-        if (e.getView().getTitle().contains(name.replace("%page%", ""))) {
-            if (!pageCounter.containsKey(e.getPlayer().getUniqueId())) pageCounter.put(e.getPlayer().getUniqueId(), 1);
-            if (openInventoryEvent != null) {
-                openInventoryEvent.open(e);
-            }
-        }
-    }
 
-    @EventHandler
-    public void onClose(InventoryCloseEvent e) {
-        if (e.getView().getTitle().contains(name.replace("%page%", ""))) {
-            if (closeInventoryEvent != null) {
-                closeInventoryEvent.close(e);
-            }
-        }
+    private String getFormattedPageName(int page) {
+        return name.replace("%page%", String.valueOf(page));
     }
 }

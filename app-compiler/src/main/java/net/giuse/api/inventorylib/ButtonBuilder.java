@@ -14,22 +14,26 @@ import org.bukkit.inventory.ItemStack;
 @RequiredArgsConstructor
 public class ButtonBuilder implements Listener {
     private final InventoryBuilder inventoryBuilder;
+
     private final int position, page;
 
     private final ItemStack itemStack;
     private final boolean nextPage, previousPage, eventCancelled;
+
     @Setter
     private ClickEvent event;
 
     @EventHandler
     public void onClick(InventoryClickEvent inventoryClickEvent) {
-        if (inventoryClickEvent.getSlot() == position && inventoryBuilder.getInventoryHash().get(page).equals(inventoryClickEvent.getInventory())) {
-            if (nextPage && inventoryBuilder.getNPage() > 1)
+        if (inventoryClickEvent.getSlot() == position && inventoryBuilder.getInventoryMap().get(page).equals(inventoryClickEvent.getInventory())) {
+            if (nextPage && inventoryBuilder.getTotalPages() > 1)
                 inventoryBuilder.nextPage((Player) inventoryClickEvent.getWhoClicked());
-            if (previousPage && inventoryBuilder.getNPage() > 1)
+            if (previousPage && inventoryBuilder.getTotalPages() > 1)
                 inventoryBuilder.previousPage((Player) inventoryClickEvent.getWhoClicked());
             if (eventCancelled) inventoryClickEvent.setCancelled(true);
-            event.click(inventoryClickEvent);
+            if (event != null) {
+                event.click(inventoryClickEvent);
+            }
         }
     }
 }

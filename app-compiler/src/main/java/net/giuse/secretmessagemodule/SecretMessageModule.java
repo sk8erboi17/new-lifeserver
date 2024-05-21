@@ -3,7 +3,7 @@ package net.giuse.secretmessagemodule;
 import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
+import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.secretmessagemodule.files.FileManager;
 import net.giuse.secretmessagemodule.messageloader.MessageLoaderSecret;
@@ -38,7 +38,6 @@ public final class SecretMessageModule extends Services {
     @SneakyThrows
     public void load() {
         logger.info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Loading SecretChats...");
-        injector.register(SecretMessageModule.class, this);
         injector.register(SecretChatProcess.class, injector.newInstance(SecretChatProcess.class));
         //Load Files
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
@@ -52,14 +51,6 @@ public final class SecretMessageModule extends Services {
     @Override
     public void unload() {
         logger.info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Unloading SecretChats...");
-    }
-
-    /*
-     * Priority of Service
-     */
-    @Override
-    public int priority() {
-        return 0;
     }
 
     /*

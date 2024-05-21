@@ -1,8 +1,8 @@
 package net.giuse.mainmodule.files;
 
 import lombok.Getter;
-import net.giuse.mainmodule.files.abstractfiles.AbstractConfig;
-import net.giuse.mainmodule.files.annotations.FileAnnotation;
+import net.giuse.api.files.abstractfiles.AbstractConfig;
+import net.giuse.api.files.annotations.FileAnnotation;
 
 import java.io.File;
 

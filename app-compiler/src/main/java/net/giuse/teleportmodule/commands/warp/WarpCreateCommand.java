@@ -1,9 +1,10 @@
 package net.giuse.teleportmodule.commands.warp;
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.submodule.WarpLoaderModule;
+import net.giuse.teleportmodule.submodule.subservice.WarpService;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -11,44 +12,53 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class WarpCreateCommand extends AbstractCommand {
-    private final WarpLoaderModule warpLoaderModule;
+    private final WarpService warpService;
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public WarpCreateCommand(WarpLoaderModule warpLoaderModule, MessageBuilder messageBuilder) {
+    public WarpCreateCommand(WarpService warpService, MessageBuilder messageBuilder) {
         super("warpcreate", "lifeserver.warpcreate");
-        this.warpLoaderModule = warpLoaderModule;
+        this.warpService = warpService;
         this.messageBuilder = messageBuilder;
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] args) {
-        //Check if sender is Console
+        // Check if sender is Console
         if (commandSender instanceof ConsoleCommandSender) {
             commandSender.sendMessage("Not Supported From Console");
             return;
         }
-        Player p = (Player) commandSender;
+        Player player = (Player) commandSender;
 
-        //Check if name length is 0
+        // Check if name length is 0
         if (args.length == 0) {
-            messageBuilder.setCommandSender(p).setIDMessage("warp-insert-name").sendMessage();
+            messageBuilder.setCommandSender(player).setIDMessage("warp-insert-name").sendMessage();
             return;
         }
 
-        //Check warp exists
-        if (warpLoaderModule.getWarp(args[0]) != null) {
-            messageBuilder.setCommandSender(p).setIDMessage("warp-already-exists").sendMessage();
+        String warpName = args[0].toLowerCase();
+        Location location = player.getLocation();
+        String locationString = serializeLocation(location);
+
+        // Check if warp exists
+        if (warpService.getWarp(warpName) != null) {
+            messageBuilder.setCommandSender(player).setIDMessage("warp-already-exists").sendMessage();
             return;
         }
 
-        //Check if name contains illegal characters
-        if (args[0].contains(":") || args[0].contains(",")) {
-            p.sendMessage("§cCharacter §4 ':' or ',' §c isn't allowed in warp name!");
-            return;
-        }
-        //Create warp
-        warpLoaderModule.getWarps().put(args[0].toLowerCase(), p.getLocation());
-        messageBuilder.setCommandSender(p).setIDMessage("warp-created").sendMessage(new TextReplacer().match("%name%").replaceWith(args[0]));
+        // Create warp
+        warpService.addWarp(warpName, locationString);
+        messageBuilder.setCommandSender(player).setIDMessage("warp-created")
+                .sendMessage(new TextReplacer().match("%name%").replaceWith(warpName));
+    }
+
+    private String serializeLocation(Location location) {
+        return location.getWorld().getName() + "," +
+                location.getX() + "," +
+                location.getY() + "," +
+                location.getZ() + "," +
+                location.getYaw() + "," +
+                location.getPitch();
     }
 }

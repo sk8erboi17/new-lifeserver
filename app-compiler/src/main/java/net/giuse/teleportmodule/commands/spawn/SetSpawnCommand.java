@@ -1,9 +1,8 @@
 package net.giuse.teleportmodule.commands.spawn;
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.builder.SpawnBuilder;
-import net.giuse.teleportmodule.submodule.SpawnLoaderModule;
+import net.giuse.teleportmodule.submodule.subservice.SpawnService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -11,28 +10,27 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class SetSpawnCommand extends AbstractCommand {
-    private final SpawnLoaderModule spawnLoaderModule;
+    private final SpawnService spawnService;
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public SetSpawnCommand(SpawnLoaderModule spawnLoaderModule, MessageBuilder messageBuilder) {
+    public SetSpawnCommand(SpawnService spawnService, MessageBuilder messageBuilder) {
         super("setspawn", "lifeserver.setspawn");
-        this.spawnLoaderModule = spawnLoaderModule;
+        this.spawnService = spawnService;
         this.messageBuilder = messageBuilder;
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] args) {
-        //Check if sender is Console
+        // Check if sender is Console
         if (commandSender instanceof ConsoleCommandSender) {
             commandSender.sendMessage("Not Supported From Console");
             return;
         }
 
-        //Set Spawn
+        // Set Spawn
         Player player = (Player) commandSender;
-        spawnLoaderModule.setSpawnBuilder(new SpawnBuilder(player.getLocation()));
+        spawnService.setSpawn(player.getLocation());
         messageBuilder.setCommandSender(commandSender).setIDMessage("setspawn").sendMessage();
-
     }
 }

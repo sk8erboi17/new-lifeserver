@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/economy-module/EconomyModule.iml" filepath="$PROJECT_DIR$/economy-module/EconomyModule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kit-module/KitModule.iml" filepath="$PROJECT_DIR$/kit-module/KitModule.iml" />
       <module fileurl="file://$PROJECT_DIR$/app-compiler/LifeServer.iml" filepath="$PROJECT_DIR$/app-compiler/LifeServer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/main-module/MainModule.iml" filepath="$PROJECT_DIR$/main-module/MainModule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/secret-message-module/SecretMessageModule.iml" filepath="$PROJECT_DIR$/secret-message-module/SecretMessageModule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simply-command-module/SimplyCommandModule.iml" filepath="$PROJECT_DIR$/simply-command-module/SimplyCommandModule.iml" />
-      <module fileurl="file://$PROJECT_DIR$/teleport-module/TeleportModule.iml" filepath="$PROJECT_DIR$/teleport-module/TeleportModule.iml" />
     </modules>
   </component>
 </project>

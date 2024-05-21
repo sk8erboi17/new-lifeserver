@@ -1,10 +1,12 @@
 package net.giuse.kitmodule.commands;
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.kitmodule.KitModule;
-import net.giuse.kitmodule.builder.KitElement;
-import net.giuse.mainmodule.commands.AbstractCommand;
+import net.giuse.kitmodule.dto.Kit;
+import net.giuse.kitmodule.dto.PlayerKit;
+import net.giuse.kitmodule.service.KitService;
+import net.giuse.kitmodule.service.PlayerKitService;
 import net.giuse.mainmodule.utils.Utils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
@@ -17,6 +19,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Command /kitcreate for create a kit
@@ -24,13 +27,16 @@ import java.util.List;
 public class KitCreate extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
-    private final KitModule kitModule;
+    private final KitService kitService;
+
+    private final PlayerKitService playerKitService;
 
     @Inject
-    public KitCreate(KitModule kitModule, MessageBuilder messageBuilder) {
+    public KitCreate(KitService kitService, MessageBuilder messageBuilder, PlayerKitService playerKitService) {
         super("kitcreate", "lifeserver.kitcreate");
-        this.kitModule = kitModule;
+        this.kitService = kitService;
         this.messageBuilder = messageBuilder;
+        this.playerKitService = playerKitService;
     }
 
     @Override
@@ -52,12 +58,11 @@ public class KitCreate extends AbstractCommand {
 
         if (args.length == 1) {
             messageBuilder.setIDMessage("kit-cooldown").sendMessage();
-
             return;
         }
 
         //Check if KitExists
-        if (kitModule.getKit(kitName) != null) {
+        if (kitService.getKit(kitName) != null) {
             messageBuilder.setIDMessage("kit-already-exists").sendMessage();
             return;
         }
@@ -87,6 +92,7 @@ public class KitCreate extends AbstractCommand {
         int coolDown = Integer.parseInt(args[1]);
 
         createKit(player, kitName, coolDown);
+        messageBuilder.setIDMessage("kit-created").sendMessage(new TextReplacer().match("%kit%").replaceWith(kitName));
 
     }
 
@@ -96,12 +102,41 @@ public class KitCreate extends AbstractCommand {
      */
     private void createKit(Player player, String kitName, int coolDownKit) {
         List<ItemStack> inventoryItem = new ArrayList<>();
-        Arrays.stream(player.getInventory().getContents()).filter(addItem -> addItem != null && !addItem.getType().equals(Material.AIR)).forEach(inventoryItem::add);
-        KitElement kitElement = new KitElement(coolDownKit).setBase(Utils.listItemStackToBase64(inventoryItem));
-        kitElement.build();
-        kitModule.getKitElements().put(kitName, kitElement);
-        kitModule.getCachePlayerKit().forEach((uuid, playerTimerSystem) -> playerTimerSystem.addKit(kitName, coolDownKit));
-        messageBuilder.setIDMessage("kit-created").sendMessage(new TextReplacer().match("%kit%").replaceWith(kitName));
+        Arrays.stream(player.getInventory().getContents())
+                .filter(addItem -> addItem != null && !addItem.getType().equals(Material.AIR))
+                .forEach(inventoryItem::add);
+
+        Kit kit = new Kit(kitName, coolDownKit, Utils.listItemStackToBase64(inventoryItem));
+        kit.build();
+
+        kitService.addKit(kit);
+        if (playerKitService.getPlayerKits().isEmpty()) {
+            Integer newCooldown = playerKitService.getPlayerCooldown(
+                    player.getUniqueId(), kitName);
+            if (newCooldown == null) {
+                playerKitService.addPlayerCooldown(player.getUniqueId(), kitName);
+                playerKitService.updateCooldown(
+                        player.getUniqueId(),
+                        kitName,
+                        0
+                );
+            }
+
+        } else {
+            for (PlayerKit allPlayerKit : playerKitService.getPlayerKits()) {
+                Integer newCooldown = playerKitService.getPlayerCooldown(
+                        UUID.fromString(allPlayerKit.getPlayerUuid()), kitName);
+                if (newCooldown == null) {
+                    playerKitService.addPlayerCooldown(UUID.fromString(allPlayerKit.getPlayerUuid()), kitName);
+                    playerKitService.updateCooldown(
+                            UUID.fromString(allPlayerKit.getPlayerUuid()),
+                            kitName,
+                            0
+                    );
+                }
+            }
+        }
+
     }
 
     private boolean isEmpty(Player p) {

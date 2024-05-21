@@ -1,8 +1,8 @@
 package net.giuse.secretmessagemodule.commands;
 
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.secretmessagemodule.process.SecretChatProcess;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

@@ -1,9 +1,9 @@
 package net.giuse.kitmodule.commands;
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.kitmodule.KitModule;
-import net.giuse.mainmodule.commands.AbstractCommand;
+import net.giuse.kitmodule.service.KitService;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -18,13 +18,13 @@ import javax.inject.Inject;
 
 public class KitList extends AbstractCommand {
     private final MessageBuilder messageBuilder;
-    private final KitModule kitModule;
+    private final KitService kitService;
 
     @Inject
-    public KitList(MessageBuilder messageBuilder, KitModule kitModule) {
+    public KitList(MessageBuilder messageBuilder, KitService kitService) {
         super("kitlist", "lifeserver.kitcreate");
         this.messageBuilder = messageBuilder;
-        this.kitModule = kitModule;
+        this.kitService = kitService;
     }
 
     @Override
@@ -43,14 +43,14 @@ public class KitList extends AbstractCommand {
         }
 
         //Check if there are kits
-        if (kitModule.getKitElements().isEmpty()) {
+        if (kitService.getAllKits().isEmpty()) {
             messageBuilder.setCommandSender(p).setIDMessage("kit-list-empty").sendMessage();
             return;
         }
 
         //Show a list of kit to player
         StringBuilder sb = new StringBuilder();
-        kitModule.getKitElements().forEach((name, kitBuilder) -> sb.append(StringUtils.capitalize(name)).append(","));
+        kitService.getAllKits().forEach((kitElement) -> sb.append(StringUtils.capitalize(kitElement.getName())).append(","));
         messageBuilder.setCommandSender(p).setIDMessage("kit-list").sendMessage(new TextReplacer().match("%listkit%").replaceWith(sb.deleteCharAt(sb.length() - 1).toString()));
     }
 }

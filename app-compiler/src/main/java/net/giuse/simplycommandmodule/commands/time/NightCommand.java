@@ -1,7 +1,7 @@
 package net.giuse.simplycommandmodule.commands.time;
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.commands.AbstractCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;

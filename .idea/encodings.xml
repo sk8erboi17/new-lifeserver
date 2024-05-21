@@ -9,13 +9,10 @@
     <file url="file://$PROJECT_DIR$/kit-module/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/main-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/main-module/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/secret-message-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/secret-message-module/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/simply-command-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/simply-command-module/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/teleport-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/teleport-module/src/main/resources" charset="UTF-8" />
   </component>
 </project>

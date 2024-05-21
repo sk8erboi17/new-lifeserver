@@ -4,10 +4,9 @@ import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
 import net.giuse.api.inventorylib.ButtonBuilder;
 import net.giuse.api.inventorylib.InventoryBuilder;
+import net.giuse.api.inventorylib.ItemstackBuilder;
+import net.giuse.api.inventorylib.gui.ItemInitializer;
 import net.giuse.kitmodule.KitModule;
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.builder.ItemstackBuilder;
-import net.giuse.mainmodule.gui.ItemInitializer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -20,11 +19,10 @@ import javax.inject.Inject;
 
 public class ItemsGuiInit implements ItemInitializer {
     @Inject
-    private MainModule mainModule;
+    private KitModule kitModule;
 
     @Override
     public void initItems(InventoryBuilder inventoryBuilder) {
-        KitModule kitModule = (KitModule) mainModule.getService(KitModule.class);
         ConfigurationSection configurationSection = kitModule.getFileKits().getKitYaml().getConfigurationSection("inventory.items");
         for (String string : configurationSection.getKeys(false)) {
             ConfigurationSection itemsConfig = configurationSection.getConfigurationSection(string);

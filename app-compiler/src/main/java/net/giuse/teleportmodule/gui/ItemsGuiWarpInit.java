@@ -4,9 +4,8 @@ import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
 import net.giuse.api.inventorylib.ButtonBuilder;
 import net.giuse.api.inventorylib.InventoryBuilder;
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.builder.ItemstackBuilder;
-import net.giuse.mainmodule.gui.ItemInitializer;
+import net.giuse.api.inventorylib.ItemstackBuilder;
+import net.giuse.api.inventorylib.gui.ItemInitializer;
 import net.giuse.teleportmodule.TeleportModule;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -15,11 +14,10 @@ import javax.inject.Inject;
 
 public class ItemsGuiWarpInit implements ItemInitializer {
     @Inject
-    private MainModule mainModule;
+    private TeleportModule teleportModule;
 
     @Override
     public void initItems(InventoryBuilder inventoryBuilder) {
-        TeleportModule teleportModule = (TeleportModule) mainModule.getService(TeleportModule.class);
         ConfigurationSection configurationSection = teleportModule.getFileManager().getWarpYaml().getConfigurationSection("inventory.items");
         configurationSection.getKeys(false).forEach(string -> {
             ConfigurationSection itemsConfig = configurationSection.getConfigurationSection(string);

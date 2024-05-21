@@ -1,9 +1,9 @@
 package net.giuse.kitmodule.events;
 
 
-import net.giuse.kitmodule.KitModule;
-import net.giuse.kitmodule.cooldownsystem.PlayerKitCooldown;
-import net.giuse.mainmodule.MainModule;
+import net.giuse.kitmodule.dto.Kit;
+import net.giuse.kitmodule.service.KitService;
+import net.giuse.kitmodule.service.PlayerKitService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,14 +16,14 @@ import javax.inject.Inject;
  */
 
 public class PlayerKitCooldownInitializer implements Listener {
-    private final MainModule mainModule;
 
-    private final KitModule kitModule;
+    private final KitService kitService;
+    private final PlayerKitService playerKitService;
 
     @Inject
-    public PlayerKitCooldownInitializer(MainModule mainModule) {
-        kitModule = (KitModule) mainModule.getService(KitModule.class);
-        this.mainModule = mainModule;
+    public PlayerKitCooldownInitializer(KitService kitService, PlayerKitService playerKitService) {
+        this.kitService = kitService;
+        this.playerKitService = playerKitService;
     }
 
 
@@ -32,11 +32,14 @@ public class PlayerKitCooldownInitializer implements Listener {
      */
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        if (kitModule.getPlayerCooldown(e.getPlayer().getUniqueId()) == null) {
-            PlayerKitCooldown joinedPlayer = new PlayerKitCooldown();
-            kitModule.getKitElements().forEach(((name, kitBuilder) -> joinedPlayer.addKit(name, kitBuilder.getCoolDown())));
-            joinedPlayer.runTaskTimerAsynchronously(mainModule, 20L, 20L);
-            kitModule.getCachePlayerKit().put(e.getPlayer().getUniqueId(), joinedPlayer);
+        for (Kit allKit : kitService.getAllKits()) {
+            Integer cooldown = playerKitService.getPlayerCooldown(e.getPlayer().getUniqueId(), allKit.getName());
+            if (cooldown == null) {
+                playerKitService.addPlayerCooldown(e.getPlayer().getUniqueId(), allKit.getName());
+                playerKitService.updateCooldown(e.getPlayer().getUniqueId(), allKit.getName(), 0);
+            }
+            ;
+
         }
     }
 }

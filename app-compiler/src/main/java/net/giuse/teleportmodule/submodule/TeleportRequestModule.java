@@ -27,8 +27,6 @@ public class TeleportRequestModule extends Services {
     @SneakyThrows
     public void load() {
         logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Loading Teleport Requests...");
-        injector.register(TeleportRequestModule.class, this);
-
     }
 
     /*
@@ -37,14 +35,6 @@ public class TeleportRequestModule extends Services {
     @Override
     public void unload() {
         logger.info("§8[§2Life§aServer §7>> §eTeleportModule§9] §7Unloading Teleport Requests...");
-    }
-
-    /*
-     * Get Service Priority
-     */
-    @Override
-    public int priority() {
-        return 1;
     }
 
 

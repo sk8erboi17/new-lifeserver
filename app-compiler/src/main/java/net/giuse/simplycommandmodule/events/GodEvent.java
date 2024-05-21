@@ -16,8 +16,8 @@ public class GodEvent implements Listener {
     private final SimplyCommandModule simplyCommandModule;
 
     @Inject
-    public GodEvent(MainModule mainModule) {
-        this.simplyCommandModule = (SimplyCommandModule) mainModule.getService(SimplyCommandModule.class);
+    public GodEvent(SimplyCommandModule simplyCommandModule) {
+        this.simplyCommandModule = simplyCommandModule;
     }
 
     @EventHandler

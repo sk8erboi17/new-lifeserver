@@ -4,8 +4,8 @@ package net.giuse.simplycommandmodule;
 import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.simplycommandmodule.events.FoodEvent;
 import net.giuse.simplycommandmodule.files.FileManager;
@@ -50,7 +50,7 @@ public class SimplyCommandModule extends Services {
     @SneakyThrows
     public void load() {
         logger.info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Loading General Commands...");
-        injector.register(SimplyCommandModule.class, this);
+
         messageLoaderSimplyCommand = injector.getSingleton(MessageLoaderSimplyCommand.class);
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
         messageLoaderSimplyCommand.load();
@@ -78,11 +78,6 @@ public class SimplyCommandModule extends Services {
     @Override
     public void unload() {
         mainModule.getLogger().info("§8[§2Life§aServer §7>> §eGeneral Commands§9] §7Unloading General Commands...");
-    }
-
-    @Override
-    public int priority() {
-        return 0;
     }
 
 }

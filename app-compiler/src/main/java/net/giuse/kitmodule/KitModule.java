@@ -4,29 +4,18 @@ package net.giuse.kitmodule;
 import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.giuse.kitmodule.builder.KitElement;
-import net.giuse.kitmodule.cooldownsystem.PlayerKitCooldown;
-import net.giuse.kitmodule.databases.kit.querykit.LoadKit;
-import net.giuse.kitmodule.databases.kit.querykit.SaveKit;
-import net.giuse.kitmodule.databases.kit.queryplayerkit.LoadPlayerKit;
-import net.giuse.kitmodule.databases.kit.queryplayerkit.SavePlayerKit;
+import net.giuse.api.databases.implentation.ExecuteQuery;
+import net.giuse.api.databases.implentation.PreparedStatementQuery;
+import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.kitmodule.files.ConfigKits;
-import net.giuse.kitmodule.gui.KitGui;
 import net.giuse.kitmodule.messages.MessageLoaderKit;
-import net.giuse.kitmodule.serializer.PlayerKitCooldownSerializer;
-import net.giuse.kitmodule.serializer.serializedobject.PlayerKitCooldownSerialized;
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
-import net.giuse.mainmodule.serializer.Serializer;
+import net.giuse.kitmodule.service.KitService;
+import net.giuse.kitmodule.service.PlayerKitService;
 import net.giuse.mainmodule.services.Services;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.logging.Logger;
+import java.sql.PreparedStatement;
 
 /**
  * Module Kit
@@ -34,21 +23,11 @@ import java.util.logging.Logger;
 public class KitModule extends Services {
 
     @Getter
-    private final HashMap<UUID, PlayerKitCooldown> cachePlayerKit = new HashMap<>();
-    @Getter
-    private final HashMap<String, KitElement> kitElements = new HashMap<>();
-    @Getter
-    private final Serializer<PlayerKitCooldownSerialized> playerCooldownSerializer = new PlayerKitCooldownSerializer();
-    @Getter
     private ConfigKits fileKits;
     @Inject
     private Injector injector;
     @Inject
-    private Logger logger;
-    @Inject
-    private MainModule mainModule;
-    @Inject
-    private FileConfiguration mainConfig;
+    private ExecuteQuery executeQuery;
 
     /**
      * Load Module Kit
@@ -56,15 +35,15 @@ public class KitModule extends Services {
     @SneakyThrows
     @Override
     public void load() {
-        logger.info("§8[§2Life§aServer §7>> §eKitModule§9] §7Loading Kits...");
-        injector.register(KitModule.class, this);
-        injector.getSingleton(KitGui.class);
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eKitModule§9] §7Loading Kits...");
         ReflectionsFiles.loadFiles(fileKits = new ConfigKits());
+        PlayerKitService playerKitService = injector.getSingleton(PlayerKitService.class);
         injector.getSingleton(MessageLoaderKit.class).load();
-        loadCache();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(mainModule, this::saveCache,mainConfig.getInt("auto-save") * 20L,mainConfig.getInt("auto-save") * 20L);
-    }
+        createTable();
 
+        playerKitService.startTimer();
+
+    }
 
 
     /**
@@ -72,48 +51,32 @@ public class KitModule extends Services {
      */
     @Override
     public void unload() {
-        logger.info("§8[§2Life§aServer §7>> §eKitModule§9] §7Unloading Kits...");
-        saveCache();
-    }
-
-    /**
-     * Priority Module
-     */
-    @Override
-    public int priority() {
-        return -1;
+        Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eKitModule§9] §7Unloading Kits...");
     }
 
 
-    /**
-     * Search PlayerTimerSystem from Set
-     */
-    public PlayerKitCooldown getPlayerCooldown(UUID playerUUID) {
-        return cachePlayerKit.get(playerUUID);
+    private void createTable() {
+
+        executeQuery.execute(new PreparedStatementQuery("CREATE TABLE IF NOT EXISTS lifeserver_kit (" +
+                "kit_name TEXT NOT NULL PRIMARY KEY, " +
+                "kit_items TEXT NOT NULL, " +
+                "cooldown INT NOT NULL" +
+                ");", PreparedStatement::execute));
+
+        executeQuery.execute(new PreparedStatementQuery(
+                "CREATE TABLE IF NOT EXISTS lifeserver_playerkit (" +
+                        "player_uuid TEXT NOT NULL, " +
+                        "kit_name TEXT NOT NULL, " +
+                        "kit_cooldown INT NOT NULL, " +
+                        "PRIMARY KEY (player_uuid, kit_name), " +
+                        "FOREIGN KEY (kit_name) REFERENCES lifeserver_kit(kit_name)" +
+                        ");",
+                PreparedStatement::execute
+        ));
+
+
     }
 
-    /**
-     * Search Kit  from Name in a Set
-     */
-    public KitElement getKit(@NotNull String searchKitBuilder) {
-        searchKitBuilder = searchKitBuilder.toLowerCase();
-        if (kitElements.containsKey(searchKitBuilder)) {
-            return kitElements.get(searchKitBuilder.toLowerCase());
-        }
-        return null;
-    }
-
-
-    private void saveCache() {
-        Bukkit.getLogger().info("[LifeServer] Saving kits...");
-        injector.getSingleton(SaveKit.class).query();
-        injector.getSingleton(SavePlayerKit.class).query();
-    }
-
-    private void loadCache() {
-        injector.getSingleton(LoadKit.class).query();
-        injector.getSingleton(LoadPlayerKit.class).query();
-    }
 
 }
 

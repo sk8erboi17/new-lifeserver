@@ -1,41 +1,46 @@
 package net.giuse.teleportmodule.commands.home;
 
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
-import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.teleportmodule.submodule.HomeLoaderModule;
+import net.giuse.teleportmodule.submodule.dto.Home;
+import net.giuse.teleportmodule.submodule.subservice.HomeService;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class SetHomeCommand extends AbstractCommand {
-    private final HomeLoaderModule homeLoaderModule;
+    private final HomeService homeService;
     private final MessageBuilder messageBuilder;
 
     @Inject
-    public SetHomeCommand(HomeLoaderModule homeLoaderModule, MessageBuilder messageBuilder) {
+    public SetHomeCommand(HomeService homeService, MessageBuilder messageBuilder) {
         super("sethome", "lifeserver.sethome");
-        this.homeLoaderModule = homeLoaderModule;
+        this.homeService = homeService;
         this.messageBuilder = messageBuilder;
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] args) {
-        //Check if sender is Console
+        // Check if sender is Console
         if (commandSender instanceof ConsoleCommandSender) {
             commandSender.sendMessage("Not Supported From Console");
             return;
         }
         Player sender = (Player) commandSender;
+        String playerUuid = sender.getUniqueId().toString();
+        Location location = sender.getLocation();
+        String locationString = serializeLocation(location);
 
-        //Check if player has multiple home
+        // Check if player has multiple homes
         if (sender.hasPermission("lifeserver.sethome.multiple") || sender.isOp()) {
             for (PermissionAttachmentInfo effectivePermission : sender.getEffectivePermissions()) {
                 if (effectivePermission.getPermission().contains("lifeserver.home.multiple.") || sender.isOp()) {
-
-                    //Get Max Home Available
+                    // Get Max Home Available
                     int maxHomes;
                     if (!sender.isOp()) {
                         maxHomes = Integer.parseInt(effectivePermission.getPermission().replace("lifeserver.home.multiple.", ""));
@@ -43,37 +48,52 @@ public class SetHomeCommand extends AbstractCommand {
                         maxHomes = Integer.MAX_VALUE;
                     }
 
-                    //Check if player has reached max home
-                    if (homeLoaderModule.getHome(sender.getUniqueId()).size() == maxHomes) {
+                    // Check if player has reached max home
+                    List<Home> homes = homeService.getAllHomes(playerUuid);
+                    if (homes.size() >= maxHomes) {
                         messageBuilder.setCommandSender(sender).setIDMessage("max_home_reached").sendMessage();
-
                         return;
                     }
 
-                    //Check if there is a name
+                    // Check if there is a name
                     if (args.length == 0) {
                         messageBuilder.setCommandSender(sender).setIDMessage("sethome").sendMessage();
-                        //Set Home
-                        homeLoaderModule.getHome(sender.getUniqueId()).put("default", sender.getLocation());
+                        Home existingHome = homeService.getHome(playerUuid, "default");
+                        if (existingHome != null) {
+                            homeService.removeHome(playerUuid, "default");
+                            homeService.addHome(playerUuid, "default", locationString);
+                        } else {
+                            homeService.addHome(playerUuid, "default", locationString);
+                        }
                         return;
                     }
 
-                    //Check if home name has illegal character
-                    if (args[0].contains(":") || args[0].contains(",") || args[0].contains(";")) {
-                        sender.sendMessage("§cCharacter §4 ':' or ',' or ';' §c isn't allowed in home name!");
-                        return;
-                    }
 
-                    //Set Home
+                    Home existingHome = homeService.getHome(playerUuid, args[0].toLowerCase());
+                    if (existingHome != null) {
+                        homeService.removeHome(playerUuid, args[0].toLowerCase());
+                        homeService.addHome(playerUuid, args[0].toLowerCase(), locationString);
+                    } else {
+                        homeService.addHome(playerUuid, args[0].toLowerCase(), locationString);
+                    }
                     messageBuilder.setCommandSender(sender).setIDMessage("sethome").sendMessage();
-                    homeLoaderModule.getHome(sender.getUniqueId()).put(args[0].toLowerCase(), sender.getLocation());
+                    return;
                 }
             }
             return;
         }
 
-        //Set Home
+        // Set home
+        homeService.addHome(playerUuid, "default", locationString);
         messageBuilder.setCommandSender(sender).setIDMessage("sethome").sendMessage();
-        homeLoaderModule.getHome(sender.getUniqueId()).put("default", sender.getLocation());
+    }
+
+    private String serializeLocation(Location location) {
+        return location.getWorld().getName() + "," +
+                location.getX() + "," +
+                location.getY() + "," +
+                location.getZ() + "," +
+                location.getYaw() + "," +
+                location.getPitch();
     }
 }

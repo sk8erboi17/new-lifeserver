@@ -3,8 +3,8 @@ package net.giuse.teleportmodule;
 import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.teleportmodule.events.EntityBackOnDeath;
 import net.giuse.teleportmodule.files.FileManager;
@@ -23,7 +23,6 @@ public class TeleportModule extends Services {
     private final HashMap<Player, Location> backLocations = new HashMap<>();
     @Getter
     private FileManager fileManager;
-
     @Inject
     private Injector injector;
     @Inject
@@ -41,7 +40,6 @@ public class TeleportModule extends Services {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9 Loading");
         //Load Files
         ReflectionsFiles.loadFiles(fileManager = new FileManager());
-        injector.register(TeleportModule.class, this);
 
         //Load Message
         injector.getSingleton(MessageLoaderTeleport.class).load();
@@ -57,14 +55,6 @@ public class TeleportModule extends Services {
     @Override
     public void unload() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§9 Unloaded");
-    }
-
-    /*
-     * Get Service Priority
-     */
-    @Override
-    public int priority() {
-        return 0;
     }
 
 }

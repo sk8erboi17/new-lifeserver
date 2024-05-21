@@ -1,9 +1,9 @@
 package net.giuse.teleportmodule.commands.teleport;
 
 import io.papermc.lib.PaperLib;
+import net.giuse.api.commands.AbstractCommand;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.TextReplacer;
-import net.giuse.mainmodule.commands.AbstractCommand;
 import net.giuse.teleportmodule.TeleportModule;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

@@ -4,10 +4,9 @@ import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
 import net.giuse.api.inventorylib.ButtonBuilder;
 import net.giuse.api.inventorylib.InventoryBuilder;
+import net.giuse.api.inventorylib.ItemstackBuilder;
+import net.giuse.api.inventorylib.gui.ItemInitializer;
 import net.giuse.kitmodule.KitModule;
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.builder.ItemstackBuilder;
-import net.giuse.mainmodule.gui.ItemInitializer;
 import org.bukkit.configuration.ConfigurationSection;
 
 import javax.inject.Inject;
@@ -19,16 +18,15 @@ import javax.inject.Inject;
 public class NextItemGuiInit implements ItemInitializer {
 
     @Inject
-    private MainModule mainModule;
+    private KitModule kitModule;
 
     @Override
     public void initItems(InventoryBuilder inventoryBuilder) {
-        KitModule kitModule = (KitModule) mainModule.getService(KitModule.class);
         ConfigurationSection configurationSection = kitModule.getFileKits().getKitYaml().getConfigurationSection("inventory.items");
         configurationSection.getKeys(false).forEach(string -> {
             ConfigurationSection itemsConfig = configurationSection.getConfigurationSection(string);
             if (kitModule.getFileKits().getKitYaml().getInt("inventory.page") != 1 && string.equalsIgnoreCase("nextpage")) {
-                for (int i = 1; i < inventoryBuilder.getInventoryHash().values().size() + 1; i++) {
+                for (int i = 1; i < inventoryBuilder.getInventoryMap().values().size() + 1; i++) {
 
                     //Create a ItemBuilderStack
                     ItemstackBuilder itemstackBuilder = new ItemstackBuilder(

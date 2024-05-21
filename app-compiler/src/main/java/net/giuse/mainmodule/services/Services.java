@@ -5,6 +5,4 @@ public abstract class Services {
 
     public abstract void unload();
 
-    public abstract int priority();
-
 }

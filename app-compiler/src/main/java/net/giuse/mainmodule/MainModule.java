@@ -3,17 +3,17 @@ package net.giuse.mainmodule;
 import ch.jalu.injector.Injector;
 import ch.jalu.injector.InjectorBuilder;
 import lombok.SneakyThrows;
+import net.giuse.api.commands.AbstractCommand;
+import net.giuse.api.databases.Connector;
+import net.giuse.api.databases.implentation.ExecuteQuery;
+import net.giuse.api.databases.implentation.h2.ConnectorSQLite;
+import net.giuse.api.databases.implentation.postgres.ConnectorPostgres;
 import net.giuse.api.ezmessage.MessageBuilder;
 import net.giuse.api.ezmessage.MessageLoader;
-import net.giuse.mainmodule.commands.AbstractCommand;
-import net.giuse.mainmodule.databases.Connector;
-import net.giuse.mainmodule.databases.implentation.ExecuteQuery;
-import net.giuse.mainmodule.databases.implentation.h2.ConnectorSQLite;
-import net.giuse.mainmodule.databases.implentation.postgres.ConnectorPostgres;
+import net.giuse.api.files.reflections.ReflectionsFiles;
+import net.giuse.api.inventorylib.gui.GuiInitializer;
 import net.giuse.mainmodule.files.FilesList;
 import net.giuse.mainmodule.files.SQLFile;
-import net.giuse.mainmodule.files.reflections.ReflectionsFiles;
-import net.giuse.mainmodule.gui.GuiInitializer;
 import net.giuse.mainmodule.message.MessageLoaderMain;
 import net.giuse.mainmodule.services.Services;
 import net.giuse.mainmodule.utils.Utils;
@@ -23,7 +23,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class MainModule extends JavaPlugin {
@@ -34,7 +34,7 @@ public class MainModule extends JavaPlugin {
 
     private final Reflections reflections = new Reflections("net.giuse");
 
-    private HashMap<Services, Integer> servicesByPriority = new HashMap<>();
+    private List<Services> services = new ArrayList<>();
 
 
     /*
@@ -74,7 +74,7 @@ public class MainModule extends JavaPlugin {
     public void onDisable() {
         //Unload services
         connector.openConnect();
-        servicesByPriority.keySet().forEach(Services::unload);
+        services.forEach(Services::unload);
         connector.closeConnection();
     }
 
@@ -111,13 +111,15 @@ public class MainModule extends JavaPlugin {
      * Setup services
      */
     private void setupService() {
-        reflections.getSubTypesOf(Services.class).forEach(serviceKlass -> {
-            Services services = injector.newInstance(serviceKlass);
-            servicesByPriority.put(services, services.priority());
-        });
-        servicesByPriority = (HashMap<Services, Integer>) Utils.sortByValue(servicesByPriority);
-        servicesByPriority.keySet().forEach(Services::load);
+        Set<Class<? extends Services>> serviceClasses = reflections.getSubTypesOf(Services.class);
+
+        for (Class<? extends Services> serviceClass : serviceClasses) {
+            Services servicesSingle = injector.getSingleton(serviceClass);
+            servicesSingle.load();
+            services.add(servicesSingle);
+        }
     }
+
 
     /*
      * Setup SQL
@@ -164,10 +166,4 @@ public class MainModule extends JavaPlugin {
         }
     }
 
-    /*
-     * Get a Service by Class
-     */
-    public Services getService(Class<?> name) {
-        return servicesByPriority.keySet().stream().filter(services -> services.getClass().equals(name)).findFirst().orElseThrow(() -> new NullPointerException("No Service Found"));
-    }
 }

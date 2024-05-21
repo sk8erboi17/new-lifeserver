@@ -4,8 +4,7 @@ package net.giuse.teleportmodule.gui;
 import ch.jalu.injector.Injector;
 import lombok.Getter;
 import net.giuse.api.inventorylib.InventoryBuilder;
-import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.gui.GuiInitializer;
+import net.giuse.api.inventorylib.gui.GuiInitializer;
 import net.giuse.teleportmodule.TeleportModule;
 import org.bukkit.entity.Player;
 
@@ -16,7 +15,7 @@ import javax.inject.Inject;
  */
 public class WarpGui implements GuiInitializer {
     @Inject
-    private MainModule mainModule;
+    private TeleportModule teleportModule;
     @Inject
     private Injector injector;
     @Getter
@@ -28,14 +27,15 @@ public class WarpGui implements GuiInitializer {
      */
     @Override
     public void initInv() {
-        TeleportModule teleportModule = (TeleportModule) mainModule.getService(TeleportModule.class);
 
         //Create Inventory Builder
-        InventoryBuilder inventoryBuilder = new InventoryBuilder(
-                mainModule,
-                teleportModule.getFileManager().getWarpYaml().getInt("inventory.rows"),
-                teleportModule.getFileManager().getWarpYaml().getString("inventory.title"),
-                teleportModule.getFileManager().getWarpYaml().getInt("inventory.page")).createInvs();
+        InventoryBuilder inventoryBuilder = injector.newInstance(InventoryBuilder.class);
+
+        inventoryBuilder = inventoryBuilder.toBuilder()
+                .rows(teleportModule.getFileManager().getWarpYaml().getInt("inventory.rows"))
+                .totalPages(teleportModule.getFileManager().getWarpYaml().getInt("inventory.page"))
+                .name(teleportModule.getFileManager().getWarpYaml().getString("inventory.title")).build();
+        inventoryBuilder.createInventories();
 
         //Initialize items
         injector.getSingleton(NextItemGuiWarpInit.class).initItems(inventoryBuilder);
@@ -51,6 +51,6 @@ public class WarpGui implements GuiInitializer {
      * Open Inventory to a Player
      */
     public void openInv(Player player) {
-        player.openInventory(inventoryBuilder.getInventoryHash().get(1));
+        player.openInventory(inventoryBuilder.getInventoryMap().get(1));
     }
 }

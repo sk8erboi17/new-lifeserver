@@ -1,197 +1,268 @@
 package net.giuse.economymodule.economymanager;
 
-import net.giuse.economymodule.EconomyModule;
+import net.giuse.economymodule.service.EconomyService;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class EconomyManager implements Economy {
-    private final EconomyModule economyModule;
+    private final EconomyService economyService;
 
     @Inject
-    public EconomyManager(EconomyModule economyModule) {
-        this.economyModule = economyModule;
+    public EconomyManager(EconomyService economyService) {
+        this.economyService = economyService;
     }
 
+    @Override
     public boolean isEnabled() {
         return true;
     }
 
+    @Override
     public String getName() {
         return "LifeServer";
     }
 
+    @Override
     public boolean hasBankSupport() {
         return false;
     }
 
+    @Override
     public int fractionalDigits() {
-        return 0;
+        return 2;  // Assuming 2 decimal places for currency
     }
 
-    public String format(final double amount) {
-        return null;
+    @Override
+    public String format(double amount) {
+        return String.format("%.2f", amount);
     }
 
+    @Override
     public String currencyNamePlural() {
         return "moneys";
     }
 
+    @Override
     public String currencyNameSingular() {
         return "money";
     }
 
-    public boolean hasAccount(final String playerName) {
-        return this.economyModule.getEconPlayerIsPresent(Bukkit.getPlayer(playerName).getUniqueId());
+    @Override
+    public boolean hasAccount(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+        return player != null && economyService.playerExists(player.getUniqueId());
     }
 
-    public boolean hasAccount(final OfflinePlayer player) {
-        return this.economyModule.getEconPlayerIsPresent(player.getUniqueId());
+    @Override
+    public boolean hasAccount(OfflinePlayer player) {
+        return economyService.playerExists(player.getUniqueId());
     }
 
-    public boolean hasAccount(final String playerName, final String worldName) {
-        return this.economyModule.getEconPlayerIsPresent(Bukkit.getPlayer(playerName).getUniqueId());
+    @Override
+    public boolean hasAccount(String playerName, String worldName) {
+        return hasAccount(playerName);
     }
 
-    public boolean hasAccount(final OfflinePlayer player, final String worldName) {
-        return this.economyModule.getEconPlayerIsPresent(player.getUniqueId());
+    @Override
+    public boolean hasAccount(OfflinePlayer player, String worldName) {
+        return hasAccount(player);
     }
 
-    public double getBalance(final String playerName) {
-        return this.economyModule.getBalancePlayer(Bukkit.getPlayer(playerName).getUniqueId());
+    @Override
+    public double getBalance(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null) {
+            return economyService.getBalance(player.getUniqueId()).doubleValue();
+        }
+        return 0;
     }
 
-    public double getBalance(final OfflinePlayer player) {
-        return this.getBalance(player.getName());
+    @Override
+    public double getBalance(OfflinePlayer player) {
+        return economyService.getBalance(player.getUniqueId()).doubleValue();
     }
 
-    public double getBalance(final String playerName, final String world) {
-        return this.getBalance(playerName);
+    @Override
+    public double getBalance(String playerName, String world) {
+        return getBalance(playerName);
     }
 
-    public double getBalance(final OfflinePlayer player, final String world) {
-        return this.getBalance(player.getName());
+    @Override
+    public double getBalance(OfflinePlayer player, String world) {
+        return getBalance(player);
     }
 
-    public boolean has(final String playerName, final double amount) {
-        return economyModule.getBalancePlayer(Bukkit.getPlayer(playerName).getUniqueId()) >= amount;
+    @Override
+    public boolean has(String playerName, double amount) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null) {
+            return economyService.getBalance(player.getUniqueId()).compareTo(BigDecimal.valueOf(amount)) >= 0;
+        }
+        return false;
     }
 
-    public boolean has(final OfflinePlayer player, final double amount) {
-        return this.has(player.getName(), amount);
+    @Override
+    public boolean has(OfflinePlayer player, double amount) {
+        return economyService.getBalance(player.getUniqueId()).compareTo(BigDecimal.valueOf(amount)) >= 0;
     }
 
-    public boolean has(final String playerName, final String worldName, final double amount) {
-        return this.has(playerName, amount);
+    @Override
+    public boolean has(String playerName, String worldName, double amount) {
+        return has(playerName, amount);
     }
 
-    public boolean has(final OfflinePlayer player, final String worldName, final double amount) {
-        return this.has(player.getName(), amount);
+    @Override
+    public boolean has(OfflinePlayer player, String worldName, double amount) {
+        return has(player, amount);
     }
 
-    public EconomyResponse withdrawPlayer(final String playerName, final double amount) {
-        economyModule.setBalance(Bukkit.getPlayer(playerName).getUniqueId(), economyModule.getBalancePlayer(Bukkit.getPlayer(playerName).getUniqueId()) - amount);
-        return new EconomyResponse(amount, economyModule.getBalancePlayer(Bukkit.getPlayer(playerName).getUniqueId()), EconomyResponse.ResponseType.SUCCESS, "not yet Supported");
+    @Override
+    public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null) {
+            UUID playerUUID = player.getUniqueId();
+            BigDecimal currentBalance = economyService.getBalance(playerUUID);
+            if (currentBalance.compareTo(BigDecimal.valueOf(amount)) >= 0) {
+                economyService.withdraw(playerUUID, BigDecimal.valueOf(amount));
+                return new EconomyResponse(amount, economyService.getBalance(playerUUID).doubleValue(), EconomyResponse.ResponseType.SUCCESS, null);
+            } else {
+                return new EconomyResponse(0, currentBalance.doubleValue(), EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
+            }
+        }
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
     }
 
-    public EconomyResponse withdrawPlayer(final OfflinePlayer player, final double amount) {
-        return this.withdrawPlayer(player.getName(), amount);
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
+        return withdrawPlayer(player.getName(), amount);
     }
 
-    public EconomyResponse withdrawPlayer(final String playerName, final String worldName, final double amount) {
-        return this.withdrawPlayer(playerName, amount);
+    @Override
+    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+        return withdrawPlayer(playerName, amount);
     }
 
-    public EconomyResponse withdrawPlayer(final OfflinePlayer player, final String worldName, final double amount) {
-        return this.withdrawPlayer(player.getName(), amount);
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
+        return withdrawPlayer(player.getName(), amount);
     }
 
-    public EconomyResponse depositPlayer(final String playerName, final double amount) {
-        economyModule.setBalance(Bukkit.getPlayer(playerName).getUniqueId(), economyModule.getBalancePlayer(Bukkit.getPlayer(playerName).getUniqueId()) + amount);
-        return new EconomyResponse(amount, economyModule.getBalancePlayer(Bukkit.getPlayer(playerName).getUniqueId()), EconomyResponse.ResponseType.SUCCESS, "not yet Supported");
+    @Override
+    public EconomyResponse depositPlayer(String playerName, double amount) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null) {
+            UUID playerUUID = player.getUniqueId();
+            economyService.deposit(playerUUID, BigDecimal.valueOf(amount));
+            return new EconomyResponse(amount, economyService.getBalance(playerUUID).doubleValue(), EconomyResponse.ResponseType.SUCCESS, null);
+        }
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
     }
 
-    public EconomyResponse depositPlayer(final OfflinePlayer player, final double amount) {
-        return this.depositPlayer(player.getName(), amount);
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
+        return depositPlayer(player.getName(), amount);
     }
 
-    public EconomyResponse depositPlayer(final String playerName, final String worldName, final double amount) {
-        return this.depositPlayer(playerName, amount);
+    @Override
+    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+        return depositPlayer(playerName, amount);
     }
 
-    public EconomyResponse depositPlayer(final OfflinePlayer player, final String worldName, final double amount) {
-        return this.depositPlayer(player.getName(), amount);
+    @Override
+    public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
+        return depositPlayer(player.getName(), amount);
     }
 
-    public EconomyResponse createBank(final String name, final String player) {
+    @Override
+    public EconomyResponse createBank(String name, String player) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse createBank(final String name, final OfflinePlayer player) {
+    @Override
+    public EconomyResponse createBank(String name, OfflinePlayer player) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse deleteBank(final String name) {
+    @Override
+    public EconomyResponse deleteBank(String name) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse bankBalance(final String name) {
+    @Override
+    public EconomyResponse bankBalance(String name) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse bankHas(final String name, final double amount) {
+    @Override
+    public EconomyResponse bankHas(String name, double amount) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse bankWithdraw(final String name, final double amount) {
+    @Override
+    public EconomyResponse bankWithdraw(String name, double amount) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse bankDeposit(final String name, final double amount) {
-        return null;
-    }
-
-    public EconomyResponse isBankOwner(final String name, final String playerName) {
+    @Override
+    public EconomyResponse bankDeposit(String name, double amount) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse isBankOwner(final String name, final OfflinePlayer player) {
+    @Override
+    public EconomyResponse isBankOwner(String name, String playerName) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse isBankMember(final String name, final String playerName) {
+    @Override
+    public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
-    public EconomyResponse isBankMember(final String name, final OfflinePlayer player) {
+    @Override
+    public EconomyResponse isBankMember(String name, String playerName) {
         return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
     }
 
+    @Override
+    public EconomyResponse isBankMember(String name, OfflinePlayer player) {
+        return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "LifeServer Eco does not support bank accounts!");
+    }
+
+    @Override
     public List<String> getBanks() {
-        return null;
+        return null; // Not supported
     }
 
-    public boolean createPlayerAccount(final String playerName) {
-        this.economyModule.setBalance(Bukkit.getPlayer(playerName).getUniqueId(), 0.0);
+    @Override
+    public boolean createPlayerAccount(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player != null && !economyService.playerExists(player.getUniqueId())) {
+            economyService.setBalance(player.getUniqueId(), BigDecimal.ZERO);
+            return true;
+        }
         return false;
     }
 
-    public boolean createPlayerAccount(final OfflinePlayer player) {
-        this.createPlayerAccount(player.getName());
-        return false;
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player) {
+        return createPlayerAccount(player.getName());
     }
 
-    public boolean createPlayerAccount(final String playerName, final String worldName) {
-        this.createPlayerAccount(playerName);
-        return false;
+    @Override
+    public boolean createPlayerAccount(String playerName, String worldName) {
+        return createPlayerAccount(playerName);
     }
 
-    public boolean createPlayerAccount(final OfflinePlayer player, final String worldName) {
-        this.createPlayerAccount(player.getName());
-        return false;
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
+        return createPlayerAccount(player.getName());
     }
 }
