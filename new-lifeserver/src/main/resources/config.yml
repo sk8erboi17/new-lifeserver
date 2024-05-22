@@ -1,0 +1,35 @@
+# If this option is active then if you do / kit it will open the gui otherwise the list of kits will appear.
+# Attention / kitlist will always return the kit list
+use-kit-gui: true
+#  If this option is active then if you do / warp it will open the gui otherwise the list of kits will appear.
+# Attention / warplist will always return the kit list
+use-warp-gui: true
+no-hunger: true
+always-day: true
+allow-back-on-death: true
+money-first-time-join: 1000
+money-symbol: "$"
+top-balance-show: 10
+#Postgres or H2
+storage-type: h2
+#credentials for Database , ignore if you use h2
+username: user
+password: 'passwd'
+database: minecraft
+
+#General-Message
+messages:
+  no-perms:
+    title:
+      send-title: true
+      main-title: '&2[&c No-Perm &2]'
+      subtitle: '&7Permission Required'
+      fade-in: 500 #milliseconds
+      stay: 1000 #milliseconds
+      fade-out: 500 #milliseconds
+    message-chat:
+      send-chat: true
+      string-message: '&cNo-Perm.'
+    actionbar:
+      send-actionbar: true
+      actionbar-message: '&cNo-Perm.'
