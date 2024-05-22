@@ -32,9 +32,9 @@ public class WarpGui implements GuiInitializer {
         InventoryBuilder inventoryBuilder = injector.newInstance(InventoryBuilder.class);
 
         inventoryBuilder = inventoryBuilder.toBuilder()
-                .rows(teleportModule.getFileManager().getWarpYaml().getInt("inventory.rows"))
-                .totalPages(teleportModule.getFileManager().getWarpYaml().getInt("inventory.page"))
-                .name(teleportModule.getFileManager().getWarpYaml().getString("inventory.title")).build();
+                .rows(teleportModule.getTeleportFileManager().getWarpYaml().getInt("inventory.rows"))
+                .totalPages(teleportModule.getTeleportFileManager().getWarpYaml().getInt("inventory.page"))
+                .name(teleportModule.getTeleportFileManager().getWarpYaml().getString("inventory.title")).build();
         inventoryBuilder.createInventories();
 
         //Initialize items

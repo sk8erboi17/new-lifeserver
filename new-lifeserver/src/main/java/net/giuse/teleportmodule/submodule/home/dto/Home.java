@@ -1,8 +1,10 @@
 package net.giuse.teleportmodule.submodule.home.dto;
 
 
+import lombok.Getter;
 import org.bukkit.Location;
 
+@Getter
 public class Home {
     private final String name;
     private final Location location;
@@ -12,11 +14,4 @@ public class Home {
         this.location = location;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
 }

@@ -4,10 +4,11 @@ import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.api.files.reflections.ReflectionsFiles;
+import net.giuse.kitmodule.gui.KitGui;
 import net.giuse.mainmodule.MainModule;
 import net.giuse.mainmodule.modules.AbstractService;
 import net.giuse.teleportmodule.events.EntityBackOnDeath;
-import net.giuse.teleportmodule.files.FileManager;
+import net.giuse.teleportmodule.files.TeleportFileManager;
 import net.giuse.teleportmodule.messageloader.MessageLoaderTeleport;
 import net.giuse.teleportmodule.submodule.teleportrequest.dto.PendingRequest;
 import net.giuse.teleportmodule.submodule.warp.gui.WarpGui;
@@ -27,14 +28,14 @@ public class TeleportModule extends AbstractService {
     @Getter
     private final HashMap<Player, Location> backLocations = new HashMap<>();
     @Getter
-    private FileManager fileManager;
+    private TeleportFileManager teleportFileManager;
     @Inject
     private Injector injector;
     @Inject
     private FileConfiguration mainConfig;
     @Inject
     private MainModule mainModule;
-    @Inject
+
     private WarpGui warpGui;
 
     private MessageLoaderTeleport messageLoaderTeleport;
@@ -47,12 +48,13 @@ public class TeleportModule extends AbstractService {
     public void load() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§f Loading teleports...");
         //Load Files
-        ReflectionsFiles.loadFiles(fileManager = new FileManager());
+        ReflectionsFiles.loadFiles(teleportFileManager = new TeleportFileManager());
 
         //Load Message
         messageLoaderTeleport = injector.getSingleton(MessageLoaderTeleport.class);
         messageLoaderTeleport.load();
         warpGui = injector.getSingleton(WarpGui.class);
+
         //Check if load back-on-death is active
         if (mainConfig.getBoolean("allow-back-on-death")) {
             Bukkit.getServer().getPluginManager().registerEvents(injector.getSingleton(EntityBackOnDeath.class), mainModule);
@@ -70,26 +72,26 @@ public class TeleportModule extends AbstractService {
     @Override
     public void reloadConfig() {
 
-        fileManager.setFile(fileManager.getMessagesHomeFile());
-        fileManager.setYamlConfiguration(fileManager.getMessagesHomeYaml());
-        fileManager.reload();
+        teleportFileManager.setFile(teleportFileManager.getMessagesHomeFile());
+        teleportFileManager.setYamlConfiguration(teleportFileManager.getMessagesHomeYaml());
+        teleportFileManager.reload();
 
-        fileManager.setFile(fileManager.getMessagesWarpFile());
-        fileManager.setYamlConfiguration(fileManager.getMessagesWarpYaml());
-        fileManager.reload();
+        teleportFileManager.setFile(teleportFileManager.getMessagesWarpFile());
+        teleportFileManager.setYamlConfiguration(teleportFileManager.getMessagesWarpYaml());
+        teleportFileManager.reload();
 
-        fileManager.setFile(fileManager.getWarpFile());
-        fileManager.setYamlConfiguration(fileManager.getWarpYaml());
-        fileManager.reload();
+        teleportFileManager.setFile(teleportFileManager.getWarpFile());
+        teleportFileManager.setYamlConfiguration(teleportFileManager.getWarpYaml());
+        teleportFileManager.reload();
         warpGui.initInv();
 
-        fileManager.setFile(fileManager.getMessagesSpawnFile());
-        fileManager.setYamlConfiguration(fileManager.getMessagesSpawnYaml());
-        fileManager.reload();
+        teleportFileManager.setFile(teleportFileManager.getMessagesSpawnFile());
+        teleportFileManager.setYamlConfiguration(teleportFileManager.getMessagesSpawnYaml());
+        teleportFileManager.reload();
 
-        fileManager.setFile(fileManager.getMessagesTeleportFile());
-        fileManager.setYamlConfiguration(fileManager.getMessagesTeleportYaml());
-        fileManager.reload();
+        teleportFileManager.setFile(teleportFileManager.getMessagesTeleportFile());
+        teleportFileManager.setYamlConfiguration(teleportFileManager.getMessagesTeleportYaml());
+        teleportFileManager.reload();
         messageLoaderTeleport.load();
     }
 

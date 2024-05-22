@@ -15,10 +15,10 @@ public class MessageLoaderTeleport extends SetupMessageLoader {
     public void load() {
 
         ConfigurationSection[] generalMessageSectionArray = new ConfigurationSection[]{
-                teleportModule.getFileManager().getMessagesTeleportYaml().getConfigurationSection("messages"),
-                teleportModule.getFileManager().getMessagesWarpYaml().getConfigurationSection("messages"),
-                teleportModule.getFileManager().getMessagesHomeYaml().getConfigurationSection("messages"),
-                teleportModule.getFileManager().getMessagesSpawnYaml().getConfigurationSection("messages")};
+                teleportModule.getTeleportFileManager().getMessagesTeleportYaml().getConfigurationSection("messages"),
+                teleportModule.getTeleportFileManager().getMessagesWarpYaml().getConfigurationSection("messages"),
+                teleportModule.getTeleportFileManager().getMessagesHomeYaml().getConfigurationSection("messages"),
+                teleportModule.getTeleportFileManager().getMessagesSpawnYaml().getConfigurationSection("messages")};
 
         for (ConfigurationSection generalMessageSection : generalMessageSectionArray) {
             for (String idMessage : generalMessageSection.getKeys(false)) {

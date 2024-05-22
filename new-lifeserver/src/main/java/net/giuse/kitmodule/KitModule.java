@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.kitmodule.databases.KitRepository;
 import net.giuse.kitmodule.databases.PlayerKitRepository;
-import net.giuse.kitmodule.files.ConfigKits;
+import net.giuse.kitmodule.files.KitFileManager;
 import net.giuse.kitmodule.gui.KitGui;
 import net.giuse.kitmodule.messages.MessageLoaderKit;
 import net.giuse.kitmodule.service.PlayerKitService;
@@ -22,7 +22,7 @@ import javax.inject.Inject;
 public class KitModule extends AbstractService {
 
     @Getter
-    private ConfigKits fileKits;
+    private KitFileManager fileKits;
 
     @Inject
     private Injector injector;
@@ -37,7 +37,7 @@ public class KitModule extends AbstractService {
     @Override
     public void load() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eKitModule§9] §7Loading Kits...");
-        ReflectionsFiles.loadFiles(fileKits = new ConfigKits());
+        ReflectionsFiles.loadFiles(fileKits = new KitFileManager());
         PlayerKitService playerKitService = injector.getSingleton(PlayerKitService.class);
         injector.getSingleton(KitRepository.class).createTable();
         injector.getSingleton(PlayerKitRepository.class).createTable();

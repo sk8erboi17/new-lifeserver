@@ -9,13 +9,19 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ClearInventoryCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
     public ClearInventoryCommand(MessageBuilder messageBuilder) {
-        super("clearinventory", "lifeserver.clearinventory");
+        super("clearinventory",
+                "Clear inventory",
+                "/clearinventory [player]",
+                new ArrayList<>(Collections.singleton("ci")),
+                "lifeserver.clearinventory");
         this.messageBuilder = messageBuilder;
     }
 

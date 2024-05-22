@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.modules.AbstractService;
-import net.giuse.secretmessagemodule.files.FileManager;
+import net.giuse.secretmessagemodule.files.SecretMessageFileManager;
 import net.giuse.secretmessagemodule.messageloader.MessageLoaderSecret;
 import net.giuse.secretmessagemodule.process.SecretChatProcess;
 import org.bukkit.Bukkit;
@@ -27,7 +27,7 @@ public final class SecretMessageModule extends AbstractService {
     @Inject
     private Injector injector;
     @Getter
-    private FileManager fileManager;
+    private SecretMessageFileManager secretMessageFileManager;
 
     private MessageLoaderSecret messageLoaderSecret;
     /*
@@ -39,7 +39,7 @@ public final class SecretMessageModule extends AbstractService {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eSecretChatModule§9] §7Loading SecretChats...");
         injector.register(SecretChatProcess.class, injector.newInstance(SecretChatProcess.class));
         //Load Files
-        ReflectionsFiles.loadFiles(fileManager = new FileManager());
+        ReflectionsFiles.loadFiles(secretMessageFileManager = new SecretMessageFileManager());
         messageLoaderSecret = injector.getSingleton(MessageLoaderSecret.class);
         messageLoaderSecret.load();
     }
@@ -72,9 +72,9 @@ public final class SecretMessageModule extends AbstractService {
 
     @Override
     public void reloadConfig() {
-        fileManager.setFile(fileManager.getMessagesSecretChatFile());
-        fileManager.setYamlConfiguration(fileManager.getMessagesSecretChatYaml());
-        fileManager.reload();
+        secretMessageFileManager.setFile(secretMessageFileManager.getMessagesSecretChatFile());
+        secretMessageFileManager.setYamlConfiguration(secretMessageFileManager.getMessagesSecretChatYaml());
+        secretMessageFileManager.reload();
         messageLoaderSecret.load();
     }
 

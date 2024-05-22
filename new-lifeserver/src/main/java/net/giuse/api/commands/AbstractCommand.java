@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
+import java.util.List;
 
 
 /**
@@ -15,9 +16,13 @@ public abstract class AbstractCommand extends Command {
     private final String permission;
     @Inject
     private MessageBuilder messageBuilder;
-
+//
     public AbstractCommand(String name, String permission) {
         super(name);
+        this.permission = permission;
+    }
+    public AbstractCommand(String name, String description, String usageMessage, List<String> aliases, String permission) {
+        super(name,description,usageMessage,aliases);
         this.permission = permission;
     }
 

@@ -13,7 +13,7 @@ public class MessageLoaderEconomy extends SetupMessageLoader {
 
     @Override
     public void load() {
-        ConfigurationSection generalMessageSection = economyModule.getConfigManager().getMessagesYaml().getConfigurationSection("messages");
+        ConfigurationSection generalMessageSection = economyModule.getEconomyFileManager().getMessagesYaml().getConfigurationSection("messages");
         for (String idMessage : generalMessageSection.getKeys(false)) {
             ConfigurationSection messageSection = generalMessageSection.getConfigurationSection(idMessage);
 

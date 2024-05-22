@@ -13,7 +13,7 @@ public class MessageLoaderSecret extends SetupMessageLoader {
 
     @Override
     public void load() {
-        ConfigurationSection generalMessageSection = secretMessageModule.getFileManager().getMessagesSecretChatYaml().getConfigurationSection("messages");
+        ConfigurationSection generalMessageSection = secretMessageModule.getSecretMessageFileManager().getMessagesSecretChatYaml().getConfigurationSection("messages");
         for (String idMessage : generalMessageSection.getKeys(false)) {
             ConfigurationSection messageSection = generalMessageSection.getConfigurationSection(idMessage);
 

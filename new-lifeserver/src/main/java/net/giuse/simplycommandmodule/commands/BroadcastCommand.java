@@ -7,6 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BroadcastCommand extends AbstractCommand {
 
@@ -14,7 +17,11 @@ public class BroadcastCommand extends AbstractCommand {
 
     @Inject
     public BroadcastCommand(MessageBuilder messageBuilder) {
-        super("broadcast", "lifeserver.broadcast");
+        super("broadcast",
+                "Send a message to all player",
+                "/broadcast <message>",
+                new ArrayList<>(Collections.singleton("bc")),
+                "lifeserver.broadcast");
         this.messageBuilder = messageBuilder;
     }
 

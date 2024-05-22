@@ -18,7 +18,7 @@ public class ItemsGuiWarpInit implements ItemInitializer {
 
     @Override
     public void initItems(InventoryBuilder inventoryBuilder) {
-        ConfigurationSection configurationSection = teleportModule.getFileManager().getWarpYaml().getConfigurationSection("inventory.items");
+        ConfigurationSection configurationSection = teleportModule.getTeleportFileManager().getWarpYaml().getConfigurationSection("inventory.items");
         configurationSection.getKeys(false).forEach(string -> {
             ConfigurationSection itemsConfig = configurationSection.getConfigurationSection(string);
             if (!string.equalsIgnoreCase("previouspage") && !string.equalsIgnoreCase("nextpage")) {

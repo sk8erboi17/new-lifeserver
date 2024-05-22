@@ -71,6 +71,32 @@ public class MainModule extends JavaPlugin {
         Bukkit.getLogger().info("§aLifeserver started in §2" + (System.currentTimeMillis() - millis) + "§ams...");
     }
 
+    /*
+     * Disable MainModule
+     */
+    @Override
+    public void onDisable() {
+        //Unload services
+        connector.openConnect();
+        services.forEach(AbstractService::unload);
+        connector.closeConnection();
+    }
+
+    /*
+     * Setup Files
+     */
+    private void setupFiles() {
+        //Setup in default dir
+        for (FilesList pathFile : FilesList.values()) {
+            if(!new File(getDataFolder(),pathFile.toString()).exists()){
+                saveResource(pathFile.toString(), false);
+            }
+        }
+    }
+
+  /*
+   * Setup dependencies
+   */
     private void setupDependencies() {
         Library postgresql = Library.builder()
                 .groupId("org{}postgresql") // "{}" is replaced with ".", useful to avoid unwanted changes made by maven-shade-plugin
@@ -98,30 +124,6 @@ public class MainModule extends JavaPlugin {
         libraryManager.loadLibrary(postgresql);
         libraryManager.loadLibrary(h2);
         libraryManager.loadLibrary(hikariCp);
-
-    }
-
-    /*
-     * Disable MainModule
-     */
-    @Override
-    public void onDisable() {
-        //Unload services
-        connector.openConnect();
-        services.forEach(AbstractService::unload);
-        connector.closeConnection();
-    }
-
-    /*
-     * Setup Files
-     */
-    private void setupFiles() {
-        //Setup in default dir
-        for (FilesList pathFile : FilesList.values()) {
-            if(!new File(getDataFolder(),pathFile.toString()).exists()){
-                saveResource(pathFile.toString(), false);
-            }
-        }
     }
 
     /*

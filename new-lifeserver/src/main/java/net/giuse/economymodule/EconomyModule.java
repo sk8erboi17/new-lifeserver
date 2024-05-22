@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.economymodule.economymanager.EconomyManager;
-import net.giuse.economymodule.files.FileManager;
+import net.giuse.economymodule.files.EconomyFileManager;
 import net.giuse.economymodule.messageloader.MessageLoaderEconomy;
 import net.giuse.economymodule.repository.EconomyRepository;
 import net.giuse.mainmodule.MainModule;
@@ -30,7 +30,7 @@ public class EconomyModule extends AbstractService {
     private EconomyManager customEcoManager;
 
     @Getter
-    private FileManager configManager;
+    private EconomyFileManager economyFileManager;
 
     private MessageLoaderEconomy messageLoaderEconomy;
 
@@ -41,7 +41,7 @@ public class EconomyModule extends AbstractService {
         customEcoManager = injector.getSingleton(EconomyManager.class);
         mainModule.getServer().getServicesManager().register(Economy.class, customEcoManager, mainModule, ServicePriority.Normal);
         injector.getSingleton(EconomyRepository.class).createTable();
-        ReflectionsFiles.loadFiles(configManager = new FileManager());
+        ReflectionsFiles.loadFiles(economyFileManager = new EconomyFileManager());
         this.messageLoaderEconomy = injector.getSingleton(MessageLoaderEconomy.class);
         MONEY_SYMBOL = mainModule.getConfig().getString("money-symbol");
     }
@@ -55,9 +55,9 @@ public class EconomyModule extends AbstractService {
 
     @Override
     public void reloadConfig() {
-        configManager.setFile(configManager.getMessagesFile());
-        configManager.setYamlConfiguration(configManager.getMessagesYaml());
-        configManager.reload();
+        economyFileManager.setFile(economyFileManager.getMessagesFile());
+        economyFileManager.setYamlConfiguration(economyFileManager.getMessagesYaml());
+        economyFileManager.reload();
         messageLoaderEconomy.load();
     }
 

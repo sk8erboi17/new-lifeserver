@@ -18,10 +18,10 @@ public class PreviousInitWarpGuiInit implements ItemInitializer {
 
     @Override
     public void initItems(InventoryBuilder inventoryBuilder) {
-        ConfigurationSection configurationSection = teleportModule.getFileManager().getWarpYaml().getConfigurationSection("inventory.items");
+        ConfigurationSection configurationSection = teleportModule.getTeleportFileManager().getWarpYaml().getConfigurationSection("inventory.items");
         for (String string : configurationSection.getKeys(false)) {
             ConfigurationSection itemsConfig = configurationSection.getConfigurationSection(string);
-            if (teleportModule.getFileManager().getWarpYaml().getInt("inventory.page") != 1 && string.equalsIgnoreCase("previouspage")) {
+            if (teleportModule.getTeleportFileManager().getWarpYaml().getInt("inventory.page") != 1 && string.equalsIgnoreCase("previouspage")) {
                 for (int i = 1; i < inventoryBuilder.getInventoryMap().values().size() + 1; i++) {
 
                     //Create a ItemBuilderStack
