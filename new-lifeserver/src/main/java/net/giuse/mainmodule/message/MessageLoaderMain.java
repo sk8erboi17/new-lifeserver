@@ -6,9 +6,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import javax.inject.Inject;
 
 public class MessageLoaderMain extends SetupMessageLoader {
+
     @Inject
     private MainModule mainModule;
-
 
     @Override
     public void load() {

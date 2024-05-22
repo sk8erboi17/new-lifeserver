@@ -58,8 +58,15 @@ public class MessageLoader {
      */
 
     public void addMessageCache(String id, Message message) {
-
         cache.put(id, message);
+    }
+
+    /*
+     * Add Message to cache
+     */
+
+    public void clearCache() {
+        cache.clear();
     }
 
 }

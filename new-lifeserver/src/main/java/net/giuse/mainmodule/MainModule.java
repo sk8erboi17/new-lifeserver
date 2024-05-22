@@ -2,6 +2,7 @@ package net.giuse.mainmodule;
 
 import ch.jalu.injector.Injector;
 import ch.jalu.injector.InjectorBuilder;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import net.byteflux.libby.BukkitLibraryManager;
 import net.byteflux.libby.Library;
@@ -15,7 +16,7 @@ import net.giuse.api.ezmessage.MessageLoader;
 import net.giuse.api.inventorylib.gui.GuiInitializer;
 import net.giuse.mainmodule.files.FilesList;
 import net.giuse.mainmodule.message.MessageLoaderMain;
-import net.giuse.mainmodule.services.Services;
+import net.giuse.mainmodule.modules.AbstractService;
 import net.giuse.mainmodule.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,10 +36,11 @@ public class MainModule extends JavaPlugin {
 
     private Reflections reflections;
 
-    private List<Services> services = new ArrayList<>();
+    @Getter
+    private final List<AbstractService> services = new ArrayList<>();
 
-    private BukkitLibraryManager libraryManager = new BukkitLibraryManager(this);
-
+    private final BukkitLibraryManager libraryManager = new BukkitLibraryManager(this);
+    private MessageLoaderMain messageLoaderMain;
     /*
      * Enable MainModule
      */
@@ -50,7 +52,6 @@ public class MainModule extends JavaPlugin {
 
         //setup
         setupDependencies();
-        reflections = new Reflections("net.giuse");
         setupInjector();
         setupMessage();
         setupFiles();
@@ -107,7 +108,7 @@ public class MainModule extends JavaPlugin {
     public void onDisable() {
         //Unload services
         connector.openConnect();
-        services.forEach(Services::unload);
+        services.forEach(AbstractService::unload);
         connector.closeConnection();
     }
 
@@ -129,7 +130,7 @@ public class MainModule extends JavaPlugin {
     private void setupInjector() {
         injector = new InjectorBuilder().addDefaultHandlers("net.giuse").create();
         injector.register(MainModule.class, this);
-        injector.register(Logger.class, getLogger());
+        reflections = new Reflections("net.giuse");
         injector.register(FileConfiguration.class, getConfig());
     }
 
@@ -139,19 +140,20 @@ public class MainModule extends JavaPlugin {
     private void setupMessage() {
         injector.register(MessageLoader.class, new MessageLoader(this));
         injector.register(MessageBuilder.class, new MessageBuilder(injector.getIfAvailable(MessageLoader.class)));
-        injector.getSingleton(MessageLoaderMain.class).load();
+        messageLoaderMain = injector.getSingleton(MessageLoaderMain.class);
+        messageLoaderMain.load();
     }
 
     /*
      * Setup services
      */
     private void setupService() {
-        Set<Class<? extends Services>> serviceClasses = reflections.getSubTypesOf(Services.class);
+        Set<Class<? extends AbstractService>> serviceClasses = reflections.getSubTypesOf(AbstractService.class);
 
-        for (Class<? extends Services> serviceClass : serviceClasses) {
-            Services servicesSingle = injector.getSingleton(serviceClass);
-            servicesSingle.load();
-            services.add(servicesSingle);
+        for (Class<? extends AbstractService> serviceClass : serviceClasses) {
+            AbstractService abstractServiceSingle = injector.getSingleton(serviceClass);
+            abstractServiceSingle.load();
+            services.add(abstractServiceSingle);
         }
     }
 
@@ -200,5 +202,8 @@ public class MainModule extends JavaPlugin {
         }
     }
 
+   public void reloadMessage(){
+       messageLoaderMain.load();
+   }
 
 }

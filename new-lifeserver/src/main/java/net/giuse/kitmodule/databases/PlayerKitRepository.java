@@ -6,6 +6,7 @@ import net.giuse.kitmodule.dto.PlayerKit;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -148,5 +149,18 @@ public class PlayerKitRepository {
                 throw e;
             }
         }));
+    }
+
+    public void createTable() {
+        executeQuery.execute(new PreparedStatementQuery(
+                "CREATE TABLE IF NOT EXISTS lifeserver_playerkit (" +
+                        "player_uuid VARCHAR(255) NOT NULL, " +
+                        "kit_name VARCHAR(255) NOT NULL, " +
+                        "kit_cooldown INT NOT NULL, " +
+                        "PRIMARY KEY (player_uuid, kit_name), " +
+                        "FOREIGN KEY (kit_name) REFERENCES lifeserver_kit(kit_name)" +
+                        ");",
+                PreparedStatement::execute
+        ));
     }
 }

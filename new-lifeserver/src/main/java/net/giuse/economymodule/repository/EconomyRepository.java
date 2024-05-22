@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -107,6 +108,13 @@ public class EconomyRepository {
         }));
 
         return topBalances;
+    }
+
+    public void createTable() {
+        String query = "CREATE TABLE IF NOT EXISTS lifeserver_economy (" +
+                "uuid VARCHAR(255) PRIMARY KEY, " +
+                "balance DECIMAL(20, 2))";
+        executeQuery.execute(new PreparedStatementQuery(query, PreparedStatement::execute));
     }
 
 }

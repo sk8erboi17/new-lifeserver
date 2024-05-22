@@ -6,6 +6,7 @@ import net.giuse.kitmodule.dto.Kit;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -83,4 +84,11 @@ public class KitRepository {
         return kits;
     }
 
+    public void createTable() {
+        executeQuery.execute(new PreparedStatementQuery("CREATE TABLE IF NOT EXISTS lifeserver_kit (" +
+                "kit_name VARCHAR(255) NOT NULL PRIMARY KEY, " +
+                "kit_items VARCHAR(16384) NOT NULL, " +
+                "cooldown INT NOT NULL" +
+                ");", PreparedStatement::execute));
+    }
 }
