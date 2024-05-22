@@ -28,6 +28,7 @@ public class KitModule extends AbstractService {
     private Injector injector;
 
     private MessageLoaderKit messageLoaderKit;
+    
     private KitGui kitGui;
 
     /**
