@@ -11,13 +11,19 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class GamemodeCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
     public GamemodeCommand(MessageBuilder messageBuilder) {
-        super("gamemode", "lifeserver.gamemode");
+        super("gamemode",
+                "Change gamemode",
+                "/gamemode [player]",
+                new ArrayList<>(Collections.singleton("gm")),
+                "lifeserver.gamemode");
         this.messageBuilder = messageBuilder;
     }
 

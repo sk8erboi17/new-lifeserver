@@ -10,6 +10,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class MSGCommand extends AbstractCommand {
@@ -18,7 +20,11 @@ public class MSGCommand extends AbstractCommand {
 
     @Inject
     public MSGCommand(MessageBuilder messageBuilder, SecretChatProcess secretChatProcess) {
-        super("msg", "lifeserver.msg");
+        super("msg",
+                "Send a secret message",
+                "/msg <player> <message>",
+                new ArrayList<>(Collections.singleton("tell")),
+                "lifeserver.msg");
         this.secretChatProcess = secretChatProcess;
         this.messageBuilder = messageBuilder;
     }

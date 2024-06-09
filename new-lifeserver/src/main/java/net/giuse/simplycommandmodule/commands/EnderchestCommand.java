@@ -8,13 +8,19 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class EnderchestCommand extends AbstractCommand {
     private final MessageBuilder messageBuilder;
 
     @Inject
     public EnderchestCommand(MessageBuilder messageBuilder) {
-        super("enderchest", "lifeserver.enderchest");
+        super("enderchest",
+                "Open enderchest",
+                "/enderchest [player]",
+                new ArrayList<>(Collections.singleton("ec")),
+                "lifeserver.enderchest");
         this.messageBuilder = messageBuilder;
     }
 
