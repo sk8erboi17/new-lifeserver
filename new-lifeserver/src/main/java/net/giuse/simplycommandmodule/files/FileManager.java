@@ -5,7 +5,6 @@ import lombok.Getter;
 import net.giuse.api.files.abstractfiles.AbstractConfig;
 import net.giuse.api.files.annotations.FileAnnotation;
 import net.giuse.api.files.annotations.YamlAnnotation;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

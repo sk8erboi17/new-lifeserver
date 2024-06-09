@@ -1,7 +1,0 @@
-name: LifeServer
-version: '1.0-SNAPSHOT'
-main: net.giuse.mainmodule.MainModule
-depend: [ Vault ]
-softdepend:
-  - Multiverse-Core
-  - LuckPerms

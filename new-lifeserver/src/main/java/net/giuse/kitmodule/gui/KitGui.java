@@ -41,9 +41,9 @@ public class KitGui implements GuiInitializer {
         inventoryBuilder.createInventories();
 
         //Initialize items
-        injector.getSingleton(NextItemGuiInit.class).initItems(inventoryBuilder);
-        injector.getSingleton(PreviousItemGuiInit.class).initItems(inventoryBuilder);
-        injector.getSingleton(ItemsGuiInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(KitNextItemGuiInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(KitPreviousItemGuiInit.class).initItems(inventoryBuilder);
+        injector.getSingleton(KitItemsGuiInit.class).initItems(inventoryBuilder);
 
         //Build InventoryBuilder
         inventoryBuilder.build();
@@ -54,6 +54,6 @@ public class KitGui implements GuiInitializer {
      * Open Inventory to a Player
      */
     public void openInv(Player player) {
-        player.openInventory(inventoryBuilder.getInventoryMap().get(1));
+        player.openInventory(inventoryBuilder.getPageMap().get(1));
     }
 }

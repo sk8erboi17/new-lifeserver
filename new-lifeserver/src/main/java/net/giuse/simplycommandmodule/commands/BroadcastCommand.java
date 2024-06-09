@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class BroadcastCommand extends AbstractCommand {
 

@@ -8,6 +8,7 @@ import net.giuse.api.files.annotations.YamlAnnotation;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+
 @Getter
 public class SecretMessageFileManager extends AbstractConfig {
 

@@ -1,7 +1,7 @@
 package net.giuse.teleportmodule.submodule.home.repository;
 
-import net.giuse.api.databases.implentation.ExecuteQuery;
-import net.giuse.api.databases.implentation.PreparedStatementQuery;
+import net.giuse.api.databases.execute.ExecuteQuery;
+import net.giuse.api.databases.execute.querystructure.PreparedStatementQuery;
 import net.giuse.teleportmodule.submodule.home.dto.Home;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

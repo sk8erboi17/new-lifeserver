@@ -1,7 +1,7 @@
 package net.giuse.economymodule.repository;
 
-import net.giuse.api.databases.implentation.ExecuteQuery;
-import net.giuse.api.databases.implentation.PreparedStatementQuery;
+import net.giuse.api.databases.execute.ExecuteQuery;
+import net.giuse.api.databases.execute.querystructure.PreparedStatementQuery;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.inject.Inject;

@@ -10,7 +10,7 @@ import net.giuse.economymodule.files.EconomyFileManager;
 import net.giuse.economymodule.messageloader.MessageLoaderEconomy;
 import net.giuse.economymodule.repository.EconomyRepository;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.modules.AbstractService;
+import net.giuse.mainmodule.modules.AbstractModule;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
@@ -18,7 +18,7 @@ import org.bukkit.plugin.ServicePriority;
 import javax.inject.Inject;
 
 
-public class EconomyModule extends AbstractService {
+public class EconomyModule extends AbstractModule {
     public static String MONEY_SYMBOL;
     @Inject
     private Injector injector;
@@ -47,14 +47,13 @@ public class EconomyModule extends AbstractService {
     }
 
 
-
     @Override
     public void unload() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eEconomy §9] §7Unloading economy...");
     }
 
     @Override
-    public void reloadConfig() {
+    public void reload() {
         economyFileManager.setFile(economyFileManager.getMessagesFile());
         economyFileManager.setYamlConfiguration(economyFileManager.getMessagesYaml());
         economyFileManager.reload();

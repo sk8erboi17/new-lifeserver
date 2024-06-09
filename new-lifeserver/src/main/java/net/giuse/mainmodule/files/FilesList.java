@@ -11,7 +11,8 @@ public enum FilesList {
     MESSAGE_ECONOMY("messages/messages_economy.yml"),
     MESSAGE_TELEPORT("messages/messages_teleport.yml"),
     MESSAGE_SECRET_CHAT("messages/messages_secret_chat.yml"),
-    MESSAGE_KIT("messages/messages_kit.yml");
+    MESSAGE_KIT("messages/messages_kit.yml"),
+    SIGN_PREVIEW("sign_preview.yml");
 
     private final String path;
 

@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.UUID;
+
 //TODO ADD CHECK IF MAX MONEY REACHED
 public class PayCommand extends AbstractCommand {
     private final EconomyService economyService;

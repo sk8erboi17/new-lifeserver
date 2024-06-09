@@ -10,15 +10,15 @@ public class SpawnService {
     @Inject
     private SpawnRepository spawnRepository;
 
-    public void setSpawn(Location location) {
-        spawnRepository.setSpawn(location);
-    }
-
     public void deleteSpawn() {
         spawnRepository.deleteSpawn();
     }
 
     public Spawn getSpawn() {
         return spawnRepository.getSpawn();
+    }
+
+    public void setSpawn(Location location) {
+        spawnRepository.setSpawn(location);
     }
 }

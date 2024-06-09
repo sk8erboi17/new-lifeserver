@@ -22,7 +22,7 @@ public class ConnectorH2 implements Connector {
         }
 
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:h2:./plugins/LifeServer/lifeserver.h2"); // Percorso al file di database H2
+        config.setJdbcUrl("jdbc:h2:./plugins/LifeServer/lifeserver.h2");
         config.setDriverClassName("org.h2.Driver");
 
         config.addDataSourceProperty("cachePrepStmts", "true");

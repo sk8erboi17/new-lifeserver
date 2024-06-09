@@ -1,8 +1,8 @@
 package net.giuse.teleportmodule.submodule.warp.repository;
 
 
-import net.giuse.api.databases.implentation.ExecuteQuery;
-import net.giuse.api.databases.implentation.PreparedStatementQuery;
+import net.giuse.api.databases.execute.ExecuteQuery;
+import net.giuse.api.databases.execute.querystructure.PreparedStatementQuery;
 import net.giuse.teleportmodule.submodule.warp.dto.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

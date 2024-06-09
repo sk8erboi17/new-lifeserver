@@ -51,6 +51,6 @@ public class WarpGui implements GuiInitializer {
      * Open Inventory to a Player
      */
     public void openInv(Player player) {
-        player.openInventory(inventoryBuilder.getInventoryMap().get(1));
+        player.openInventory(inventoryBuilder.getPageMap().get(1));
     }
 }

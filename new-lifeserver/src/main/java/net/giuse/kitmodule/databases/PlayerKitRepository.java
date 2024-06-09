@@ -1,7 +1,7 @@
 package net.giuse.kitmodule.databases;
 
-import net.giuse.api.databases.implentation.ExecuteQuery;
-import net.giuse.api.databases.implentation.PreparedStatementQuery;
+import net.giuse.api.databases.execute.ExecuteQuery;
+import net.giuse.api.databases.execute.querystructure.PreparedStatementQuery;
 import net.giuse.kitmodule.dto.PlayerKit;
 import org.bukkit.Bukkit;
 
@@ -72,7 +72,7 @@ public class PlayerKitRepository {
 
     public boolean playerKitExists(String playerUuid, String kitName) {
         String query = "SELECT COUNT(*) FROM lifeserver_playerkit WHERE player_uuid = ? AND kit_name = ?";
-        Boolean[] exists = {false};  // Array con un solo elemento per catturare il risultato dalla lambda
+        Boolean[] exists = {false};
         executeQuery.execute(new PreparedStatementQuery(query, preparedStatement -> {
             preparedStatement.setString(1, playerUuid);
             preparedStatement.setString(2, kitName);

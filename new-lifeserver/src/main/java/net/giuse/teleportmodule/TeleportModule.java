@@ -4,9 +4,8 @@ import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.api.files.reflections.ReflectionsFiles;
-import net.giuse.kitmodule.gui.KitGui;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.modules.AbstractService;
+import net.giuse.mainmodule.modules.AbstractModule;
 import net.giuse.teleportmodule.events.EntityBackOnDeath;
 import net.giuse.teleportmodule.files.TeleportFileManager;
 import net.giuse.teleportmodule.messageloader.MessageLoaderTeleport;
@@ -22,7 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TeleportModule extends AbstractService {
+public class TeleportModule extends AbstractModule {
     @Getter
     private final Set<PendingRequest> pendingRequests = new HashSet<>();
     @Getter
@@ -70,7 +69,7 @@ public class TeleportModule extends AbstractService {
     }
 
     @Override
-    public void reloadConfig() {
+    public void reload() {
 
         teleportFileManager.setFile(teleportFileManager.getMessagesHomeFile());
         teleportFileManager.setYamlConfiguration(teleportFileManager.getMessagesHomeYaml());

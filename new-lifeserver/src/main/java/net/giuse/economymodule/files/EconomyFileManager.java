@@ -7,6 +7,7 @@ import net.giuse.api.files.annotations.YamlAnnotation;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+
 @Getter
 public class EconomyFileManager extends AbstractConfig {
     @FileAnnotation(name = "messages_economy.yml", path = "plugins/LifeServer/messages/messages_economy.yml")

@@ -2,8 +2,7 @@ package net.giuse.teleportmodule.submodule.teleportrequest;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.modules.AbstractService;
-import net.giuse.mainmodule.modules.AbstractSubService;
+import net.giuse.mainmodule.modules.AbstractSubModule;
 import net.giuse.teleportmodule.submodule.teleportrequest.dto.PendingRequest;
 import org.bukkit.Bukkit;
 
@@ -12,9 +11,9 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
-public class TeleportRequestModule extends AbstractSubService {
+public class TeleportRequestModule extends AbstractSubModule {
     private final Set<PendingRequest> pendingRequests = new HashSet<>();
-    
+
     /*
      * Load Service
      */

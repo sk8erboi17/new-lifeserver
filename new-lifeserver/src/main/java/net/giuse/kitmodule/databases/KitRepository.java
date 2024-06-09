@@ -1,7 +1,7 @@
 package net.giuse.kitmodule.databases;
 
-import net.giuse.api.databases.implentation.ExecuteQuery;
-import net.giuse.api.databases.implentation.PreparedStatementQuery;
+import net.giuse.api.databases.execute.ExecuteQuery;
+import net.giuse.api.databases.execute.querystructure.PreparedStatementQuery;
 import net.giuse.kitmodule.dto.Kit;
 import org.bukkit.Bukkit;
 

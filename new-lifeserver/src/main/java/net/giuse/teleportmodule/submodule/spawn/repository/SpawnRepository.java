@@ -1,7 +1,7 @@
 package net.giuse.teleportmodule.submodule.spawn.repository;
 
-import net.giuse.api.databases.implentation.ExecuteQuery;
-import net.giuse.api.databases.implentation.PreparedStatementQuery;
+import net.giuse.api.databases.execute.ExecuteQuery;
+import net.giuse.api.databases.execute.querystructure.PreparedStatementQuery;
 import net.giuse.teleportmodule.submodule.spawn.dto.Spawn;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,35 +14,6 @@ import java.sql.SQLException;
 public class SpawnRepository {
     @Inject
     private ExecuteQuery executeQuery;
-
-    public void setSpawn(Location location) {
-        String checkQuery = "SELECT COUNT(*) FROM lifeserver_spawn WHERE id = 1";
-        String insertQuery = "INSERT INTO lifeserver_spawn (id, location) VALUES (1, ?)";
-        String updateQuery = "UPDATE lifeserver_spawn SET location = ? WHERE id = 1";
-
-        executeQuery.execute(new PreparedStatementQuery(checkQuery, preparedStatement -> {
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-                rs.next();
-                int count = rs.getInt(1);
-
-                if (count > 0) {
-                    // Record exists, update it
-                    executeQuery.execute(new PreparedStatementQuery(updateQuery, updatePreparedStatement -> {
-                        updatePreparedStatement.setString(1, serializeLocation(location));
-                        updatePreparedStatement.executeUpdate();
-                    }));
-                } else {
-                    // Record does not exist, insert it
-                    executeQuery.execute(new PreparedStatementQuery(insertQuery, insertPreparedStatement -> {
-                        insertPreparedStatement.setString(1, serializeLocation(location));
-                        insertPreparedStatement.executeUpdate();
-                    }));
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException("Failed to set spawn", e);
-            }
-        }));
-    }
 
     public void deleteSpawn() {
         String query = "DELETE FROM lifeserver_spawn WHERE id = 1";
@@ -73,6 +44,35 @@ public class SpawnRepository {
         }));
 
         return spawn[0];
+    }
+
+    public void setSpawn(Location location) {
+        String checkQuery = "SELECT COUNT(*) FROM lifeserver_spawn WHERE id = 1";
+        String insertQuery = "INSERT INTO lifeserver_spawn (id, location) VALUES (1, ?)";
+        String updateQuery = "UPDATE lifeserver_spawn SET location = ? WHERE id = 1";
+
+        executeQuery.execute(new PreparedStatementQuery(checkQuery, preparedStatement -> {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                rs.next();
+                int count = rs.getInt(1);
+
+                if (count > 0) {
+                    // Record exists, update it
+                    executeQuery.execute(new PreparedStatementQuery(updateQuery, updatePreparedStatement -> {
+                        updatePreparedStatement.setString(1, serializeLocation(location));
+                        updatePreparedStatement.executeUpdate();
+                    }));
+                } else {
+                    // Record does not exist, insert it
+                    executeQuery.execute(new PreparedStatementQuery(insertQuery, insertPreparedStatement -> {
+                        insertPreparedStatement.setString(1, serializeLocation(location));
+                        insertPreparedStatement.executeUpdate();
+                    }));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("Failed to set spawn", e);
+            }
+        }));
     }
 
     private String serializeLocation(Location location) {

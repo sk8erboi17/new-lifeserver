@@ -4,7 +4,7 @@ import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.api.files.reflections.ReflectionsFiles;
-import net.giuse.mainmodule.modules.AbstractService;
+import net.giuse.mainmodule.modules.AbstractModule;
 import net.giuse.secretmessagemodule.files.SecretMessageFileManager;
 import net.giuse.secretmessagemodule.messageloader.MessageLoaderSecret;
 import net.giuse.secretmessagemodule.process.SecretChatProcess;
@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public final class SecretMessageModule extends AbstractService {
+public final class SecretMessageModule extends AbstractModule {
     @Getter
     private final ArrayList<SecretChatBuilder> secretsChats = new ArrayList<>();
     @Getter
@@ -30,6 +30,7 @@ public final class SecretMessageModule extends AbstractService {
     private SecretMessageFileManager secretMessageFileManager;
 
     private MessageLoaderSecret messageLoaderSecret;
+
     /*
      * Load Service
      */
@@ -71,7 +72,7 @@ public final class SecretMessageModule extends AbstractService {
     }
 
     @Override
-    public void reloadConfig() {
+    public void reload() {
         secretMessageFileManager.setFile(secretMessageFileManager.getMessagesSecretChatFile());
         secretMessageFileManager.setYamlConfiguration(secretMessageFileManager.getMessagesSecretChatYaml());
         secretMessageFileManager.reload();

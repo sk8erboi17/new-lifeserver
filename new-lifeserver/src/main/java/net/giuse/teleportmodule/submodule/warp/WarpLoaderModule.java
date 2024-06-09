@@ -2,15 +2,14 @@ package net.giuse.teleportmodule.submodule.warp;
 
 import ch.jalu.injector.Injector;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.modules.AbstractService;
-import net.giuse.mainmodule.modules.AbstractSubService;
+import net.giuse.mainmodule.modules.AbstractSubModule;
 import net.giuse.teleportmodule.submodule.warp.repository.WarpRepository;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
 
 
-public class WarpLoaderModule extends AbstractSubService {
+public class WarpLoaderModule extends AbstractSubModule {
 
     @Inject
     private Injector injector;

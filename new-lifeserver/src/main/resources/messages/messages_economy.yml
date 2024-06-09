@@ -235,7 +235,7 @@ messages:
       fade-out: 500 #milliseconds
     message-chat:
       send-chat: true
-      string-message: '&2Economy &a» &7Top %top-number% Balances:%newline%&7%topbalances%'
+      string-message: '&7Top %top-number% Balances:%newline%&7%topbalances%'
     actionbar:
       send-actionbar: false
       actionbar-message: '&7Top Balances:%newline%%topbalances%'

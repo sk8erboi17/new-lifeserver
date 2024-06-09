@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.giuse.api.files.reflections.ReflectionsFiles;
 import net.giuse.mainmodule.MainModule;
-import net.giuse.mainmodule.modules.AbstractService;
+import net.giuse.mainmodule.modules.AbstractModule;
 import net.giuse.simplycommandmodule.events.FoodEvent;
 import net.giuse.simplycommandmodule.files.FileManager;
 import net.giuse.simplycommandmodule.messages.MessageLoaderSimplyCommand;
@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SimplyCommandModule extends AbstractService {
+public class SimplyCommandModule extends AbstractModule {
 
     @Getter
     private final HashMap<String, String> message = new HashMap<>();
@@ -76,7 +76,7 @@ public class SimplyCommandModule extends AbstractService {
     }
 
     @Override
-    public void reloadConfig() {
+    public void reload() {
         fileManager.setFile(fileManager.getMessageSimpleFile());
         fileManager.setYamlConfiguration(fileManager.getMessageSimpleFileYml());
         fileManager.reload();

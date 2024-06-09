@@ -11,7 +11,7 @@ import net.giuse.kitmodule.files.KitFileManager;
 import net.giuse.kitmodule.gui.KitGui;
 import net.giuse.kitmodule.messages.MessageLoaderKit;
 import net.giuse.kitmodule.service.PlayerKitService;
-import net.giuse.mainmodule.modules.AbstractService;
+import net.giuse.mainmodule.modules.AbstractModule;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
@@ -19,7 +19,7 @@ import javax.inject.Inject;
 /**
  * Module Kit
  */
-public class KitModule extends AbstractService {
+public class KitModule extends AbstractModule {
 
     @Getter
     private KitFileManager fileKits;
@@ -28,7 +28,7 @@ public class KitModule extends AbstractService {
     private Injector injector;
 
     private MessageLoaderKit messageLoaderKit;
-    
+
     private KitGui kitGui;
 
     /**
@@ -61,7 +61,7 @@ public class KitModule extends AbstractService {
     }
 
     @Override
-    public void reloadConfig() {
+    public void reload() {
         fileKits.setFile(fileKits.getKitFile());
         fileKits.setYamlConfiguration(fileKits.getKitYaml());
         fileKits.reload();

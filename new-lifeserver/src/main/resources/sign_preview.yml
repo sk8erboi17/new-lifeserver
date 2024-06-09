@@ -1,0 +1,6 @@
+preview-gui-title: "Preview Kit: %kitname%"
+preview-lines-sign:
+  - "Kit Preview"
+  - "%kitname%"
+  - "click here"
+  - "to view"

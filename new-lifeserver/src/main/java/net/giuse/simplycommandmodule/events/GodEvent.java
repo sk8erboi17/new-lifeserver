@@ -1,7 +1,6 @@
 package net.giuse.simplycommandmodule.events;
 
 
-import net.giuse.mainmodule.MainModule;
 import net.giuse.simplycommandmodule.SimplyCommandModule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -32,6 +32,7 @@ public class EconomyService {
     public boolean playerExists(UUID uuid) {
         return economyRepository.playerExists(uuid);
     }
+
     public Map<UUID, BigDecimal> getTopBalances() {
         return economyRepository.getTopBalances();
     }

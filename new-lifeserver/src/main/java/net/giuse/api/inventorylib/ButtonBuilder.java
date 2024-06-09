@@ -25,7 +25,7 @@ public class ButtonBuilder implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent inventoryClickEvent) {
-        if (inventoryClickEvent.getSlot() == position && inventoryBuilder.getInventoryMap().get(page).equals(inventoryClickEvent.getInventory())) {
+        if (inventoryClickEvent.getSlot() == position && inventoryBuilder.getPageMap().get(page).equals(inventoryClickEvent.getInventory())) {
             if (nextPage && inventoryBuilder.getTotalPages() > 1)
                 inventoryBuilder.nextPage((Player) inventoryClickEvent.getWhoClicked());
             if (previousPage && inventoryBuilder.getTotalPages() > 1)

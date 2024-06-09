@@ -2,14 +2,13 @@ package net.giuse.teleportmodule.submodule.home;
 
 import ch.jalu.injector.Injector;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.modules.AbstractService;
-import net.giuse.mainmodule.modules.AbstractSubService;
+import net.giuse.mainmodule.modules.AbstractSubModule;
 import net.giuse.teleportmodule.submodule.home.repository.HomeRepository;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
 
-public class HomeLoaderModule extends AbstractSubService {
+public class HomeLoaderModule extends AbstractSubModule {
 
     @Inject
     private Injector injector;

@@ -5,15 +5,14 @@ import ch.jalu.injector.Injector;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.giuse.mainmodule.modules.AbstractService;
-import net.giuse.mainmodule.modules.AbstractSubService;
-import net.giuse.teleportmodule.submodule.spawn.repository.SpawnRepository;
+import net.giuse.mainmodule.modules.AbstractSubModule;
 import net.giuse.teleportmodule.submodule.spawn.builder.SpawnBuilder;
+import net.giuse.teleportmodule.submodule.spawn.repository.SpawnRepository;
 import org.bukkit.Bukkit;
 
 import javax.inject.Inject;
 
-public class SpawnLoaderModule extends AbstractSubService {
+public class SpawnLoaderModule extends AbstractSubModule {
 
     @Inject
     private Injector injector;

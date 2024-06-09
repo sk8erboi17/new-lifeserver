@@ -21,7 +21,7 @@ public class NextItemGuiWarpInit implements ItemInitializer {
         configurationSection.getKeys(false).forEach(string -> {
             ConfigurationSection itemsConfig = configurationSection.getConfigurationSection(string);
             if (teleportModule.getTeleportFileManager().getWarpYaml().getInt("inventory.page") != 1 && string.equalsIgnoreCase("nextpage")) {
-                for (int i = 1; i < inventoryBuilder.getInventoryMap().values().size() + 1; i++) {
+                for (int i = 1; i < inventoryBuilder.getPageMap().values().size() + 1; i++) {
 
                     //Create a ItemBuilderStack
                     ItemstackBuilder itemstackBuilder = new ItemstackBuilder(XMaterial.matchXMaterial(itemsConfig.getString("material").toUpperCase()).get().parseMaterial(),
