@@ -43,6 +43,7 @@ public class EconomyModule extends AbstractModule {
         injector.getSingleton(EconomyRepository.class).createTable();
         ReflectionsFiles.loadFiles(economyFileManager = new EconomyFileManager());
         this.messageLoaderEconomy = injector.getSingleton(MessageLoaderEconomy.class);
+        messageLoaderEconomy.load();
         MONEY_SYMBOL = mainModule.getConfig().getString("money-symbol");
     }
 
