@@ -79,6 +79,7 @@ public class KitPreviewEvent implements Listener {
     @EventHandler
     private void onInventoryClick(InventoryClickEvent event) {
         if (event.getClickedInventory() == null) return;
+        if(kitPreviewGui.getInventoryBuilder().getName() == null) return;
         if (event.getClickedInventory().getTitle().equalsIgnoreCase(kitPreviewGui.getInventoryBuilder().getName())) {
             event.setCancelled(true);
         }

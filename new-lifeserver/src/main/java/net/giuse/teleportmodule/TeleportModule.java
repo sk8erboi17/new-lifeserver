@@ -9,7 +9,11 @@ import net.giuse.mainmodule.modules.AbstractModule;
 import net.giuse.teleportmodule.events.EntityBackOnDeath;
 import net.giuse.teleportmodule.files.TeleportFileManager;
 import net.giuse.teleportmodule.messageloader.MessageLoaderTeleport;
+import net.giuse.teleportmodule.submodule.home.HomeLoaderModule;
+import net.giuse.teleportmodule.submodule.spawn.SpawnLoaderModule;
+import net.giuse.teleportmodule.submodule.teleportrequest.TeleportRequestModule;
 import net.giuse.teleportmodule.submodule.teleportrequest.dto.PendingRequest;
+import net.giuse.teleportmodule.submodule.warp.WarpLoaderModule;
 import net.giuse.teleportmodule.submodule.warp.gui.WarpGui;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -58,6 +62,12 @@ public class TeleportModule extends AbstractModule {
         if (mainConfig.getBoolean("allow-back-on-death")) {
             Bukkit.getServer().getPluginManager().registerEvents(injector.getSingleton(EntityBackOnDeath.class), mainModule);
         }
+        injector.getSingleton(WarpLoaderModule.class).load();
+        injector.getSingleton(HomeLoaderModule.class).load();
+        injector.getSingleton(SpawnLoaderModule.class).load();
+        injector.getSingleton(TeleportRequestModule.class).load();
+
+
     }
 
     /*
@@ -66,6 +76,10 @@ public class TeleportModule extends AbstractModule {
     @Override
     public void unload() {
         Bukkit.getLogger().info("§8[§2Life§aServer §7>> §eTeleportModule§f Unloaded teleports");
+        injector.getSingleton(WarpLoaderModule.class).unload();
+        injector.getSingleton(HomeLoaderModule.class).unload();
+        injector.getSingleton(SpawnLoaderModule.class).unload();
+        injector.getSingleton(TeleportRequestModule.class).unload();
     }
 
     @Override
