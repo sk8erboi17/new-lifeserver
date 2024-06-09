@@ -25,6 +25,7 @@ import java.util.UUID;
  * Command /kitcreate for create a kit
  */
 public class KitCreate extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     private final KitService kitService;

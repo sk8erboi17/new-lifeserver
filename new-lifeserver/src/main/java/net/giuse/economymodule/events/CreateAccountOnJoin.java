@@ -9,7 +9,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import javax.inject.Inject;
 
 public class CreateAccountOnJoin implements Listener {
+
     private final EconomyModule economyModule;
+
     private final MainModule mainModule;
 
     @Inject

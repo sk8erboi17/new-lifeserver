@@ -13,11 +13,13 @@ import org.bukkit.inventory.ItemStack;
 @Getter
 @RequiredArgsConstructor
 public class ButtonBuilder implements Listener {
+
     private final InventoryBuilder inventoryBuilder;
 
     private final int position, page;
 
     private final ItemStack itemStack;
+
     private final boolean nextPage, previousPage, eventCancelled;
 
     @Setter

@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class SignPreviewRepository {
+
     @Inject
     private ExecuteQuery executeQuery;
 

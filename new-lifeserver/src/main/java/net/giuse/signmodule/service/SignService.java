@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class SignService {
+
     @Inject
     private SignFileManager fileManager;
+
     @Inject
     private SignPreviewRepository signPreviewRepository;
 

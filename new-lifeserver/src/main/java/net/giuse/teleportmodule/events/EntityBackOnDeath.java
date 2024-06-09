@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import javax.inject.Inject;
 
 public class EntityBackOnDeath implements Listener {
+
     private final TeleportModule teleportModule;
 
     @Inject

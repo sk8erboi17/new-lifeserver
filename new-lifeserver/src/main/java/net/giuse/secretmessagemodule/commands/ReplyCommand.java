@@ -14,7 +14,6 @@ import javax.inject.Inject;
 
 public class ReplyCommand extends AbstractCommand {
 
-
     private final SecretMessageModule secretMessageModule;
 
     private final SecretChatProcess secretChatProcess;

@@ -29,10 +29,13 @@ public class SimplyCommandModule extends AbstractModule {
 
     @Inject
     private Injector injector;
+
     @Inject
     private FileConfiguration mainConfig;
+
     @Inject
     private MainModule mainModule;
+
     @Getter
     private FileManager fileManager;
 

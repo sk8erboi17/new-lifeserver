@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WarpListCommand extends AbstractCommand {
+
     private final WarpService warpService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

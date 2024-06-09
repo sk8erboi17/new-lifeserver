@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Getter
 public class TeleportRequestModule extends AbstractSubModule {
+
     private final Set<PendingRequest> pendingRequests = new HashSet<>();
 
     /*

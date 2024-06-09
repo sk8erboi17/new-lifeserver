@@ -19,7 +19,9 @@ import javax.inject.Inject;
 public class KitDelete extends AbstractCommand {
 
     private final MessageBuilder messageBuilder;
+
     private final KitService kitService;
+
     private final PlayerKitService playerKitService;
 
     @Inject

@@ -10,9 +10,11 @@ import org.bukkit.command.CommandSender;
 import javax.inject.Inject;
 
 public class ReloadCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     private final MessageLoader messageLoader;
+
     private final MainModule mainModule;
 
     @Inject

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 
 public class MessageLoaderEconomy extends SetupMessageLoader {
+
     @Inject
     private EconomyModule economyModule;
 

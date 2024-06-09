@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class GodCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     private final SimplyCommandModule simplyCommandModule;

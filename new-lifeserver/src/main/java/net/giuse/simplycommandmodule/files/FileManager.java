@@ -14,6 +14,7 @@ public class FileManager extends AbstractConfig {
 
     @FileAnnotation(name = "messages_simple_command.yml", path = "plugins/LifeServer/messages/messages_simple_command.yml")
     private File messageSimpleFile;
+
     @YamlAnnotation(nameFile = "messages_simple_command.yml")
     private YamlConfiguration messageSimpleFileYml;
 

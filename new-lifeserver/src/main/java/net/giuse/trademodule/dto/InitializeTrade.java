@@ -10,7 +10,9 @@ import javax.inject.Inject;
 public class InitializeTrade {
 
     private final TradeGui tradeGui;
+
     private Player requestTrade;
+
     private Player targetTrade;
 
     @Inject

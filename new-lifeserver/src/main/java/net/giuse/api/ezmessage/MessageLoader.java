@@ -3,6 +3,7 @@ package net.giuse.api.ezmessage;
 
 import lombok.Getter;
 import net.giuse.api.ezmessage.interfaces.Message;
+import net.giuse.mainmodule.MainModule;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -10,22 +11,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.inject.Inject;
 import java.time.Duration;
 import java.util.HashMap;
 
 
 public class MessageLoader {
-    public final JavaPlugin javaPlugin;
+
+    public final MainModule javaPlugin;
 
     private final BukkitAudiences audience;
+
     @Getter
-    private final HashMap<String, Message> cache;
+    private final HashMap<String, Message> cache = new HashMap<>();;
 
-    public MessageLoader(JavaPlugin javaPlugin) {
-
+    @Inject
+    public MessageLoader(MainModule javaPlugin) {
         this.javaPlugin = javaPlugin;
         audience = BukkitAudiences.create(javaPlugin);
-        cache = new HashMap<>();
     }
 
     /*

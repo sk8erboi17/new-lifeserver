@@ -13,6 +13,7 @@ import java.util.List;
  */
 
 public abstract class AbstractCommand extends Command {
+
     private final String permission;
 
     @Inject

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 
 public class MessageLoaderTeleport extends SetupMessageLoader {
+
     @Inject
     private TeleportModule teleportModule;
 

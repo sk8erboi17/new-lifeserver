@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 
 public class MessageLoaderSecret extends SetupMessageLoader {
+
     @Inject
     private SecretMessageModule secretMessageModule;
 

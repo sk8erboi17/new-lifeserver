@@ -13,8 +13,11 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class SpawnCommand extends AbstractCommand {
+
     private final SpawnService spawnService;
+
     private final MessageBuilder messageBuilder;
+
     private final TeleportModule teleportModule;
 
     @Inject

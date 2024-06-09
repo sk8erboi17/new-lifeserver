@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class EconomyManager implements Economy {
+
     private final EconomyService economyService;
 
     @Inject

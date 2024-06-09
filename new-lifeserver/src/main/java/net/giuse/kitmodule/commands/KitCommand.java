@@ -23,11 +23,17 @@ import javax.inject.Inject;
  * Command /kit for view a list of kit and give a kit
  */
 public class KitCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
+
     private final KitService kitService;
+
     private final PlayerKitService playerKitService;
+
     private final FileConfiguration mainConfig;
+
     private final MainModule mainModule;
+
     private final KitGui kitGui;
 
     @Inject

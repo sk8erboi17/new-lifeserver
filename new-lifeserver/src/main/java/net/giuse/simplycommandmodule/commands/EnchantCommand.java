@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.inject.Inject;
 
 public class EnchantCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     @Inject

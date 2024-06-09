@@ -20,12 +20,16 @@ import java.util.UUID;
 public final class SecretMessageModule extends AbstractModule {
     @Getter
     private final ArrayList<SecretChatBuilder> secretsChats = new ArrayList<>();
+
     @Getter
     private final Set<Player> playerMsgToggle = new HashSet<>();
+
     @Getter
     private final Set<Player> playerSocialSpy = new HashSet<>();
+
     @Inject
     private Injector injector;
+
     @Getter
     private SecretMessageFileManager secretMessageFileManager;
 

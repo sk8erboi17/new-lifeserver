@@ -14,7 +14,9 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class SetHomeCommand extends AbstractCommand {
+
     private final HomeService homeService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GamemodeCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     @Inject

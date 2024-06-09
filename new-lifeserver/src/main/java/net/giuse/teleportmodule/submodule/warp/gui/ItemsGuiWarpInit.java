@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class ItemsGuiWarpInit implements ItemInitializer {
+
     @Inject
     private TeleportModule teleportModule;
 

@@ -18,7 +18,9 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class MoneyCommand extends AbstractCommand {
+
     private final EconomyService economyService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

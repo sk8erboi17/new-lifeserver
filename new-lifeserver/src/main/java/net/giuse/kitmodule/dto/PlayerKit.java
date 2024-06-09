@@ -8,7 +8,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class PlayerKit {
+
     private String playerUuid;
+
     private String kitName;
+
     private int kitCooldown;
 }

@@ -15,7 +15,6 @@ public abstract class SetupMessageLoader {
     @Inject
     private MessageLoader messageLoader;
 
-
     public abstract void load();
 
     protected void setupActionBar(String idMessage, ConfigurationSection section) {

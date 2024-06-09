@@ -6,7 +6,9 @@ import org.bukkit.Location;
 
 @Getter
 public class Home {
+
     private final String name;
+
     private final Location location;
 
     public Home(String name, Location location) {

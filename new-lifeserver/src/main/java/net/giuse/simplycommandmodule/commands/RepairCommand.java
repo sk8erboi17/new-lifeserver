@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class RepairCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     @Inject

@@ -17,15 +17,11 @@ import javax.inject.Inject;
 
 public class PlayerKitCooldownInitializer implements Listener {
 
-    private final KitService kitService;
-    private final PlayerKitService playerKitService;
+    @Inject
+    private KitService kitService;
 
     @Inject
-    public PlayerKitCooldownInitializer(KitService kitService, PlayerKitService playerKitService) {
-        this.kitService = kitService;
-        this.playerKitService = playerKitService;
-    }
-
+    private PlayerKitService playerKitService;
 
     /*
      * Check if player on join has the timer tasks of kits
@@ -34,11 +30,11 @@ public class PlayerKitCooldownInitializer implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         for (Kit allKit : kitService.getAllKits()) {
             Integer cooldown = playerKitService.getPlayerCooldown(e.getPlayer().getUniqueId(), allKit.getName());
+
             if (cooldown == null) {
                 playerKitService.addPlayerCooldown(e.getPlayer().getUniqueId(), allKit.getName());
                 playerKitService.updateCooldown(e.getPlayer().getUniqueId(), allKit.getName(), 0);
             }
-            ;
 
         }
     }

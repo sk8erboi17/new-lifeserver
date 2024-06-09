@@ -26,16 +26,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TeleportModule extends AbstractModule {
+
     @Getter
     private final Set<PendingRequest> pendingRequests = new HashSet<>();
+
     @Getter
     private final HashMap<Player, Location> backLocations = new HashMap<>();
+
     @Getter
     private TeleportFileManager teleportFileManager;
+
     @Inject
     private Injector injector;
+
     @Inject
     private FileConfiguration mainConfig;
+
     @Inject
     private MainModule mainModule;
 

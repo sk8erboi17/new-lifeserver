@@ -7,7 +7,9 @@ import net.giuse.trademodule.dto.enums.TradeRequestEnum;
 public class TradeRequest {
 
     private TradePlayer sender;
+
     private TradePlayer receiver;
+
     private TradeRequestEnum type;
 
 }

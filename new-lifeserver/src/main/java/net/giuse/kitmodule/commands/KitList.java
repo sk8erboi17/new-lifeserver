@@ -17,7 +17,9 @@ import javax.inject.Inject;
 
 
 public class KitList extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
+
     private final KitService kitService;
 
     @Inject

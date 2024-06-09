@@ -16,17 +16,23 @@ import java.util.*;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class InventoryBuilder {
-    @Getter
-    private final Map<Integer, Inventory> pageMap = new HashMap<>();
-    @Getter
-    private final List<ButtonBuilder> buttonBuilders = new ArrayList<>();
-    private final Map<UUID, Integer> pageCounter = new HashMap<>();
+
     @Inject
     private MainModule javaPlugin;
+
+    @Getter
+    private final Map<Integer, Inventory> pageMap = new HashMap<>();
+
+    @Getter
+    private final List<ButtonBuilder> buttonBuilders = new ArrayList<>();
+
     @Getter
     private int rows, totalPages;
+
     @Getter
     private String name;
+
+    private final Map<UUID, Integer> pageCounter = new HashMap<>();
 
     public void createInventories() {
         for (int i = 1; i <= totalPages; i++) {

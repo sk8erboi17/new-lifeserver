@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ClearInventoryCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     @Inject

@@ -13,6 +13,7 @@ public class SignFileManager extends AbstractConfig {
 
     @FileAnnotation(name = "sign_preview.yml", path = "plugins/LifeServer/sign_preview.yml")
     private File signFile;
+
     @YamlAnnotation(nameFile = "sign_preview.yml")
     private YamlConfiguration signYaml;
 

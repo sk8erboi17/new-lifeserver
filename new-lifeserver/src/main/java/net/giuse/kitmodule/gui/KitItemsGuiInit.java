@@ -18,6 +18,7 @@ import javax.inject.Inject;
  */
 
 public class KitItemsGuiInit implements ItemInitializer {
+
     @Inject
     private KitModule kitModule;
 

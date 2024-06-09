@@ -10,9 +10,13 @@ import org.bukkit.inventory.ItemStack;
 @RequiredArgsConstructor
 @Data
 public class Kit {
+
     private final String name;
+
     private final int coolDown;
+
     private final String elementsKitBase64;
+
     private ItemStack[] itemStackList;
 
     public void build() {

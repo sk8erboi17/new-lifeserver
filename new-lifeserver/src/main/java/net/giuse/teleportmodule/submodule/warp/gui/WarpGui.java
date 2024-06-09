@@ -14,13 +14,15 @@ import javax.inject.Inject;
  * Initialize Warp Gui
  */
 public class WarpGui implements GuiInitializer {
+
     @Inject
     private TeleportModule teleportModule;
+
     @Inject
     private Injector injector;
+
     @Getter
     private InventoryBuilder inventoryBuilder;
-
 
     /*
      * Initialize Inventory

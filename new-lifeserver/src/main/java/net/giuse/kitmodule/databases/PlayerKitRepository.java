@@ -17,7 +17,6 @@ public class PlayerKitRepository {
     @Inject
     private ExecuteQuery executeQuery;
 
-
     public void addPlayerKit(String playerUuid, String kitName) {
         if (playerKitExists(playerUuid, kitName)) {
             updatePlayerKit(playerUuid, kitName);

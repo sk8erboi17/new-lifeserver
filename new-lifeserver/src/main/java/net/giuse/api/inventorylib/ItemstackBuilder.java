@@ -14,10 +14,15 @@ import java.util.List;
  * ItemStack Builder
  */
 public class ItemstackBuilder {
+
     private final Material material;
+
     private final int amount;
+
     private final HashMap<Enchantment, Integer> enchantments = new HashMap<>();
+
     private String name;
+
     private List<String> lores;
 
     private short data;

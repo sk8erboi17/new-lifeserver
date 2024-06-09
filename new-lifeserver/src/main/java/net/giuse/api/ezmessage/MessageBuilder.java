@@ -20,8 +20,11 @@ import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class MessageBuilder {
+
     private final MessageLoader messageLoader;
+
     private CommandSender commandSender;
+
     private String idMessage;
 
     /*

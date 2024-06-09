@@ -19,10 +19,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WarpCommand extends AbstractCommand {
+
     private final WarpService warpService;
+
     private final MessageBuilder messageBuilder;
+
     private final WarpGui warpGui;
+
     private final TeleportModule teleportModule;
+
     private final FileConfiguration mainConfig;
 
     @Inject

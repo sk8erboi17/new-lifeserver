@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.inject.Inject;
 
 public class MoreCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     @Inject

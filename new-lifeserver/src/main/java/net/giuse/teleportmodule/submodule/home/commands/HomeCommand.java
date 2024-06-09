@@ -19,7 +19,9 @@ import java.util.stream.Collectors;
 public class HomeCommand extends AbstractCommand {
 
     private final HomeService homeService;
+
     private final MessageBuilder messageBuilder;
+
     private final TeleportModule teleportModule;
 
     @Inject

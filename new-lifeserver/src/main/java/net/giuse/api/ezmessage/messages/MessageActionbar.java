@@ -9,6 +9,7 @@ import net.giuse.api.ezmessage.type.MessageType;
 @Getter
 @AllArgsConstructor
 public class MessageActionbar implements Message {
+
     private final String messageBar;
 
     @Override

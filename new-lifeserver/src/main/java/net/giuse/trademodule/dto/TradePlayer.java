@@ -6,6 +6,8 @@ import java.util.UUID;
 
 @Data
 public class TradePlayer {
+
     private UUID playerUuid;
+
     private boolean isInTrade;
 }

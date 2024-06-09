@@ -12,7 +12,9 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class TpDenyCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
+
     private final TeleportRequestModule teleportRequestModule;
 
     @Inject

@@ -14,6 +14,7 @@ import javax.inject.Inject;
 public class TradeCommand /*extends AbstractCommand*/ {
 
     private final Injector injector;
+
     private final TradeService tradeService;
 
     @Inject

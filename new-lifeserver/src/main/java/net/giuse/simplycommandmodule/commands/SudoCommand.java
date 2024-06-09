@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class SudoCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     @Inject

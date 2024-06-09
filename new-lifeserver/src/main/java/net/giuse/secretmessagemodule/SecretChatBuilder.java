@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 @Getter
 public class SecretChatBuilder {
     private Player sender;
+
     private Player receiver;
+
     private String text;
 }

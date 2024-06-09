@@ -18,8 +18,10 @@ public class KitGui implements GuiInitializer {
 
     @Getter
     private InventoryBuilder inventoryBuilder;
+
     @Inject
     private KitModule kitModule;
+
     @Inject
     private Injector injector;
 

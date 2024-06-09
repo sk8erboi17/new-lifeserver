@@ -16,7 +16,9 @@ import java.util.UUID;
 
 //TODO ADD CHECK IF MAX MONEY REACHED
 public class EconCommand extends AbstractCommand {
+
     private final EconomyService economyService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

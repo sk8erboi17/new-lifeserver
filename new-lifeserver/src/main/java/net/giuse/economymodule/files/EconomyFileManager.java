@@ -10,6 +10,7 @@ import java.io.File;
 
 @Getter
 public class EconomyFileManager extends AbstractConfig {
+
     @FileAnnotation(name = "messages_economy.yml", path = "plugins/LifeServer/messages/messages_economy.yml")
     private File messagesFile;
 

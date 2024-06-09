@@ -10,7 +10,9 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class SetSpawnCommand extends AbstractCommand {
+
     private final SpawnService spawnService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

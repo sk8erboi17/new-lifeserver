@@ -12,7 +12,9 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class WarpCreateCommand extends AbstractCommand {
+
     private final WarpService warpService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

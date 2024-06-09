@@ -11,7 +11,6 @@ import javax.inject.Inject;
 
 public class FlyCommand extends AbstractCommand {
 
-
     private final MessageBuilder messageBuilder;
 
     @Inject

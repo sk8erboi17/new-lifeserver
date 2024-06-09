@@ -12,12 +12,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import javax.inject.Inject;
 
 public class GodEvent implements Listener {
-    private final SimplyCommandModule simplyCommandModule;
 
     @Inject
-    public GodEvent(SimplyCommandModule simplyCommandModule) {
-        this.simplyCommandModule = simplyCommandModule;
-    }
+    private SimplyCommandModule simplyCommandModule;
 
     @EventHandler
     public void onGod(EntityDamageByEntityEvent e) {

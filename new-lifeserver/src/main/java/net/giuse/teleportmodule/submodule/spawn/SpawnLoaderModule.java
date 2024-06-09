@@ -16,6 +16,7 @@ public class SpawnLoaderModule extends AbstractSubModule {
 
     @Inject
     private Injector injector;
+
     @Getter
     @Setter
     private SpawnBuilder spawnBuilder;

@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import javax.inject.Inject;
 
 public class SpawnService {
+
     @Inject
     private SpawnRepository spawnRepository;
 

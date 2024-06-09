@@ -19,8 +19,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public class TopBalanceCommand extends AbstractCommand {
+
     private final EconomyService economyService;
+
     private final MessageBuilder messageBuilder;
+
     private final FileConfiguration mainConfig;
 
     @Inject

@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class TpCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     private final TeleportModule teleportModule;

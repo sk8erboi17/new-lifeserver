@@ -13,11 +13,15 @@ import javax.inject.Inject;
 
 public class SecretChatProcess {
     private final SecretChatBuilder secretChatBuilder = new SecretChatBuilder();
+
     private final SecretMessageModule secretMessageModule;
+
     private final MessageBuilder messageBuilder;
+
     @Setter
     @Getter
     private Player sender, receiver;
+
     @Setter
     @Getter
     private String text;

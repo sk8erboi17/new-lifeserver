@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class TradeService {
+
     private final Set<TradeRequest> pendingRequests = new HashSet<>();
 
     public void add(TradeRequest tradeRequest) {

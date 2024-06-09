@@ -13,6 +13,7 @@ import java.io.File;
 public class AbstractConfig {
 
     private FileConfiguration yamlConfiguration;
+
     private File file;
 
     @SneakyThrows

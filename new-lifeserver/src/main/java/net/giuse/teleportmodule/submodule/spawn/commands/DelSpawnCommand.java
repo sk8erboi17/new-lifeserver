@@ -9,7 +9,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import javax.inject.Inject;
 
 public class DelSpawnCommand extends AbstractCommand {
+
     private final SpawnService spawnService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

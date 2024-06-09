@@ -7,6 +7,7 @@ import org.bukkit.Location;
 @Getter
 @RequiredArgsConstructor
 public class SpawnBuilder {
+
     private final Location location;
 
     @Override

@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 //TODO Better Invsee, Offline Player Too
 public class InvseeCommand extends AbstractCommand {
+
     private final MessageBuilder messageBuilder;
 
     @Inject

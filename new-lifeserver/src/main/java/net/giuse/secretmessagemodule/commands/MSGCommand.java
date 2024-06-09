@@ -15,7 +15,9 @@ import java.util.Collections;
 
 
 public class MSGCommand extends AbstractCommand {
+
     private final SecretChatProcess secretChatProcess;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

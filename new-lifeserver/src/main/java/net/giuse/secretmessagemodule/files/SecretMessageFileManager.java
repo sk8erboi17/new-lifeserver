@@ -14,6 +14,7 @@ public class SecretMessageFileManager extends AbstractConfig {
 
     @FileAnnotation(name = "messages_secret_chat.yml", path = "plugins/LifeServer/messages/messages_secret_chat.yml")
     private File messagesSecretChatFile;
+
     @YamlAnnotation(nameFile = "messages_secret_chat.yml")
     private YamlConfiguration messagesSecretChatYaml;
 

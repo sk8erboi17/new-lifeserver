@@ -12,7 +12,9 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class DelHomeCommand extends AbstractCommand {
+
     private final HomeService homeService;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

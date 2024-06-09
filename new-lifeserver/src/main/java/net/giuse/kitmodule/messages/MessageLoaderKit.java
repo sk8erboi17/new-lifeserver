@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 
 public class MessageLoaderKit extends SetupMessageLoader {
-    @Inject
+
     private KitModule kitModule;
 
     @Override

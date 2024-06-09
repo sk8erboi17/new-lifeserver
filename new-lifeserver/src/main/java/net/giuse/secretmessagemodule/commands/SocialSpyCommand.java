@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 import javax.inject.Inject;
 
 public class SocialSpyCommand extends AbstractCommand {
+
     private final SecretMessageModule secretMessageModule;
+
     private final MessageBuilder messageBuilder;
 
     @Inject

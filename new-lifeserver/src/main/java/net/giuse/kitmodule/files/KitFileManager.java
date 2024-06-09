@@ -14,9 +14,11 @@ import java.io.File;
  */
 @Getter
 public class KitFileManager extends AbstractConfig {
+
     //Message File Config
     @FileAnnotation(name = "messages_kit.yml", path = "plugins/LifeServer/messages/messages_kit.yml")
     private File messagesFile;
+
     @YamlAnnotation(nameFile = "messages_kit.yml")
     private YamlConfiguration messagesYaml;
 
@@ -24,6 +26,7 @@ public class KitFileManager extends AbstractConfig {
     //Gui Config
     @FileAnnotation(name = "kit_gui_config.yml", path = "plugins/LifeServer/kit_gui_config.yml")
     private File kitFile;
+
     @YamlAnnotation(nameFile = "kit_gui_config.yml")
     private YamlConfiguration kitYaml;
 

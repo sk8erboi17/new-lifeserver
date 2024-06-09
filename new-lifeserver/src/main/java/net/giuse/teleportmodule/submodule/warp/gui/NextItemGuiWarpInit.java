@@ -12,6 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import javax.inject.Inject;
 
 public class NextItemGuiWarpInit implements ItemInitializer {
+
     @Inject
     private TeleportModule teleportModule;
 

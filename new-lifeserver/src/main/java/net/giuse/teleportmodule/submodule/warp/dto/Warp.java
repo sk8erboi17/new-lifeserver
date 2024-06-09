@@ -1,9 +1,13 @@
 package net.giuse.teleportmodule.submodule.warp.dto;
 
+import lombok.Getter;
 import org.bukkit.Location;
 
+@Getter
 public class Warp {
+
     private final String name;
+
     private final Location location;
 
     public Warp(String name, Location location) {
@@ -11,11 +15,4 @@ public class Warp {
         this.location = location;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
 }
