@@ -38,8 +38,4 @@ public class SignService {
         signPreviewRepository.removeSignByLocation(location);
     }
 
-    public String getKitGuiName(String kitName) {
-        return fileManager.getSignYaml().getString("preview-gui-title").replace("%kitname%", kitName);
-    }
-
 }
